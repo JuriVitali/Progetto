@@ -15,7 +15,7 @@ class VistaHome_amministratore(QWidget):
         striscia = QLabel('  Ciak e Azione')
         striscia.setFont(QFont('Segoe Script', 38))
         striscia.setStyleSheet("color:  #00BF7F;"
-                               "background-color: #ddd;"
+                               "background-color: #222;"
                                 )
         striscia.setSizePolicy(QSizePolicy.Expanding,QSizePolicy.Minimum)
         orizzontal_layout = QHBoxLayout()
