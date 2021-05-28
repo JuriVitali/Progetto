@@ -3,6 +3,7 @@ from PyQt5 import QtCore
 from PyQt5.QtGui import QPixmap, QFont, QIcon
 from Utilità.User_int_utility import User_int_utility
 from GestioneDipendenti.Views.VistaGestisciDipendente import VistaGestisciDipendente
+from Film.Views.VistaGestisciFilm import VistaGestisciFilm
 
 class VistaHome_amministratore(QWidget):
 
@@ -15,24 +16,24 @@ class VistaHome_amministratore(QWidget):
 
         orizzontal_layout = QHBoxLayout()             #layout che dovrà contenere il menù con i pulsanti e lo sfondo della schermata
 
-        background_image = User_int_utility.crea_label_con_imm(QPixmap('Immagini\\imm_back_amm.png'),QSizePolicy.Expanding, QSizePolicy.Expanding)
+        background_image = User_int_utility.crea_label_con_imm(QPixmap('Immagini/Sfondi/imm_back_amm.png'),QSizePolicy.Expanding, QSizePolicy.Expanding)
 
         menu_pulsanti = QVBoxLayout()     #creazione del layout verticale che conterrà i pulsanti
         menu_pulsanti.addItem(QSpacerItem(10,18, QSizePolicy.Minimum, QSizePolicy.Expanding))
-        menu_pulsanti.addWidget(self.get_push_button(self.go_to_dipendenti, QIcon('Immagini\\dipendente_icon.png'), 'Gestione dei dipendenti'))
-        menu_pulsanti.addWidget(self.get_push_button(self.go_to_film, QIcon('Immagini\\film_icon.png'), 'Lista dei film'))
-        menu_pulsanti.addWidget(self.get_push_button(self.go_to_spettacoli, QIcon('Immagini\\spettacoli_icon.jpg'), 'Programmazione degli spettacoli'))
-        menu_pulsanti.addWidget(self.get_push_button(self.go_to_report, QIcon('Immagini\\report_icon.png'), 'Visualizzazione dei report'))
-        menu_pulsanti.addWidget(self.get_push_button(self.go_to_servizi, QIcon('Immagini\\servizi_icon.ico'), 'Gestione dei servizi'))
+        menu_pulsanti.addWidget(self.get_push_button(self.go_to_dipendenti, QIcon('Immagini/Icone/dipendente_icon.png'), 'Gestione dei dipendenti'))
+        menu_pulsanti.addWidget(self.get_push_button(self.go_to_film, QIcon('Immagini/Icone/film_icon.png'), 'Lista dei film'))
+        menu_pulsanti.addWidget(self.get_push_button(self.go_to_spettacoli, QIcon('Immagini/Icone/spettacoli_icon.jpg'), 'Programmazione degli spettacoli'))
+        menu_pulsanti.addWidget(self.get_push_button(self.go_to_report, QIcon('Immagini/Icone/report_icon.png'), 'Visualizzazione dei report'))
+        menu_pulsanti.addWidget(self.get_push_button(self.go_to_servizi, QIcon('Immagini/Icone/servizi_icon.ico'), 'Gestione dei servizi'))
         menu_pulsanti.addItem(QSpacerItem(10, 20, QSizePolicy.Minimum, QSizePolicy.Expanding))
-        menu_pulsanti.addWidget(self.get_push_button(self.go_to_manuale, QIcon('Immagini\\manual_icon.png'), 'Manuale'))
+        menu_pulsanti.addWidget(self.get_push_button(self.go_to_manuale, QIcon('Immagini/Icone/manual_icon.png'), 'Manuale'))
         menu_pulsanti.setContentsMargins(4,0,4,0)
 
         orizzontal_layout.addLayout(menu_pulsanti)
         orizzontal_layout.addWidget(background_image)
         orizzontal_layout.setContentsMargins(0,0,0,0)
 
-        ext_layout.addLayout(User_int_utility.crea_logo())         #aggiunge il layout contenente il logo
+        ext_layout.addLayout(User_int_utility.crea_banda_superiore())         #aggiunge il layout contenente il logo
         ext_layout.addLayout(orizzontal_layout)
         ext_layout.setContentsMargins(0,0,0,0)
 
@@ -54,7 +55,7 @@ class VistaHome_amministratore(QWidget):
                              "{"
                              "border-width: 3px;"
                              "border-style: flat;"
-                             "border-color: #333;"
+                             "border-color: " + User_int_utility.primary_color + ";"
                              "}"
                              "QPushButton::hover"
                              "{"
@@ -77,6 +78,8 @@ class VistaHome_amministratore(QWidget):
         pass
 
     def go_to_film(self):
+        self.vista_gestione_film = VistaGestisciFilm()
+        self.vista_gestione_film.show()
         pass
 
     def go_to_spettacoli(self):
