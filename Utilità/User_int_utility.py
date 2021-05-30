@@ -1,9 +1,10 @@
-from PyQt5.QtGui import QPixmap, QFont
-from PyQt5.QtWidgets import QSizePolicy, QLabel, QHBoxLayout, QPushButton, QLineEdit
+from PyQt5.QtCore import QSize
+from PyQt5.QtGui import QPixmap, QFont, QStandardItemModel, QStandardItem
+from PyQt5.QtWidgets import QSizePolicy, QLabel, QHBoxLayout, QPushButton, QLineEdit, QDesktopWidget, QComboBox, \
+    QSpinBox, QFormLayout, QListView
 
 
 class User_int_utility():
-    geometry = [50, 50]        #posizione che dovranno avere tutte le finestre del programma
     primary_color = "#333"     #codici dei principali colori dell'interfaccia
     secondary_color = "#ADAA01"
     tertiary_color = "#B50202"
@@ -11,7 +12,7 @@ class User_int_utility():
     #metodo che crea la parte superiore dell'interfaccia in cui è presente il logo a cui,
     #in base al parametro passato, affianca un sottotitolo
     @staticmethod
-    def crea_banda_superiore(sottotitolo = None):
+    def crea_banda_superiore(sottotitolo=None):
         o_layout = QHBoxLayout()
         logo = User_int_utility.crea_label_con_imm(QPixmap('Immagini/Elem_logo/Logo.png'), QSizePolicy.Minimum, QSizePolicy.Minimum)
         riempimento = User_int_utility.crea_label_con_imm(QPixmap('Immagini/Elem_Logo/Riempimento.png'), QSizePolicy.Expanding,QSizePolicy.Minimum)
@@ -102,11 +103,128 @@ class User_int_utility():
 
     #metodo statico che ritorna una QlineEdit con uno stile predefinito
     @staticmethod
-    def crea_casella_testo():
+    def crea_casella_testo(placeholder=None):
         line = QLineEdit()
+        line.setPlaceholderText(placeholder)
         line.setStyleSheet("border-radius: 6px;"
                            "padding: 0 8px;"
                            "background: #111;"
                            "color: #DDD")
         return line
+
+    #sposta il widget che gli viene passato al centro dello schermo, qualunque sia la dimensione di quest'ultimo
+    @staticmethod
+    def sposta_al_centro(widget):
+        qtRectangle = widget.frameGeometry()
+        centerPoint = QDesktopWidget().availableGeometry().center()
+        qtRectangle.moveCenter(centerPoint)
+        widget.move(qtRectangle.topLeft())
+
+    # Funzione che riceve funzione da collegare al pulsante, icona del pulsante e tooltip e
+    # restituisce un pulsante collegato alla funzione passata
+    @staticmethod
+    def crea_home_push_button(on_click, icon, tooltip):
+        button = QPushButton()
+        button.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Expanding)
+        button.clicked.connect(on_click)
+        button.setStyleSheet("QPushButton"  # stile del pulsante
+                             "{"
+                             "border-radius: 7px;"
+                             "background-color : " + User_int_utility.primary_color + ";"
+                             "}"
+                             "QPushButton::pressed"
+                             "{"
+                             "border-width: 3px;"
+                             "border-style: flat;"
+                             "border-color: " + User_int_utility.primary_color + ";"
+                             "}"
+                             "QPushButton::hover"
+                             "{"
+                             "background-color : " + User_int_utility.secondary_color + " ;"
+                             "}")
+        button.setIcon(icon)
+        button.setIconSize(QSize(80, 60))
+        button.setToolTip(tooltip)
+        button.setToolTipDuration(2200)
+        return button
+
+    @staticmethod
+    def crea_combo_box(lista_elementi):
+        combo_box = QComboBox()
+        combo_box_model = QStandardItemModel(combo_box)
+        for elemento in lista_elementi:
+            item = QStandardItem()
+            item.setText(elemento)
+            item.setEditable(False)
+            combo_box_model.appendRow(item)
+        combo_box.setModel(combo_box_model)
+        combo_box.setStyleSheet("border-radius: 6px;"
+                                "padding: 0 8px;"
+                                "background: #111;"
+                                "color: #DDD")
+        return combo_box
+
+    @staticmethod
+    def crea_spin_box(min, max, initial_value):
+        spin_box = QSpinBox()
+        spin_box.setMinimum(min)
+        spin_box.setMaximum(max)
+        spin_box.setValue(initial_value)
+        spin_box.setStyleSheet("border-radius: 6px;"
+                               "padding: 0 8px;"
+                               "background: #111;"
+                               "color: #DDD")
+        return spin_box
+
+    @staticmethod
+    def crea_green_or_red_push_button(titolo, on_click, oSizePolicy, vSizePolicy, color="R"):
+        button = QPushButton(titolo)
+        button.setSizePolicy(oSizePolicy, vSizePolicy)
+        button.clicked.connect(on_click)
+        if color == "G":
+            button.setStyleSheet("QPushButton"  
+                             "{"
+                             "border-radius: 7px;"
+                             "background-color : #18E200 ;"
+                             "}"
+                             "QPushButton::pressed"
+                             "{"
+                             "border-width: 4px;"
+                             "border-style: flat;"
+                             "border-color: " + User_int_utility.primary_color + ";"
+                             "}"
+                             "QPushButton::hover"
+                             "{"
+                             "background-color : #15C600 ;"
+                             "}"
+                             )
+        else:
+            button.setStyleSheet("QPushButton"  
+                                 "{"
+                                 "border-radius: 7px;"
+                                 "background-color : #FF0000 ;"
+                                 "}"
+                                 "QPushButton::pressed"
+                                 "{"
+                                 "border-width: 4px;"
+                                 "border-style: flat;"
+                                 "border-color: " + User_int_utility.primary_color + ";"
+                                 "}"
+                                 "QPushButton::hover"
+                                 "{"
+                                 "background-color : #D50000 ;"
+                                 "}"
+                                 )
+        return button
+
+    @staticmethod
+    def crea_list_view():
+        list_view = QListView()
+        list_view.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        list_view.setStyleSheet("border-radius: 6px;"
+                           "padding: 0 8px;"
+                           "background: #111;"
+                           "color: #DDD")
+        return list_view
+
 

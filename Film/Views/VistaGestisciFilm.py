@@ -3,16 +3,19 @@ from PyQt5.QtWidgets import QWidget, QVBoxLayout, QGridLayout, QSizePolicy, QGro
 
 from Film.Controllers.ControlloreGestisciFilm import ControlloreGestisciFilm
 from Utilità.User_int_utility import User_int_utility
+from Film.Views.VistaAggiungiFilm import VistaAggiungiFilm
+from Film.Views.VistaVisualizzaFilm import VistaVisualizzaFilm
 
 
 class VistaGestisciFilm(QWidget):
     def __init__(self, parent=None):
         super(VistaGestisciFilm, self).__init__()
-        #self.controller = ControlloreGestisciFilm()
+        self.controller = ControlloreGestisciFilm()
 
         self.setWindowTitle("Gestione Film")
         self.setStyleSheet("background-color : " + User_int_utility.primary_color + ";")
-        self.setGeometry(User_int_utility.geometry[0], User_int_utility.geometry[1], 50, 50)
+        self.setGeometry(0, 0, 1200, 650)
+        User_int_utility.sposta_al_centro(self)
 
         grid_layout = QGridLayout()
         grid_layout.addWidget(User_int_utility.crea_push_button("Aggiungi film", self.show_new_film,
@@ -25,7 +28,7 @@ class VistaGestisciFilm(QWidget):
         grid_layout.addWidget(self.crea_box_ricerca(), 2, 0, 1, 2)
         grid_layout.addWidget(User_int_utility.crea_label_con_imm(QPixmap("Immagini/Sfondi/film_back.png"), QSizePolicy.Minimum, QSizePolicy.Expanding),
                               0, 2, 3, 1)
-        grid_layout.setContentsMargins(20,28,0, 20)
+        grid_layout.setContentsMargins(20,0,0, 0)
 
         v_layout = QVBoxLayout()
         v_layout.addLayout(User_int_utility.crea_banda_superiore("Fi"))
@@ -35,10 +38,13 @@ class VistaGestisciFilm(QWidget):
 
 
     def show_new_film(self):
-        pass
+        self.vista_aggiungi_film = VistaAggiungiFilm()
+        self.vista_aggiungi_film.show()
+
 
     def show_lista_film(self, titolo=None):
-        pass
+        self.vista_lista_film = VistaVisualizzaFilm(self.titolo_ricerca.text())
+        self.vista_lista_film.show()
 
     def crea_box_ricerca(self):
         box = QGroupBox()
