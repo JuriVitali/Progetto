@@ -1,6 +1,6 @@
 from PyQt5.QtCore import QSize
-from PyQt5.QtGui import QPalette, QImage, QBrush, QIcon
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QGroupBox, QSizePolicy, QGridLayout, QPushButton
+from PyQt5.QtGui import QPalette, QImage, QBrush, QIcon, QKeySequence
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QGroupBox, QSizePolicy, QGridLayout, QPushButton, QShortcut
 from Utilità.User_int_utility import User_int_utility
 from Home.VistaHomeAmministratore import VistaHomeAmministratore
 from Home.VistaHomeBiglietteria import VistaHomeBiglietteria
@@ -25,7 +25,6 @@ class VistaLogin(QWidget):
 
         self.setLayout(ext_layout)
 
-
     def crea_box_login(self):
         box = QGroupBox()
         box.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
@@ -38,7 +37,8 @@ class VistaLogin(QWidget):
         user_image.setIcon(QIcon("Immagini/Icone/user_icon.png"))
         user_image.setIconSize(QSize(100,110))
         layout.addWidget(user_image, 0, 0, 1, 3)
-        layout.addWidget(User_int_utility.crea_casella_testo("Inserire codice di autenticazione"), 1, 0)
+        self.casella_codice = User_int_utility.crea_casella_testo("Inserire codice di autenticazione")
+        layout.addWidget(self.casella_codice, 1, 0)
 
         login = QPushButton()
         login.setIcon(QIcon("Immagini/Icone/login_icon.png"))
@@ -60,7 +60,15 @@ class VistaLogin(QWidget):
         return box
 
     def accedi(self):
-        #self.home = VistaHomeBiglietteria()
-        self.home = VistaHomeAmministratore()
-        self.home.show()
+        if self.casella_codice.text() == "A":
+            self.home_amm = VistaHomeAmministratore(self.modifica_visibilita)
+            self.home_amm.show()
+        if self.casella_codice.text() == "D":
+            self.home_big = VistaHomeBiglietteria(self.modifica_visibilita)
+            self.home_big.show()
+        self.casella_codice.setText("")
+
+    def modifica_visibilita(self):
+        User_int_utility.modifica_visibilita_finestra(self)
+
 

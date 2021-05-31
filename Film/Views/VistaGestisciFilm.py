@@ -1,21 +1,22 @@
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QGridLayout, QSizePolicy, QGroupBox, QSpacerItem, QHBoxLayout
 
-from Film.Controllers.ControlloreGestisciFilm import ControlloreGestisciFilm
 from Utilità.User_int_utility import User_int_utility
 from Film.Views.VistaAggiungiFilm import VistaAggiungiFilm
 from Film.Views.VistaVisualizzaFilm import VistaVisualizzaFilm
 
 
 class VistaGestisciFilm(QWidget):
-    def __init__(self, parent=None):
+    def __init__(self, callback, parent=None):
         super(VistaGestisciFilm, self).__init__()
-        self.controller = ControlloreGestisciFilm()
 
         self.setWindowTitle("Gestione Film")
         self.setStyleSheet("background-color : " + User_int_utility.primary_color + ";")
         self.setGeometry(0, 0, 1200, 650)
         User_int_utility.sposta_al_centro(self)
+
+        self.callback = callback
+        self.callback()
 
         grid_layout = QGridLayout()
         grid_layout.addWidget(User_int_utility.crea_push_button("Aggiungi film", self.show_new_film,
@@ -38,12 +39,12 @@ class VistaGestisciFilm(QWidget):
 
 
     def show_new_film(self):
-        self.vista_aggiungi_film = VistaAggiungiFilm()
+        self.vista_aggiungi_film = VistaAggiungiFilm(self.modifica_visibilita)
         self.vista_aggiungi_film.show()
 
 
     def show_lista_film(self, titolo=None):
-        self.vista_lista_film = VistaVisualizzaFilm(self.titolo_ricerca.text())
+        self.vista_lista_film = VistaVisualizzaFilm(self.titolo_ricerca.text(),self.modifica_visibilita)
         self.vista_lista_film.show()
 
     def crea_box_ricerca(self):
@@ -75,6 +76,8 @@ class VistaGestisciFilm(QWidget):
         box.setLayout(layout)
         return box
 
+    def modifica_visibilita(self):
+        User_int_utility.modifica_visibilita_finestra(self)
+
     def closeEvent(self, event):
-        pass
-        #self.controller.save_data()
+        self.callback()

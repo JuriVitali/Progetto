@@ -5,7 +5,7 @@ from Utilità.User_int_utility import User_int_utility
 
 
 class VistaVisualizzaDipendenti(QWidget):
-    def __init__(self, nome, cognome, parent=None):
+    def __init__(self, nome, cognome, callback, parent=None):
         super(VistaVisualizzaDipendenti, self).__init__()
         self.setWindowTitle("Visualizzazione dipendenti")
         self.setStyleSheet("background-color : " + User_int_utility.primary_color + ";")
@@ -13,6 +13,9 @@ class VistaVisualizzaDipendenti(QWidget):
         User_int_utility.sposta_al_centro(self)
         ext_layout = QGridLayout()
         ext_layout.setContentsMargins(0, 0, 0, 0)
+
+        self.callback = callback
+        self.callback()
 
         self.nome = nome
         self.cognome = cognome
@@ -56,3 +59,6 @@ class VistaVisualizzaDipendenti(QWidget):
             item.setEditable(False)
             self.listview_model.appendRow(item)
         self.list_view.setModel(self.listview_model)
+
+    def closeEvent(self, event):
+        self.callback()

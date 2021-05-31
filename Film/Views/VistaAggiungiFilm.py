@@ -5,13 +5,16 @@ from Utilità.User_int_utility import User_int_utility
 
 class VistaAggiungiFilm(QWidget):
 
-    def __init__(self, parent=None):
+    def __init__(self, callback, parent=None):
         super(VistaAggiungiFilm, self).__init__()
         self.setWindowTitle("Inserimento film")
         self.setGeometry(0, 0, 1200, 650)
         User_int_utility.sposta_al_centro(self)
         ext_layout = QGridLayout()
         ext_layout.setContentsMargins(0, 0, 0, 0)
+
+        self.callback = callback
+        self.callback()
 
         box_dati = QGroupBox()
         box_dati.setLayout(self.crea_form())
@@ -57,3 +60,6 @@ class VistaAggiungiFilm(QWidget):
 
     def add_film(self):
         pass
+
+    def closeEvent(self, event):
+        self.callback()

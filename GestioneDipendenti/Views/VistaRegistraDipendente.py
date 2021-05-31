@@ -1,18 +1,21 @@
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QGroupBox, QFormLayout, QSizePolicy, QHBoxLayout, QGridLayout, \
+from PyQt5.QtWidgets import QWidget, QGroupBox, QFormLayout, QSizePolicy, QGridLayout, \
     QSpacerItem
 from Utilità.User_int_utility import User_int_utility
 from datetime import datetime
 
 class VistaRegistraDipendente(QWidget):
 
-    def __init__(self, parent=None):
+    def __init__(self, callback, parent=None):
         super(VistaRegistraDipendente, self).__init__()
         self.setWindowTitle("Registrazione dipendente")
         self.setGeometry(0, 0, 1200, 650)
         User_int_utility.sposta_al_centro(self)
         ext_layout = QGridLayout()
         ext_layout.setContentsMargins(0, 0, 0, 0)
+
+        self.callback = callback
+        self.callback()
 
         box_dati = QGroupBox()
         box_dati.setLayout(self.crea_form())
@@ -87,3 +90,6 @@ class VistaRegistraDipendente(QWidget):
 
     def add_dipendente(self):
         pass
+
+    def closeEvent(self, event):
+        self.callback()

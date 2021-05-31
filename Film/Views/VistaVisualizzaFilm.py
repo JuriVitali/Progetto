@@ -4,7 +4,7 @@ from Utilità.User_int_utility import User_int_utility
 
 
 class VistaVisualizzaFilm(QWidget):
-    def __init__(self, titolo, parent=None):
+    def __init__(self, titolo, callback, parent=None):
         super(VistaVisualizzaFilm, self).__init__()
         self.setWindowTitle("Visualizzazione film")
         self.setStyleSheet("background-color : " + User_int_utility.primary_color + ";")
@@ -12,6 +12,9 @@ class VistaVisualizzaFilm(QWidget):
         User_int_utility.sposta_al_centro(self)
         ext_layout = QGridLayout()
         ext_layout.setContentsMargins(0, 0, 0, 0)
+
+        self.callback = callback
+        self.callback()
 
         self.titolo = titolo
 
@@ -53,3 +56,6 @@ class VistaVisualizzaFilm(QWidget):
             item.setEditable(False)
             self.listview_model.appendRow(item)
         self.list_view.setModel(self.listview_model)
+
+    def closeEvent(self, event):
+        self.callback()

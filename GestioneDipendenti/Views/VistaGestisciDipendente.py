@@ -1,20 +1,22 @@
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QGridLayout, QSizePolicy, QGroupBox, QSpacerItem, QMessageBox
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QGridLayout, QSizePolicy, QGroupBox, QSpacerItem
 
-from GestioneDipendenti.Controllers.ControlloreGestisciDipendenti import ControlloreGestisciDipendenti
 from GestioneDipendenti.Views.VistaVisualizzaDipendenti import VistaVisualizzaDipendenti
 from Utilità.User_int_utility import User_int_utility
 from GestioneDipendenti.Views.VistaRegistraDipendente import VistaRegistraDipendente
 
 
 class VistaGestisciDipendente(QWidget):
-    def __init__(self, parent=None):
+    def __init__(self,callback, parent=None):
         super(VistaGestisciDipendente, self).__init__()
-        self.controller = ControlloreGestisciDipendenti()
+
         self.setWindowTitle("Gestione Dipendenti")
         self.setStyleSheet("background-color : " + User_int_utility.primary_color + ";")
         self.setGeometry(0, 0, 1200, 650)
         User_int_utility.sposta_al_centro(self)
+
+        self.callback = callback
+        self.callback()
 
         grid_layout = QGridLayout()
         grid_layout.addWidget(User_int_utility.crea_push_button("Registra dipendente", self.show_new_dipendente,
@@ -37,7 +39,7 @@ class VistaGestisciDipendente(QWidget):
 
 
     def show_new_dipendente(self):
-        self.vista_registra_dipendente = VistaRegistraDipendente()
+        self.vista_registra_dipendente = VistaRegistraDipendente(self.modifica_visibilita)
         self.vista_registra_dipendente.show()
         pass
 
@@ -54,7 +56,7 @@ class VistaGestisciDipendente(QWidget):
             mess.setText(avviso)
             mess.show()
         pass'''
-        self.vista_lista_dipendenti = VistaVisualizzaDipendenti(self.nome_ricerca.text(), self.cognome_ricerca.text())
+        self.vista_lista_dipendenti = VistaVisualizzaDipendenti(self.nome_ricerca.text(), self.cognome_ricerca.text(), self.modifica_visibilita)
         self.vista_lista_dipendenti.show()
 
     def controlla_campi(self):
@@ -91,6 +93,8 @@ class VistaGestisciDipendente(QWidget):
         box.setLayout(layout)
         return box
 
+    def modifica_visibilita(self):
+        User_int_utility.modifica_visibilita_finestra(self)
+
     def closeEvent(self, event):
-        pass
-        #self.controller.save_data()
+        self.callback()

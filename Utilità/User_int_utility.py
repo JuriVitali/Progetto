@@ -16,7 +16,6 @@ class User_int_utility():
         o_layout = QHBoxLayout()
         logo = User_int_utility.crea_label_con_imm(QPixmap('Immagini/Elem_logo/Logo.png'), QSizePolicy.Minimum, QSizePolicy.Minimum)
         riempimento = User_int_utility.crea_label_con_imm(QPixmap('Immagini/Elem_Logo/Riempimento.png'), QSizePolicy.Expanding,QSizePolicy.Minimum)
-
         o_layout.addWidget(logo)
         o_layout.addWidget(riempimento)
         if sottotitolo == "Di":             # Di = dipendenti
@@ -95,10 +94,11 @@ class User_int_utility():
 
     #Metodo statico che ritorna una label con titolo passato come parametro e stile predefinito
     @staticmethod
-    def crea_label(titolo):
+    def crea_label(titolo, fontsize=15):
         label = QLabel(titolo)
         label.setStyleSheet("color: #DDD;"
-                            "background-color: #222")
+                            "background-color: #222;")
+        label.setFont(QFont("Segoe UI Semibold", fontsize))
         return label
 
     #metodo statico che ritorna una QlineEdit con uno stile predefinito
@@ -226,5 +226,12 @@ class User_int_utility():
                            "background: #111;"
                            "color: #DDD")
         return list_view
+
+    @staticmethod
+    def modifica_visibilita_finestra(widget):
+        if widget.isHidden() == False:
+            widget.hide()
+        else:
+            widget.show()
 
 
