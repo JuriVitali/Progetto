@@ -1,5 +1,5 @@
 class Dipendente():
-    def __init__(self, nome, cognome, data_nascita, cod_fisc, telefono, email, area_comp, codice_autent):
+    def __init__(self, nome, cognome, data_nascita, cod_fisc, telefono, email, area_comp, codice_autent=None):
         super(Dipendente, self).__init__()
         self.nome = nome
         self.cognome = cognome

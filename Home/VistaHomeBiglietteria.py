@@ -74,10 +74,9 @@ class VistaHomeBiglietteria(QWidget):
         pass
 
     def logout(self):
+        self.callback()
         self.close()
 
     def modifica_visibilita(self):
         User_int_utility.modifica_visibilita_finestra(self)
 
-    def closeEvent(self, event):
-        self.callback()

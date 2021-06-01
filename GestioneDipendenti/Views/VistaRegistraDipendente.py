@@ -1,21 +1,27 @@
+from PyQt5.QtCore import QDate
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QWidget, QGroupBox, QFormLayout, QSizePolicy, QGridLayout, \
-    QSpacerItem
+    QSpacerItem, QMessageBox
+
+from GestioneDipendenti.Models.Dipendente import Dipendente
 from Utilità.User_int_utility import User_int_utility
 from datetime import datetime
 
 class VistaRegistraDipendente(QWidget):
 
-    def __init__(self, callback, parent=None):
+    def __init__(self, controller, callback, parent=None):
         super(VistaRegistraDipendente, self).__init__()
+
+        self.controller = controller
+
+        self.callback = callback
+        self.callback()
+
         self.setWindowTitle("Registrazione dipendente")
         self.setGeometry(0, 0, 1200, 650)
         User_int_utility.sposta_al_centro(self)
         ext_layout = QGridLayout()
         ext_layout.setContentsMargins(0, 0, 0, 0)
-
-        self.callback = callback
-        self.callback()
 
         box_dati = QGroupBox()
         box_dati.setLayout(self.crea_form())
@@ -48,6 +54,7 @@ class VistaRegistraDipendente(QWidget):
 
     def crea_form(self):
         form = QFormLayout()
+        self.lista_aree_competenza = ["Biglietteria", "Bar", "Pulizie"]
         self.nome = User_int_utility.crea_casella_testo("Inserire il nome")
         self.cognome = User_int_utility.crea_casella_testo("Inserire il cognome")
 
@@ -55,7 +62,7 @@ class VistaRegistraDipendente(QWidget):
         self.telefono = User_int_utility.crea_casella_testo("Inserire il numero di telefono")
         self.email = User_int_utility.crea_casella_testo("Inserire l'email")
         self.cod_autent = User_int_utility.crea_casella_testo("Inserire solo per dipendenti della biglietteria")
-        self.area_comp = User_int_utility.crea_combo_box(["Biglietteria", "Bar", "Pulizie"])
+        self.area_comp = User_int_utility.crea_combo_box(self.lista_aree_competenza)
 
         form.addRow(User_int_utility.crea_label("Nome"), self.nome)
         form.addRow(User_int_utility.crea_label("Cognome"), self.cognome)
@@ -89,7 +96,33 @@ class VistaRegistraDipendente(QWidget):
         return box
 
     def add_dipendente(self):
-        pass
+        data_nascita = QDate(self.anno_n.value(), self.mese_n.value(), self.giorno_n.value())
+        area_competenza = self.lista_aree_competenza[self.area_comp.currentIndex()]
+        if area_competenza == "Biglietteria":
+            dipendente = Dipendente(
+                self.nome.text(),
+                self.cognome.text(),
+                data_nascita,
+                self.cod_fisc.text(),
+                self.telefono.text(),
+                self.email.text(),
+                area_competenza,
+                self.cod_autent.text())
+        else:
+            dipendente = Dipendente(
+                self.nome.text(),
+                self.cognome.text(),
+                data_nascita,
+                self.cod_fisc.text(),
+                self.telefono.text(),
+                self.email.text(),
+                area_competenza)
+        avviso = self.controller.controlla_campi_dipendente(dipendente)
+        if  avviso == None:
+            self.controller.aggiungi_dipendente(dipendente)
+            self.close()
+        else:
+            QMessageBox.critical(self, 'Errore', avviso, QMessageBox.Ok, QMessageBox.Ok)
 
     def closeEvent(self, event):
         self.callback()

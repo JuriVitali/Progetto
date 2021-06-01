@@ -1,7 +1,7 @@
 from PyQt5.QtCore import QSize
 from PyQt5.QtGui import QPixmap, QFont, QStandardItemModel, QStandardItem
 from PyQt5.QtWidgets import QSizePolicy, QLabel, QHBoxLayout, QPushButton, QLineEdit, QDesktopWidget, QComboBox, \
-    QSpinBox, QFormLayout, QListView
+    QSpinBox, QFormLayout, QListView, QGroupBox
 
 
 class User_int_utility():
@@ -233,5 +233,8 @@ class User_int_utility():
             widget.hide()
         else:
             widget.show()
+
+
+
 
 
