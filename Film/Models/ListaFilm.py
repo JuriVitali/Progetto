@@ -13,7 +13,7 @@ class ListaFilm():
     def aggiungi_film(self, film):
         self.lista_film.append(film)
 
-    def rimuovi_dipendente_by_id(self, id):
+    def rimuovi_film_by_id(self, id):
         for i in range(0, len(self.lista_film)):
             if self.lista_film[i].id == id:
                 self.lista_film.remove(self.lista_film[i])

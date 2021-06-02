@@ -1,20 +1,27 @@
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QWidget, QGroupBox, QFormLayout, QSizePolicy, QGridLayout, \
-    QSpacerItem
+    QSpacerItem, QMessageBox
+
+from Film.Models.Film import Film
 from Utilità.User_int_utility import User_int_utility
+from Utilità.Controlli import Controlli
+
 
 class VistaAggiungiFilm(QWidget):
 
-    def __init__(self, callback, parent=None):
+    def __init__(self, controller, callback, parent=None):
         super(VistaAggiungiFilm, self).__init__()
+
+        self.controller = controller
+
+        self.callback = callback
+        self.callback()
+
         self.setWindowTitle("Inserimento film")
         self.setGeometry(0, 0, 1200, 650)
         User_int_utility.sposta_al_centro(self)
         ext_layout = QGridLayout()
         ext_layout.setContentsMargins(0, 0, 0, 0)
-
-        self.callback = callback
-        self.callback()
 
         box_dati = QGroupBox()
         box_dati.setLayout(self.crea_form())
@@ -49,7 +56,7 @@ class VistaAggiungiFilm(QWidget):
         self.casa_prod = User_int_utility.crea_casella_testo("Inserire la casa di produzione")
         self.durata = User_int_utility.crea_spin_box(1, 500, 90)
         self.genere = User_int_utility.crea_casella_testo("Inserire il genere")
-        self.eta_minima = User_int_utility.crea_combo_box(["Adatto a tutti", "6", "14", "18"])
+        self.eta_minima = User_int_utility.crea_combo_box(Controlli.eta_minima)
 
         form.addRow(User_int_utility.crea_label("Titolo"), self.titolo)
         form.addRow(User_int_utility.crea_label("Casa di produzione"), self.casa_prod)
@@ -59,7 +66,18 @@ class VistaAggiungiFilm(QWidget):
         return form
 
     def add_film(self):
-        pass
+        eta_minima = Controlli.eta_minima[self.eta_minima.currentIndex()]
+        film = Film(self.titolo.text(),
+                    self.casa_prod.text(),
+                    self.durata.text(),
+                    self.genere.text(),
+                    eta_minima)
+        avviso = self.controller.controlla_campi_film(film)
+        if  avviso == None:
+            self.controller.aggiungi_film(film)
+            self.close()
+        else:
+            QMessageBox.critical(self, 'Errore', avviso, QMessageBox.Ok, QMessageBox.Ok)
 
     def closeEvent(self, event):
         self.callback()

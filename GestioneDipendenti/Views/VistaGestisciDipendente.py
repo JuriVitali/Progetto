@@ -8,7 +8,7 @@ from GestioneDipendenti.Views.VistaRegistraDipendente import VistaRegistraDipend
 
 
 class VistaGestisciDipendente(QWidget):
-    def __init__(self,callback, parent=None):
+    def __init__(self, callback, parent=None):
         super(VistaGestisciDipendente, self).__init__()
 
         self.controller = ControlloreListaDipendenti()

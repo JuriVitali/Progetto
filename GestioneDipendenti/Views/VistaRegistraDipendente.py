@@ -5,7 +5,8 @@ from PyQt5.QtWidgets import QWidget, QGroupBox, QFormLayout, QSizePolicy, QGridL
 
 from GestioneDipendenti.Models.Dipendente import Dipendente
 from Utilità.User_int_utility import User_int_utility
-from datetime import datetime
+from Utilità.Controlli import Controlli
+
 
 class VistaRegistraDipendente(QWidget):
 
@@ -62,7 +63,7 @@ class VistaRegistraDipendente(QWidget):
         self.telefono = User_int_utility.crea_casella_testo("Inserire il numero di telefono")
         self.email = User_int_utility.crea_casella_testo("Inserire l'email")
         self.cod_autent = User_int_utility.crea_casella_testo("Inserire solo per dipendenti della biglietteria")
-        self.area_comp = User_int_utility.crea_combo_box(self.lista_aree_competenza)
+        self.area_comp = User_int_utility.crea_combo_box(Controlli.aree_di_competenza)
 
         form.addRow(User_int_utility.crea_label("Nome"), self.nome)
         form.addRow(User_int_utility.crea_label("Cognome"), self.cognome)
@@ -82,8 +83,8 @@ class VistaRegistraDipendente(QWidget):
 
         self.giorno_n = User_int_utility.crea_spin_box(1, 31, 1)
         self.mese_n = User_int_utility.crea_spin_box(1, 12, 1)
-        oggi = datetime.today()
-        self.anno_n = User_int_utility.crea_spin_box(1940, (oggi.year - 16), 1980)
+        oggi = QDate.currentDate()
+        self.anno_n = User_int_utility.crea_spin_box(1940, (oggi.year() - 16), 1980)
 
         grid.addWidget(User_int_utility.crea_label("Giorno"), 0, 0)
         grid.addWidget(User_int_utility.crea_label("Mese"), 0, 1)
@@ -97,7 +98,7 @@ class VistaRegistraDipendente(QWidget):
 
     def add_dipendente(self):
         data_nascita = QDate(self.anno_n.value(), self.mese_n.value(), self.giorno_n.value())
-        area_competenza = self.lista_aree_competenza[self.area_comp.currentIndex()]
+        area_competenza = Controlli.aree_di_competenza[self.area_comp.currentIndex()]
         if area_competenza == "Biglietteria":
             dipendente = Dipendente(
                 self.nome.text(),

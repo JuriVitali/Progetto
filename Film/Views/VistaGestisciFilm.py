@@ -1,6 +1,8 @@
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QGridLayout, QSizePolicy, QGroupBox, QSpacerItem, QHBoxLayout
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QGridLayout, QSizePolicy, QGroupBox, QSpacerItem, QHBoxLayout, \
+    QMessageBox
 
+from Film.Controllers.ControlloreListaFilm import ControlloreListaFilm
 from Utilità.User_int_utility import User_int_utility
 from Film.Views.VistaAggiungiFilm import VistaAggiungiFilm
 from Film.Views.VistaVisualizzaFilm import VistaVisualizzaFilm
@@ -9,6 +11,8 @@ from Film.Views.VistaVisualizzaFilm import VistaVisualizzaFilm
 class VistaGestisciFilm(QWidget):
     def __init__(self, callback, parent=None):
         super(VistaGestisciFilm, self).__init__()
+
+        self.controller = ControlloreListaFilm()
 
         self.setWindowTitle("Gestione Film")
         self.setStyleSheet("background-color : " + User_int_utility.primary_color + ";")
@@ -22,7 +26,7 @@ class VistaGestisciFilm(QWidget):
         grid_layout.addWidget(User_int_utility.crea_push_button("Aggiungi film", self.show_new_film,
                                                                 "Cliccare per aggiungere un film al sistema",
                                                                 QSizePolicy.Minimum, QSizePolicy.Expanding), 0, 0)
-        grid_layout.addWidget(User_int_utility.crea_push_button("Visualizza tutti i film", self.show_lista_film,
+        grid_layout.addWidget(User_int_utility.crea_push_button("Visualizza tutti i film", self.show_lista_film_completa,
                                                                 "Cliccare per visualizzare tutti i film inseriti nel sistema",
                                                                 QSizePolicy.Minimum, QSizePolicy.Expanding), 0, 1)
         grid_layout.addItem(QSpacerItem(20, 95, QSizePolicy.Expanding, QSizePolicy.Minimum), 1, 0, 1, 2)
@@ -39,13 +43,22 @@ class VistaGestisciFilm(QWidget):
 
 
     def show_new_film(self):
-        self.vista_aggiungi_film = VistaAggiungiFilm(self.modifica_visibilita)
+        self.vista_aggiungi_film = VistaAggiungiFilm(self.controller, self.modifica_visibilita)
         self.vista_aggiungi_film.show()
 
 
-    def show_lista_film(self, titolo=None):
-        self.vista_lista_film = VistaVisualizzaFilm(self.titolo_ricerca.text(),self.modifica_visibilita)
+    def show_lista_film_completa(self):
+        self.vista_lista_film = VistaVisualizzaFilm(self.controller, self.modifica_visibilita)
         self.vista_lista_film.show()
+
+    def show_lista_film_filtrata(self):
+        avviso = self.controller.controlla_campi_ricerca(self.titolo_ricerca.text())
+        if avviso == None:
+            self.vista_lista_dipendenti = VistaVisualizzaFilm(self.controller, self.modifica_visibilita,
+                                                                    self.titolo_ricerca.text())
+            self.vista_lista_dipendenti.show()
+        else:
+            QMessageBox.critical(self, 'Errore', avviso, QMessageBox.Ok, QMessageBox.Ok)
 
     def crea_box_ricerca(self):
         box = QGroupBox()
@@ -69,7 +82,7 @@ class VistaGestisciFilm(QWidget):
         layout.addWidget(User_int_utility.crea_label("Titolo"))
         layout.addWidget(self.titolo_ricerca)
         layout.addItem(QSpacerItem(20, 10, QSizePolicy.Minimum, QSizePolicy.Expanding))
-        layout.addWidget(User_int_utility.crea_push_button("Cerca film", self.show_lista_film,
+        layout.addWidget(User_int_utility.crea_push_button("Cerca film", self.show_lista_film_filtrata,
                                               "Cliccare per ricercare il film",
                                               QSizePolicy.Expanding, QSizePolicy.Expanding))
         layout.setContentsMargins(15,35,15,25)
@@ -80,4 +93,5 @@ class VistaGestisciFilm(QWidget):
         User_int_utility.modifica_visibilita_finestra(self)
 
     def closeEvent(self, event):
+        self.controller.save_data()
         self.callback()
