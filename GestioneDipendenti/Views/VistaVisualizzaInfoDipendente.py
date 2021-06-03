@@ -11,8 +11,9 @@ class VistaVisualizzaInfoDipendente(QWidget):
         self.controller = ControlloreDipendente(dipendente)
 
         self.callback = callback
-        self.callback()
+        self.callback()         #fa scomparire la finestra precedente
 
+        # settaggio delle impostazioni generali della finestra
         self.setWindowTitle("Visualizzazione info dipendente")
         self.setStyleSheet("background-color : " + User_int_utility.primary_color + ";")
         self.setGeometry(0, 0, 1200, 650)
@@ -20,6 +21,7 @@ class VistaVisualizzaInfoDipendente(QWidget):
         ext_layout = QGridLayout()
         ext_layout.setContentsMargins(0, 0, 0, 0)
 
+        # aggiunta dei vari elementi che compongono la UI al layout esterno
         ext_layout.addLayout(User_int_utility.crea_banda_superiore("Di"), 0, 0, 1, 2)
         ext_layout.addWidget(self.crea_box_dati(), 1, 0)
         ext_layout.addWidget(User_int_utility.crea_label_con_imm(QPixmap("Immagini/Sfondi/dipendenti_back.png"), QSizePolicy.Minimum,
@@ -27,12 +29,12 @@ class VistaVisualizzaInfoDipendente(QWidget):
         ext_layout.addItem(QSpacerItem(10, 190, QSizePolicy.Expanding, QSizePolicy.Minimum), 2, 0, 1, 2)
         self.setLayout(ext_layout)
 
-
+    # metodo che ritorna il box dove vengono mostrate le informazioni sul dipendente
     def crea_box_dati(self):
         box = QGroupBox()
         box.setTitle("Dati di " + self.controller.get_cognome() + " " + self.controller.get_nome())
         box.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        box.setStyleSheet("QGroupBox {"
+        box.setStyleSheet("QGroupBox {"                         #stile del box
                           "background-color: #222;"
                           "border-radius: 8px;"
                           "}"
@@ -64,7 +66,7 @@ class VistaVisualizzaInfoDipendente(QWidget):
         return box
 
     def closeEvent(self, event):
-        self.callback()
+        self.callback()                 #fa riapparire la finestra precedente
 
 
 

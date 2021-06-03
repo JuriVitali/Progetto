@@ -16,24 +16,24 @@ class VistaRegistraDipendente(QWidget):
         self.controller = controller
 
         self.callback = callback
-        self.callback()
+        self.callback()                                     #fa scomparire la finestra precedente
 
         self.setWindowTitle("Registrazione dipendente")
         self.setGeometry(0, 0, 1200, 650)
-        User_int_utility.sposta_al_centro(self)
+        User_int_utility.sposta_al_centro(self)             #sposta la finestra al centro dello schermo
         ext_layout = QGridLayout()
         ext_layout.setContentsMargins(0, 0, 0, 0)
 
         box_dati = QGroupBox()
-        box_dati.setLayout(self.crea_form())
+        box_dati.setLayout(self.crea_form())                #viene creato il box contenente i widget per l'inserimento dei dati
         box_dati.setSizePolicy(QSizePolicy.Expanding,QSizePolicy.Expanding)
 
-        box_data_n = self.crea_box_nascita()
+        box_data_n = self.crea_box_nascita()                #viene creato il box contenente i widget per l'inserimento della data di nascita
 
         self.setStyleSheet("QWidget {background-color : " + User_int_utility.primary_color + ";}"
                           "QGroupBox"
                           "{"
-                          "background-color: #222;"
+                          "background-color: #222;"             #impostazione dello stile della finestra
                           "border-radius: 8px"
                           "}"
                           "QGroupBox::title"
@@ -43,6 +43,7 @@ class VistaRegistraDipendente(QWidget):
                           "}"
                           )
 
+        # vengono aggiunti alla finestra tutti i layout ed i widget necessari
         ext_layout.addLayout(User_int_utility.crea_banda_superiore("Di"), 0, 0, 1, 2)
         ext_layout.addWidget(box_dati, 1, 0)
         ext_layout.addItem(QSpacerItem(10, 50, QSizePolicy.Expanding, QSizePolicy.Minimum), 2, 0)
@@ -52,19 +53,22 @@ class VistaRegistraDipendente(QWidget):
         ext_layout.addWidget(User_int_utility.crea_green_or_red_push_button("Conferma", self.add_dipendente, QSizePolicy.Minimum, QSizePolicy.Expanding, "G"), 5, 0)
         self.setLayout(ext_layout)
 
-
+    # metodo che restituisce un form layout in cui sono contenuti i widget per l'inserimento
+    # dei dati del dipendente, ad eccezione della data di nascita
     def crea_form(self):
         form = QFormLayout()
+
+        # creazione dei widget per l'inserimento dei dati
         self.lista_aree_competenza = ["Biglietteria", "Bar", "Pulizie"]
         self.nome = User_int_utility.crea_casella_testo("Inserire il nome")
         self.cognome = User_int_utility.crea_casella_testo("Inserire il cognome")
-
         self.cod_fisc = User_int_utility.crea_casella_testo("Inserire il codice fiscale")
         self.telefono = User_int_utility.crea_casella_testo("Inserire il numero di telefono")
         self.email = User_int_utility.crea_casella_testo("Inserire l'email")
         self.cod_autent = User_int_utility.crea_casella_testo("Inserire solo per dipendenti della biglietteria")
         self.area_comp = User_int_utility.crea_combo_box(Controlli.aree_di_competenza)
 
+        # aggiunta dei widget al layout
         form.addRow(User_int_utility.crea_label("Nome"), self.nome)
         form.addRow(User_int_utility.crea_label("Cognome"), self.cognome)
         form.addRow(User_int_utility.crea_label("Codice fiscale"), self.cod_fisc)
@@ -96,6 +100,9 @@ class VistaRegistraDipendente(QWidget):
         box.setLayout(grid)
         return box
 
+    # metodo che permette di aggiungere il dipendente di cui sono stati inseriti i dati alla lista.
+    # prima viene eseguito un controllo sui dati. Se esso dà esito negativo il dipendente non viene aggiunto alla
+    # lista e sullo schermo compare un messaaggio di errore
     def add_dipendente(self):
         data_nascita = QDate(self.anno_n.value(), self.mese_n.value(), self.giorno_n.value())
         area_competenza = Controlli.aree_di_competenza[self.area_comp.currentIndex()]
@@ -126,4 +133,4 @@ class VistaRegistraDipendente(QWidget):
             QMessageBox.critical(self, 'Errore', avviso, QMessageBox.Ok, QMessageBox.Ok)
 
     def closeEvent(self, event):
-        self.callback()
+        self.callback()                             # fa riapparire la finestra precedente

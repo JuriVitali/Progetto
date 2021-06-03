@@ -9,22 +9,27 @@ class VistaLogin(QWidget):
 
     def __init__(self, parent=None):
         super(VistaLogin, self).__init__()
+
+        #settaggio delle impostazioni generali della finestra
         self.setWindowTitle("Login")
         self.setGeometry(0, 0, 1000, 600)
-        User_int_utility.sposta_al_centro(self)
+        User_int_utility.sposta_al_centro(self)     #la finestra viene spostata la centro
         self.setFixedSize(self.size())
 
+        #inserimento dell'immagine di sfondo
         background = QImage("Immagini/Sfondi/login_back.jpg")
         palette = QPalette()
         palette.setBrush(QPalette.Window, QBrush(background))
         self.setPalette(palette)
 
+        #creazione del layout della finestra e aggiunta della box per il login
         ext_layout = QVBoxLayout()
         ext_layout.addWidget(self.crea_box_login())
         ext_layout.setContentsMargins(180,200,180,200)
 
         self.setLayout(ext_layout)
 
+    #metodo che restituisce la box per il login
     def crea_box_login(self):
         box = QGroupBox()
         box.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
@@ -59,6 +64,10 @@ class VistaLogin(QWidget):
         box.setLayout(layout)
         return box
 
+    # metodo che controlla il codice inserito ed in base ad esso può:
+    # far apparire la schermata della home per l'amministratore
+    # far apparire la schermata della home per il personale della biglietteria
+    # far apparire un messaggio di errore
     def accedi(self):
         if self.casella_codice.text() == "A":
             self.home_amm = VistaHomeAmministratore(self.modifica_visibilita)
@@ -68,6 +77,7 @@ class VistaLogin(QWidget):
             self.home_big.show()
         self.casella_codice.setText("")
 
+    #metodo che modifica la visibilità della finestra
     def modifica_visibilita(self):
         User_int_utility.modifica_visibilita_finestra(self)
 

@@ -12,16 +12,17 @@ class VistaVisualizzaInfoFilm(QWidget):
         self.controller = ControlloreFilm(film)
 
         self.callback = callback
-        self.callback()
+        self.callback()                  #fa scomparire la finestra precedente
 
+        # settaggio delle impostazioni generali della finestra
         self.setWindowTitle("Visualizzazione info film")
         self.setStyleSheet("background-color : " + User_int_utility.primary_color + ";")
         self.setGeometry(0, 0, 1200, 650)
         User_int_utility.sposta_al_centro(self)
-
         ext_layout = QGridLayout()
         ext_layout.setContentsMargins(0, 0, 0, 0)
 
+        #aggiunta dei vari elementi che compongono la UI al layout esterno
         ext_layout.addLayout(User_int_utility.crea_banda_superiore("Fi"), 0, 0, 1, 2)
         ext_layout.addWidget(self.crea_box_dati(), 1, 0)
         ext_layout.addWidget(User_int_utility.crea_label_con_imm(QPixmap("Immagini/Sfondi/film_back.png"), QSizePolicy.Minimum,
@@ -30,12 +31,12 @@ class VistaVisualizzaInfoFilm(QWidget):
 
         self.setLayout(ext_layout)
 
-
+    #metodo che ritorna il box dove vengono mostrate le informazioni sul film
     def crea_box_dati(self):
         box = QGroupBox()
         box.setTitle(self.controller.get_titolo())
         box.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        box.setStyleSheet("QGroupBox {"
+        box.setStyleSheet("QGroupBox {"                 #stile del box
                           "background-color: #222;"
                           "border-radius: 8px;"
                           "}"
@@ -60,4 +61,4 @@ class VistaVisualizzaInfoFilm(QWidget):
         return box
 
     def closeEvent(self, event):
-        self.callback()
+        self.callback()             #fa riapparire la finestra precedente

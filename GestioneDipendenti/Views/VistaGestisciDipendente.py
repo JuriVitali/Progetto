@@ -14,13 +14,14 @@ class VistaGestisciDipendente(QWidget):
         self.controller = ControlloreListaDipendenti()
 
         self.callback = callback
-        self.callback()
+        self.callback()                             #fa scomparire la finestra precedente
 
         self.setWindowTitle("Gestione Dipendenti")
         self.setStyleSheet("background-color : " + User_int_utility.primary_color + ";")
         self.setGeometry(0, 0, 1200, 650)
-        User_int_utility.sposta_al_centro(self)
+        User_int_utility.sposta_al_centro(self)             #sposta la finestra al centro dello schermo
 
+        # Creazione di un layout a griglia interno contenente i vari widget e l'immagine
         grid_layout = QGridLayout()
         grid_layout.addWidget(User_int_utility.crea_push_button("Registra dipendente", self.show_new_dipendente,
                                                                 "Cliccare per aggiungere un dipendente al sistema",
@@ -34,13 +35,14 @@ class VistaGestisciDipendente(QWidget):
                               0, 2, 3, 1)
         grid_layout.setContentsMargins(20, 0, 0, 0)
 
+        # aggiunta dei due layout al layout esterno
         v_layout = QVBoxLayout()
         v_layout.addLayout(User_int_utility.crea_banda_superiore("Di"))
         v_layout.addLayout(grid_layout)
         v_layout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(v_layout)
 
-
+    # metodo che crea il box contenente i widget per la ricerca di un dipendente in base al nome e al cognome
     def crea_box_ricerca(self):
         box = QGroupBox()
         box.setTitle("Cerca un dipendente")
@@ -72,12 +74,13 @@ class VistaGestisciDipendente(QWidget):
         box.setLayout(layout)
         return box
 
+    # metodo che fa apparire la finestra per l'inserimento dei dati di un nuovo dipendente
     def show_new_dipendente(self):
         self.vista_registra_dipendente = VistaRegistraDipendente(self.controller, self.modifica_visibilita)
         self.vista_registra_dipendente.show()
 
-    #Dopo aver verificato i campi inseriti apre la vista per la visualizzazione dei dipendenti se essi sono corretti,
-    #altrimenti genera un avviso
+    # metodo che fa apparire una finestra in cui vengono visualizzati i dipendenti con il nome e cognome inseriti.
+    # Se il nome e il cognome immessi non sono corretti, visualizza un messaggio di errore
     def show_lista_dipendenti_filtrata(self):
         avviso = self.controller.controlla_campi_ricerca(self.nome_ricerca.text(), self.cognome_ricerca.text())
         if avviso == None:
@@ -87,13 +90,15 @@ class VistaGestisciDipendente(QWidget):
         else:
             QMessageBox.critical(self, 'Errore', avviso, QMessageBox.Ok, QMessageBox.Ok)
 
+    # metodo che fa apparire una finestra in cui vengono visualizzati tutti i dipendenti presenti a sistema
     def show_lista_dipendenti_completa(self):
         self.vista_lista_dipendenti = VistaVisualizzaDipendenti(self.controller, self.modifica_visibilita)
         self.vista_lista_dipendenti.show()
 
+    # metodo che modifica la visibilità della finestra
     def modifica_visibilita(self):
         User_int_utility.modifica_visibilita_finestra(self)
 
     def closeEvent(self, event):
-        self.controller.save_data()
-        self.callback()
+        self.controller.save_data()         #salvataggio dei dati
+        self.callback()                     #fa riapparire la finestra precedente

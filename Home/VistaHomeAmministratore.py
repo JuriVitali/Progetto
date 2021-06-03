@@ -12,29 +12,32 @@ class VistaHomeAmministratore(QWidget):
         super(VistaHomeAmministratore, self).__init__(parent)
 
         self.callback = callback
-        self.callback()
+        self.callback()                             #fa scomparire la vista del login
 
+        #settaggio delle impostazioni generali della finestra
         self.setWindowTitle("Home Amministratore")                      #titolo
         self.setStyleSheet("background-color : " + User_int_utility.primary_color + ";")                 #colore dello sfondo
         self.setGeometry(0, 0, 1200, 650)
-        User_int_utility.sposta_al_centro(self)
-
+        User_int_utility.sposta_al_centro(self)         #sposta la finestra al centro dello schermo
         ext_layout = QVBoxLayout()              #layout esterno
 
         orizzontal_layout = QHBoxLayout()             #layout che dovrà contenere il menù con i pulsanti e lo sfondo della schermata
 
         background_image = User_int_utility.crea_label_con_imm(QPixmap('Immagini/Sfondi/imm_back_amm.png'),QSizePolicy.Expanding, QSizePolicy.Expanding)
 
+        #creazione del menù con pulsanti
         orizzontal_layout.addLayout(self.crea_menu_pulsanti())
         orizzontal_layout.addWidget(background_image)
         orizzontal_layout.setContentsMargins(0,0,0,0)
 
+        #aggiunta dei layout interni a quello esterno
         ext_layout.addLayout(User_int_utility.crea_banda_superiore())         #aggiunge il layout contenente il logo
         ext_layout.addLayout(orizzontal_layout)
         ext_layout.setContentsMargins(0,0,0,0)
 
         self.setLayout(ext_layout)
 
+    #metodo che crea il menù dei pulasnti
     def crea_menu_pulsanti(self):
         menu_pulsanti = QVBoxLayout()  # creazione del layout verticale che conterrà i pulsanti
         menu_pulsanti.addItem(QSpacerItem(10, 7, QSizePolicy.Minimum, QSizePolicy.Minimum))
@@ -55,31 +58,38 @@ class VistaHomeAmministratore(QWidget):
         menu_pulsanti.setContentsMargins(4, 0, 4, 0)
         return menu_pulsanti
 
-    #Funzioni che gestiranno i click dei pulsanti
+    #metodo che fa apparire la finestra per la visualizzazione dei report
     def go_to_report(self):
         pass
 
+    # metodo che fa apparire la finestra per la gestione dei dipendenti
     def go_to_dipendenti(self):
         self.vista_gestione_dipendenti = VistaGestisciDipendente(self.modifica_visibilita)
         self.vista_gestione_dipendenti.show()
 
+    # metodo che fa apparire la finestra per la gestione dei film
     def go_to_film(self):
         self.vista_gestione_film = VistaGestisciFilm(self.modifica_visibilita)
         self.vista_gestione_film.show()
 
+    # metodo che fa apparire la finestra per la programmazione degli spettacoli
     def go_to_spettacoli(self):
         self.vista_spettacoli = VistaVisProgrammazioneSpettacoli(True, self.modifica_visibilita)
         self.vista_spettacoli.show()
 
+    # metodo che fa apparire la finestra per la gestione dei servizi
     def go_to_servizi(self):
         pass
 
+    # metodo che fa apparire la finestra per la consultazione del manuale
     def go_to_manuale(self):
         pass
 
+    # metodo che fa tornare alla schermata del login
     def logout(self):
         self.callback()
         self.close()
 
+    #metodo che modifica la visibilità della finestra
     def modifica_visibilita(self):
         User_int_utility.modifica_visibilita_finestra(self)
