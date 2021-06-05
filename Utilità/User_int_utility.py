@@ -1,7 +1,7 @@
 from PyQt5.QtCore import QSize
 from PyQt5.QtGui import QPixmap, QFont, QStandardItemModel, QStandardItem
 from PyQt5.QtWidgets import QSizePolicy, QLabel, QHBoxLayout, QPushButton, QLineEdit, QDesktopWidget, QComboBox, \
-    QSpinBox, QFormLayout, QListView, QGroupBox
+    QSpinBox, QListView, QGroupBox, QMessageBox
 
 
 class User_int_utility():
@@ -92,7 +92,7 @@ class User_int_utility():
         button.setToolTipDuration(2200)
         return button
 
-    #Metodo statico che ritorna una label con titolo passato come parametro e stile predefinito
+    #Metodo statico che ritorna una label con titolo e dimensione del font passati come parametri e stile predefinito
     @staticmethod
     def crea_label(titolo, fontsize=15):
         label = QLabel(titolo)
@@ -148,6 +148,8 @@ class User_int_utility():
         button.setToolTipDuration(2200)
         return button
 
+    # metodo statico che crea una combo box i cui elementi sono gli elementi della
+    # lista passata come parametro
     @staticmethod
     def crea_combo_box(lista_elementi):
         combo_box = QComboBox()
@@ -164,18 +166,23 @@ class User_int_utility():
                                 "color: #DDD")
         return combo_box
 
+    #metodo che crea una spin box. I suoi valori minimo, massimo e iniziale sono
+    #quelli passati come parametri
     @staticmethod
-    def crea_spin_box(min, max, initial_value):
+    def crea_spin_box(min, max, initial_value, step=1):
         spin_box = QSpinBox()
         spin_box.setMinimum(min)
         spin_box.setMaximum(max)
         spin_box.setValue(initial_value)
+        spin_box.setSingleStep(step)
         spin_box.setStyleSheet("border-radius: 6px;"
                                "padding: 0 8px;"
                                "background: #111;"
                                "color: #DDD")
         return spin_box
 
+    #metodo statico che crea un pushbutton con titolo, collegamento, size policy e colore passati.
+    #il colore è verde se viene passato "G", mentre negli altri casi è rosso
     @staticmethod
     def crea_green_or_red_push_button(titolo, on_click, oSizePolicy, vSizePolicy, color="R"):
         button = QPushButton(titolo)
@@ -217,6 +224,7 @@ class User_int_utility():
                                  )
         return button
 
+    #metodo statico che crea una listview con stile predefinito
     @staticmethod
     def crea_list_view():
         list_view = QListView()
@@ -227,12 +235,43 @@ class User_int_utility():
                            "color: #DDD")
         return list_view
 
+    # metodo statico che fa scomparire il widget passato se questo è visibile o lo fa apparire se
+    # è nascosto
     @staticmethod
     def modifica_visibilita_finestra(widget):
         if widget.isHidden() == False:
             widget.hide()
         else:
             widget.show()
+
+    #metodo statico che setta lo stile della finestra e dei suoi messagebox
+    @staticmethod
+    def set_window_style(widget):
+        widget.setStyleSheet("QWidget {"
+                             "background-color : " + User_int_utility.primary_color + ";"
+                             "}"
+                             "QMessageBox {"
+                             "background-color: #EEE;"
+                             "}"
+                             "QMessageBox QLabel {"
+                             "background-color: #EEE;"
+                             "color: " + User_int_utility.tertiary_color + ";"
+                             "}"
+                             "QMessageBox QPushButton { "
+                             "color: white;"
+                             "background-color : " + User_int_utility.tertiary_color + " ;"
+                             "}"
+                             "QGroupBox"
+                             "{"
+                             "background-color: #222;"  
+                             "border-radius: 8px"
+                             "}"
+                             "QGroupBox::title"
+                             "{"
+                             "background-color: " + User_int_utility.tertiary_color + ";"
+                             "border-radius: 4px"
+                             "}"
+                             )
 
 
 

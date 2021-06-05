@@ -1,4 +1,5 @@
 from Film.Models.ListaFilm import ListaFilm
+from Utilità.Controlli import Controlli
 
 
 class ControlloreListaFilm():
@@ -27,10 +28,18 @@ class ControlloreListaFilm():
 
     #controlla che il titolo inserito nella ricerca abbia una lunghezza adeguata e sia composto da caratteri stampabili
     def controlla_campi_ricerca(self, titolo):
+        if Controlli.controlla_stringa_stampabile(titolo) == False:
+            return "Il titolo inserito non è valido"
         return None
 
     #controlla che tutti i campi del film che si vuole inserire a sistema siano corretti
     def controlla_campi_film(self, film):
+        if Controlli.controlla_stringa_stampabile(film.titolo) == False:
+            return "Il titolo inserito non è valido"
+        if Controlli.controlla_stringa_stampabile(film.casa_prod) == False:
+            return "La casa di produzione inserita non è valida"
+        if Controlli.controlla_stringa_lettere(film.genere) == False:
+            return "Il genere inserito non è valido"
         return None
 
     #Salva su file i dati relativi ai film registrati a sistema

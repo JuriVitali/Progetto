@@ -15,7 +15,7 @@ class VistaVisualizzaInfoDipendente(QWidget):
 
         # settaggio delle impostazioni generali della finestra
         self.setWindowTitle("Visualizzazione info dipendente")
-        self.setStyleSheet("background-color : " + User_int_utility.primary_color + ";")
+        User_int_utility.set_window_style(self)
         self.setGeometry(0, 0, 1200, 650)
         User_int_utility.sposta_al_centro(self)
         ext_layout = QGridLayout()
@@ -34,16 +34,6 @@ class VistaVisualizzaInfoDipendente(QWidget):
         box = QGroupBox()
         box.setTitle("Dati di " + self.controller.get_cognome() + " " + self.controller.get_nome())
         box.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        box.setStyleSheet("QGroupBox {"                         #stile del box
-                          "background-color: #222;"
-                          "border-radius: 8px;"
-                          "}"
-                          "QGroupBox::title"
-                          "{"
-                          "background-color: " + User_int_utility.tertiary_color + ";"
-                          "border-radius: 4px;" 
-                          "}"
-                          )
 
         grid = QGridLayout()
         grid.setContentsMargins(8, 30, 8, 15)

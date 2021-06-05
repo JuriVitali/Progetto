@@ -16,7 +16,7 @@ class VistaVisualizzaInfoFilm(QWidget):
 
         # settaggio delle impostazioni generali della finestra
         self.setWindowTitle("Visualizzazione info film")
-        self.setStyleSheet("background-color : " + User_int_utility.primary_color + ";")
+        User_int_utility.set_window_style(self)
         self.setGeometry(0, 0, 1200, 650)
         User_int_utility.sposta_al_centro(self)
         ext_layout = QGridLayout()
@@ -36,16 +36,6 @@ class VistaVisualizzaInfoFilm(QWidget):
         box = QGroupBox()
         box.setTitle(self.controller.get_titolo())
         box.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        box.setStyleSheet("QGroupBox {"                 #stile del box
-                          "background-color: #222;"
-                          "border-radius: 8px;"
-                          "}"
-                          "QGroupBox::title"
-                          "{"
-                          "background-color: " + User_int_utility.tertiary_color + ";"
-                          "border-radius: 4px;" 
-                          "}"
-                          )
 
         box_layout = QHBoxLayout()
         box_layout.setContentsMargins(8, 30, 8, 15)

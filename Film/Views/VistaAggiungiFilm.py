@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import QWidget, QGroupBox, QFormLayout, QSizePolicy, QGridL
 
 from Film.Models.Film import Film
 from Utilità.User_int_utility import User_int_utility
-from Utilità.Controlli import Controlli
+from Utilità.Parametri import Parametri
 
 
 class VistaAggiungiFilm(QWidget):
@@ -22,23 +22,11 @@ class VistaAggiungiFilm(QWidget):
         User_int_utility.sposta_al_centro(self)                 #sposta la finestra al centro dello schermo
         ext_layout = QGridLayout()
         ext_layout.setContentsMargins(0, 0, 0, 0)
+        User_int_utility.set_window_style(self)
 
         box_dati = QGroupBox()
         box_dati.setLayout(self.crea_form())                    #viene creato il box contenente i widget per l'inserimento dei dati
         box_dati.setSizePolicy(QSizePolicy.Expanding,QSizePolicy.Expanding)
-
-        self.setStyleSheet("QWidget {background-color : " + User_int_utility.primary_color + ";}"
-                          "QGroupBox"
-                          "{"
-                          "background-color: #222;"                         #impostazione dello stile della finestra
-                          "border-radius: 8px"
-                          "}"
-                          "QGroupBox::title"
-                          "{"
-                          "background-color: " + User_int_utility.tertiary_color + ";"
-                          "border-radius: 4px"
-                          "}"
-                          )
 
         #vengono aggiunti alla finestra tutti i layout ed i widget necessari
         ext_layout.addLayout(User_int_utility.crea_banda_superiore("Fi"), 0, 0, 1, 2)
@@ -60,7 +48,7 @@ class VistaAggiungiFilm(QWidget):
         self.casa_prod = User_int_utility.crea_casella_testo("Inserire la casa di produzione")
         self.durata = User_int_utility.crea_spin_box(1, 500, 90)
         self.genere = User_int_utility.crea_casella_testo("Inserire il genere")
-        self.eta_minima = User_int_utility.crea_combo_box(Controlli.eta_minima)
+        self.eta_minima = User_int_utility.crea_combo_box(Parametri.eta_minima)
 
         #aggiunta dei widget al layout
         form.addRow(User_int_utility.crea_label("Titolo"), self.titolo)
@@ -74,7 +62,7 @@ class VistaAggiungiFilm(QWidget):
     #prima viene eseguito un controllo sui dati. Se esso dà esito negativo il film non viene aggiunto alla
     #lista e sullo schermo compare un messaaggio di errore
     def add_film(self):
-        eta_minima = Controlli.eta_minima[self.eta_minima.currentIndex()]
+        eta_minima = Parametri.eta_minima[self.eta_minima.currentIndex()]
         film = Film(self.titolo.text(),
                     self.casa_prod.text(),
                     self.durata.text(),

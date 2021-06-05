@@ -17,7 +17,7 @@ class VistaGestisciDipendente(QWidget):
         self.callback()                             #fa scomparire la finestra precedente
 
         self.setWindowTitle("Gestione Dipendenti")
-        self.setStyleSheet("background-color : " + User_int_utility.primary_color + ";")
+        User_int_utility.set_window_style(self)
         self.setGeometry(0, 0, 1200, 650)
         User_int_utility.sposta_al_centro(self)             #sposta la finestra al centro dello schermo
 
@@ -47,17 +47,6 @@ class VistaGestisciDipendente(QWidget):
         box = QGroupBox()
         box.setTitle("Cerca un dipendente")
         box.setSizePolicy(QSizePolicy.Minimum,QSizePolicy.Expanding)
-        box.setStyleSheet("QGroupBox"
-                          "{"
-                          "background-color: #222;"
-                          "border-radius: 8px"
-                          "}"
-                          "QGroupBox::title"
-                          "{"
-                          "background-color: " + User_int_utility.tertiary_color + ";"
-                          "border-radius: 4px"
-                          "}"
-                          )
         layout = QGridLayout()
 
         self.nome_ricerca = User_int_utility.crea_casella_testo("Inserire il nome")

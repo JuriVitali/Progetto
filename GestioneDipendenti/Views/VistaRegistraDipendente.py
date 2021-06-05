@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import QWidget, QGroupBox, QFormLayout, QSizePolicy, QGridL
 from GestioneDipendenti.Models.Dipendente import Dipendente
 from Utilità.User_int_utility import User_int_utility
 from Utilità.Controlli import Controlli
+from Utilità.Parametri import Parametri
 
 
 class VistaRegistraDipendente(QWidget):
@@ -23,25 +24,13 @@ class VistaRegistraDipendente(QWidget):
         User_int_utility.sposta_al_centro(self)             #sposta la finestra al centro dello schermo
         ext_layout = QGridLayout()
         ext_layout.setContentsMargins(0, 0, 0, 0)
+        User_int_utility.set_window_style(self)
 
         box_dati = QGroupBox()
         box_dati.setLayout(self.crea_form())                #viene creato il box contenente i widget per l'inserimento dei dati
         box_dati.setSizePolicy(QSizePolicy.Expanding,QSizePolicy.Expanding)
 
         box_data_n = self.crea_box_nascita()                #viene creato il box contenente i widget per l'inserimento della data di nascita
-
-        self.setStyleSheet("QWidget {background-color : " + User_int_utility.primary_color + ";}"
-                          "QGroupBox"
-                          "{"
-                          "background-color: #222;"             #impostazione dello stile della finestra
-                          "border-radius: 8px"
-                          "}"
-                          "QGroupBox::title"
-                          "{"
-                          "background-color: " + User_int_utility.tertiary_color + ";"
-                          "border-radius: 4px"
-                          "}"
-                          )
 
         # vengono aggiunti alla finestra tutti i layout ed i widget necessari
         ext_layout.addLayout(User_int_utility.crea_banda_superiore("Di"), 0, 0, 1, 2)
@@ -66,7 +55,7 @@ class VistaRegistraDipendente(QWidget):
         self.telefono = User_int_utility.crea_casella_testo("Inserire il numero di telefono")
         self.email = User_int_utility.crea_casella_testo("Inserire l'email")
         self.cod_autent = User_int_utility.crea_casella_testo("Inserire solo per dipendenti della biglietteria")
-        self.area_comp = User_int_utility.crea_combo_box(Controlli.aree_di_competenza)
+        self.area_comp = User_int_utility.crea_combo_box(Parametri.aree_di_competenza)
 
         # aggiunta dei widget al layout
         form.addRow(User_int_utility.crea_label("Nome"), self.nome)
@@ -105,7 +94,7 @@ class VistaRegistraDipendente(QWidget):
     # lista e sullo schermo compare un messaaggio di errore
     def add_dipendente(self):
         data_nascita = QDate(self.anno_n.value(), self.mese_n.value(), self.giorno_n.value())
-        area_competenza = Controlli.aree_di_competenza[self.area_comp.currentIndex()]
+        area_competenza = Parametri.aree_di_competenza[self.area_comp.currentIndex()]
         if area_competenza == "Biglietteria":
             dipendente = Dipendente(
                 self.nome.text(),

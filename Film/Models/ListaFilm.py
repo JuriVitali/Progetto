@@ -25,7 +25,8 @@ class ListaFilm():
     def get_film_by_titolo(self, titolo):
         lista_film_filtrata = []
         for i in range(0, len(self.lista_film)):
-            if titolo in self.lista_film[i].titolo: lista_film_filtrata.append(self.lista_film[i])
+            if titolo in self.lista_film[i].titolo:
+                lista_film_filtrata.append(self.lista_film[i])
         return lista_film_filtrata
 
     # elimina dalla lista dei film registrati a sistema il film quello che si trova nella posizione passata

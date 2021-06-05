@@ -18,7 +18,7 @@ class VistaGestisciFilm(QWidget):
         self.callback()                                     #fa scomparire la finestra precedente
 
         self.setWindowTitle("Gestione Film")
-        self.setStyleSheet("background-color : " + User_int_utility.primary_color + ";")
+        User_int_utility.set_window_style(self)
         self.setGeometry(0, 0, 1200, 650)
         User_int_utility.sposta_al_centro(self)                #sposta la finestra al centro dello schermo
 
@@ -66,7 +66,7 @@ class VistaGestisciFilm(QWidget):
         layout.addWidget(User_int_utility.crea_label("Titolo"))
         layout.addWidget(self.titolo_ricerca)
         layout.addItem(QSpacerItem(20, 10, QSizePolicy.Minimum, QSizePolicy.Expanding))
-        layout.addWidget(User_int_utility.crea_push_button("Cerca film", self.show_lista_film_filtrata,                                                               "Cliccare per ricercare il film",
+        layout.addWidget(User_int_utility.crea_push_button("Cerca film", self.show_lista_film_filtrata, "Cliccare per ricercare il film",
                                                            QSizePolicy.Expanding, QSizePolicy.Expanding))
         layout.setContentsMargins(15, 35, 15, 25)
         box.setLayout(layout)
