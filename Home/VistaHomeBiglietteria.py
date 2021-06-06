@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import QWidget, QHBoxLayout, QSizePolicy, QVBoxLayout, QSpa
 from PyQt5.QtGui import QPixmap, QIcon
 
 from Spettacoli.Views.VistaVisProgrammazioneSpettacoli import VistaVisProgrammazioneSpettacoli
+from GestioneClienti.Views.VistaGestisciCliente import VistaGestisciCliente
 from Utilità.User_int_utility import User_int_utility
 
 class VistaHomeBiglietteria(QWidget):
@@ -66,7 +67,8 @@ class VistaHomeBiglietteria(QWidget):
 
     # metodo che fa apparire la finestra per la gestione dei clienti
     def go_to_clienti(self):
-        pass
+        self.vista_clienti = VistaGestisciCliente(self.modifica_visibilita)
+        self.vista_clienti.show()
 
     # metodo che fa apparire la finestra per la visualizzazione degli spettacoli in programma
     def go_to_spettacoli(self):
