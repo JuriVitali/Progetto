@@ -1,5 +1,7 @@
-from GestioneClienti.Models.ListaClienti import ListaClienti
+from PyQt5.QtCore import QDate
 
+from Utilità.Controlli import Controlli
+from GestioneClienti.Models.ListaClienti import ListaClienti
 
 class ControlloreListaClienti():
     def __init__(self):
@@ -21,9 +23,27 @@ class ControlloreListaClienti():
         self.model.rimuovi_cliente_by_cf(cliente_selezionato.cod_fisc)
 
     def controlla_campi_ricerca(self, nome, cognome):
+        if Controlli.controlla_stringa_lettere(nome) == False and nome != "":
+            return "Il nome inserito non è valido"
+        if Controlli.controlla_stringa_lettere(cognome) == False and cognome != "":
+            return "Il cognome inserito non è valido"
         return None
 
     def controlla_campi_cliente(self, cliente):
+        if Controlli.controlla_stringa_lettere(cliente.nome) == False:
+            return "Il nome inserito non è valido"
+        if Controlli.controlla_stringa_lettere(cliente.cognome) == False:
+            return "Il cognome inserito non è valido"
+        if Controlli.controlla_cod_fisc(cliente.cod_fisc, self.get_lista_completa()) == False:
+            return "Il codice fiscale inserito non è valido"
+        if Controlli.controlla_stringa_stampabile(cliente.email) == False:
+            return "L'indirizzo email inserito non è valido"
+        if Controlli.controlla_codice_abb(cliente.cod_abb, self.get_lista_completa()) == False:
+            return "Il codice per la futura autenticazione inserito non è valido"
+        if Controlli.controlla_codice_tess(cliente.cod_tess, self.get_lista_completa()) == False:
+            return "Il codice per la futura autenticazione inserito non è valido"
+        if not QDate(cliente.data_nascita).isValid():
+            return "La data inserita non è valida"
         return None
 
     def save_data(self):

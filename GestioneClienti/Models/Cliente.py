@@ -1,5 +1,5 @@
 class Cliente():
-    def __init__(self, nome, cognome, data_nascita, cod_fisc, telefono, email, abbonamento = None, tessera = None ):
+    def __init__(self, nome, cognome, data_nascita, cod_fisc, telefono, email, cod_abb = None, cod_tess = None ):
         super(Cliente, self).__init__()
         self.nome = nome
         self.cognome = cognome
@@ -7,5 +7,5 @@ class Cliente():
         self.cod_fisc = cod_fisc
         self.telefono = telefono
         self.email = email
-        self.abbonamento = abbonamento
-        self.tessera = tessera
+        self.cod_abb = cod_abb
+        self.cod_tess = cod_tess
