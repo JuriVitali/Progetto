@@ -37,7 +37,7 @@ class ControlloreListaClienti():
         if Controlli.controlla_cod_fisc(cliente.cod_fisc, self.get_lista_completa()) == False:
             return "Il codice fiscale inserito non è valido"
         if Controlli.controlla_stringa_stampabile(cliente.email) == False:
-            return "L'indirizzo email inserito non è valido"
+           return "L'indirizzo email inserito non è valido"
         if Controlli.controlla_codice_abb(cliente.cod_abb, self.get_lista_completa()) == False:
             return "Il codice abbonamento inserito non è valido"
         if Controlli.controlla_codice_tess(cliente.cod_tess, self.get_lista_completa()) == False:

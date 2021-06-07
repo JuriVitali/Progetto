@@ -20,8 +20,8 @@ class ControlloreCliente():
     def get_email(self):
         return self.model.email
 
-    def get_abbonamento(self):
-        return self.model.abbonamento
+    def get_cod_abb(self):
+        return self.model.cod_abb
 
-    def get_tessera(self):
-        return self.model.tessera
+    def get_cod_tess(self):
+        return self.model.cod_tess

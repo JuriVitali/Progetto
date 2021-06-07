@@ -115,14 +115,12 @@ class VistaRegistraCliente(QWidget):
                 self.email.text(),
                 self.cod_abb.text(),
                 self.cod_tess.text())
-        self.controller.aggiungi_cliente(cliente)
-        self.close()
-        '''avviso = self.controller.controlla_campi_cliente(cliente)
+        avviso = self.controller.controlla_campi_cliente(cliente)
         if avviso == None:
             self.controller.aggiungi_cliente(cliente)
             self.close()
         else:
-            QMessageBox.critical(self, 'Errore', avviso, QMessageBox.Ok, QMessageBox.Ok)'''
+            QMessageBox.critical(self, 'Errore', avviso, QMessageBox.Ok, QMessageBox.Ok)
 
 
     def closeEvent(self, event):

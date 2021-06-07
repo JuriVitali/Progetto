@@ -19,7 +19,7 @@ class VistaGestisciCliente(QWidget):
         self.callback()
 
         self.setWindowTitle("Gestione Clienti")
-        self.setStyleSheet("background-color : " + User_int_utility.primary_color + ";")
+        User_int_utility.set_window_style(self)
         self.setGeometry(0, 0, 1200, 650)
         User_int_utility.sposta_al_centro(self)
 
@@ -68,7 +68,7 @@ class VistaGestisciCliente(QWidget):
         layout.addWidget(self.nome_ricerca, 0, 1)
         layout.addWidget(self.cognome_ricerca, 1, 1)
         layout.addItem(QSpacerItem(20, 10, QSizePolicy.Minimum, QSizePolicy.Expanding), 0, 2, 2, 1)
-        layout.addWidget(User_int_utility.crea_push_button("Cerca dipendente", self.show_lista_clienti_filtrata,
+        layout.addWidget(User_int_utility.crea_push_button("Cerca cliente", self.show_lista_clienti_filtrata,
                                                            "Cliccare per ricercare il cliente",
                                                            QSizePolicy.Expanding, QSizePolicy.Expanding), 0, 3, 2, 1)
         box.setLayout(layout)
@@ -90,12 +90,12 @@ class VistaGestisciCliente(QWidget):
                 self.vista_lista_clienti.show()
             else:
                 QMessageBox.critical(self, 'Errore', avviso, QMessageBox.Ok, QMessageBox.Ok)
-            pass
+
 
     def show_lista_clienti_completa(self):
             self.vista_lista_clienti = VistaVisualizzaClienti(self.controller, self.modifica_visibilita)
             self.vista_lista_clienti.show()
-            pass
+
 
     def modifica_visibilita(self):
             User_int_utility.modifica_visibilita_finestra(self)

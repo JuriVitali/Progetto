@@ -13,13 +13,15 @@ class VistaVisualizzaInfoCliente(QWidget):
         self.callback = callback
         self.callback()         #fa scomparire la finestra precedente
 
+
         # settaggio delle impostazioni generali della finestra
-        self.setWindowTitle("Visualizzazione info dipendente")
+        self.setWindowTitle("Visualizzazione info ")
         User_int_utility.set_window_style(self)
         self.setGeometry(0, 0, 1200, 650)
         User_int_utility.sposta_al_centro(self)
         ext_layout = QGridLayout()
         ext_layout.setContentsMargins(0, 0, 0, 0)
+
 
         # aggiunta dei vari elementi che compongono la UI al layout esterno
         ext_layout.addLayout(User_int_utility.crea_banda_superiore("Di"), 0, 0, 1, 2)
@@ -28,6 +30,7 @@ class VistaVisualizzaInfoCliente(QWidget):
                                                 QSizePolicy.Expanding), 1, 1, 2, 1)
         ext_layout.addItem(QSpacerItem(10, 190, QSizePolicy.Expanding, QSizePolicy.Minimum), 2, 0, 1, 2)
         self.setLayout(ext_layout)
+
 
     # metodo che ritorna il box dove vengono mostrate le informazioni sul dipendente
     def crea_box_dati(self):
@@ -38,16 +41,14 @@ class VistaVisualizzaInfoCliente(QWidget):
         grid = QGridLayout()
         grid.setContentsMargins(8, 30, 8, 15)
 
-        grid.addWidget(User_int_utility.crea_label("Nome: \nCognome: \nData di nascita: \nCodice fiscale: \n"
-                                                   "Email: \nCodice abbonamento: \nCodice tessera "), 0, 0)
+        grid.addWidget(User_int_utility.crea_label("Nome: \nCognome: \nData di nascita: \nCodice fiscale: \nEmail: \nCodice abbonamento: \nCodice tessera: "), 0, 0)
         grid.addWidget(User_int_utility.crea_label(self.controller.get_nome() + "\n"
-                                                   + self.controller.get_cognome() + "\n"
-                                                   + self.controller.get_data_nascita().toString("yyyy.MM.dd") + "\n"
-                                                   + self.controller.get_cod_fisc() + "\n"
-                                                   + self.controller.get_email() + "\n"
-                                                   + self.controller.get_abbonamento() + "\n"
-                                                   + self.controller.get_tessera()), 0, 1)
-
+                                                      + self.controller.get_cognome() + "\n"
+                                                      + self.controller.get_data_nascita().toString("yyyy.MM.dd") + "\n"
+                                                      + self.controller.get_cod_fisc() + "\n"
+                                                      + self.controller.get_email() + "\n"
+                                                      + self.controller.get_cod_abb() + "\n"
+                                                      + self.controller.get_cod_tess()), 0, 1)
         box.setLayout(grid)
         return box
 
