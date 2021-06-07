@@ -17,7 +17,7 @@ class ControlloreListaClienti():
     def get_cliente_by_nome(self, nome, cognome):
         return self.model.get_cliente_by_nome(nome, cognome)
 
-    def elimina_dipendente_by_index(self, indice, lista_filtrata):
+    def elimina_cliente_by_index(self, indice, lista_filtrata):
         cliente_selezionato = lista_filtrata[indice]
         lista_filtrata.remove(lista_filtrata[indice])
         self.model.rimuovi_cliente_by_cf(cliente_selezionato.cod_fisc)
@@ -39,9 +39,9 @@ class ControlloreListaClienti():
         if Controlli.controlla_stringa_stampabile(cliente.email) == False:
             return "L'indirizzo email inserito non è valido"
         if Controlli.controlla_codice_abb(cliente.cod_abb, self.get_lista_completa()) == False:
-            return "Il codice per la futura autenticazione inserito non è valido"
+            return "Il codice abbonamento inserito non è valido"
         if Controlli.controlla_codice_tess(cliente.cod_tess, self.get_lista_completa()) == False:
-            return "Il codice per la futura autenticazione inserito non è valido"
+            return "Il codice tessera inserito non è valido"
         if not QDate(cliente.data_nascita).isValid():
             return "La data inserita non è valida"
         return None

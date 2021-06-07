@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import QWidget, QVBoxLayout, QGridLayout, QSizePolicy, QGro
 from GestioneClienti.Controllers.ControlloreListaClienti import ControlloreListaClienti
 #from GestioneClienti.Views.VistaVisualizzaClienti import VistaVisualizzaClienti
 from GestioneClienti.Views.VistaRegistraCliente import VistaRegistraCliente
+from GestioneClienti.Views.VistaVisualizzaClienti import VistaVisualizzaClienti
 from Utilità.User_int_utility import User_int_utility
 #from GestioneClienti.Views.VistaRegistraCliente import VistaRegistraCliente
 
@@ -82,19 +83,19 @@ class VistaGestisciCliente(QWidget):
         # Dopo aver verificato i campi inseriti apre la vista per la visualizzazione dei dipendenti se essi sono corretti,
         # altrimenti genera un avviso
     def show_lista_clienti_filtrata(self):
-            '''avviso = self.controller.controlla_campi_ricerca(self.nome_ricerca.text(), self.cognome_ricerca.text())
+            avviso = self.controller.controlla_campi_ricerca(self.nome_ricerca.text(), self.cognome_ricerca.text())
             if avviso == None:
                 self.vista_lista_clienti = VistaVisualizzaClienti(self.controller, self.modifica_visibilita,
                                                                         self.nome_ricerca.text(),
                                                                         self.cognome_ricerca.text())
                 self.vista_lista_clienti.show()
             else:
-                QMessageBox.critical(self, 'Errore', avviso, QMessageBox.Ok, QMessageBox.Ok) '''
+                QMessageBox.critical(self, 'Errore', avviso, QMessageBox.Ok, QMessageBox.Ok)
             pass
 
     def show_lista_clienti_completa(self):
-            #self.vista_lista_clienti = VistaVisualizzaClienti(self.controller, self.modifica_visibilita)
-            #self.vista_lista_clienti.show()
+            self.vista_lista_clienti = VistaVisualizzaClienti(self.controller, self.modifica_visibilita)
+            self.vista_lista_clienti.show()
             pass
 
     def modifica_visibilita(self):

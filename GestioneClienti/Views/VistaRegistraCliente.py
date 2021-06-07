@@ -4,7 +4,6 @@ from PyQt5.QtWidgets import QWidget, QGroupBox, QFormLayout, QSizePolicy, QGridL
     QSpacerItem, QMessageBox
 
 from GestioneClienti.Models.Cliente import Cliente
-from GestioneDipendenti.Models.Dipendente import Dipendente
 from Utilità.User_int_utility import User_int_utility
 
 class VistaRegistraCliente(QWidget):
@@ -113,16 +112,17 @@ class VistaRegistraCliente(QWidget):
                 self.cognome.text(),
                 data_nascita,
                 self.cod_fisc.text(),
-                self.telefono.text(),
                 self.email.text(),
                 self.cod_abb.text(),
                 self.cod_tess.text())
-        avviso = self.controller.controlla_campi_cliente(cliente)
+        self.controller.aggiungi_cliente(cliente)
+        self.close()
+        '''avviso = self.controller.controlla_campi_cliente(cliente)
         if avviso == None:
             self.controller.aggiungi_cliente(cliente)
             self.close()
         else:
-            QMessageBox.critical(self, 'Errore', avviso, QMessageBox.Ok, QMessageBox.Ok)
+            QMessageBox.critical(self, 'Errore', avviso, QMessageBox.Ok, QMessageBox.Ok)'''
 
     def closeEvent(self, event):
-        self.callback()  # fa riapparire la finestra precedente
+        self.callback()                       # fa riapparire la finestra precedente
