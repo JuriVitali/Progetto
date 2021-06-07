@@ -46,5 +46,6 @@ class ControlloreListaClienti():
             return "La data inserita non è valida"
         return None
 
+
     def save_data(self):
         self.model.save_data()

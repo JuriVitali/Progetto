@@ -124,5 +124,6 @@ class VistaRegistraCliente(QWidget):
         else:
             QMessageBox.critical(self, 'Errore', avviso, QMessageBox.Ok, QMessageBox.Ok)'''
 
+
     def closeEvent(self, event):
         self.callback()                       # fa riapparire la finestra precedente

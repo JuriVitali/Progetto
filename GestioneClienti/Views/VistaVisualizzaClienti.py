@@ -95,6 +95,7 @@ class VistaVisualizzaClienti(QWidget):
             self.listview_model.appendRow(item)
         self.list_view.setModel(self.listview_model)
 
+
     # metodo che modifica la visibilità della finestra
     def modifica_visibilita(self):
         User_int_utility.modifica_visibilita_finestra(self)

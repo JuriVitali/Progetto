@@ -79,7 +79,6 @@ class VistaGestisciCliente(QWidget):
         self.vista_registra_cliente.show()
 
 
-
         # Dopo aver verificato i campi inseriti apre la vista per la visualizzazione dei dipendenti se essi sono corretti,
         # altrimenti genera un avviso
     def show_lista_clienti_filtrata(self):
