@@ -26,29 +26,59 @@ class VistaVisualizzaInfoCliente(QWidget):
         # aggiunta dei vari elementi che compongono la UI al layout esterno
         ext_layout.addLayout(User_int_utility.crea_banda_superiore("Di"), 0, 0, 1, 2)
         ext_layout.addWidget(self.crea_box_dati(), 1, 0)
+        ext_layout.addWidget(self.crea_box_abb(), 2, 0)
+        ext_layout.addWidget(self.crea_box_tess(), 3, 0)
         ext_layout.addWidget(User_int_utility.crea_label_con_imm(QPixmap("Immagini/Sfondi/cliente_back.png"), QSizePolicy.Minimum,
-                                                QSizePolicy.Expanding), 1, 1, 2, 1)
-        ext_layout.addItem(QSpacerItem(10, 190, QSizePolicy.Expanding, QSizePolicy.Minimum), 2, 0, 1, 2)
+                                                QSizePolicy.Expanding), 1, 1, 3, 1)      #... 1,1,4,1)
         self.setLayout(ext_layout)
 
 
-    # metodo che ritorna il box dove vengono mostrate le informazioni sul dipendente
+    # metodo che ritorna il box dove vengono mostrate le informazioni sul cliente
     def crea_box_dati(self):
         box = QGroupBox()
         box.setTitle("Dati di " + self.controller.get_cognome() + " " + self.controller.get_nome())
-        box.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        box.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
 
         grid = QGridLayout()
         grid.setContentsMargins(8, 30, 8, 15)
 
-        grid.addWidget(User_int_utility.crea_label("Nome: \nCognome: \nData di nascita: \nCodice fiscale: \nEmail: \nCodice abbonamento: \nCodice tessera: "), 0, 0)
+
+        grid.addWidget(User_int_utility.crea_label("Nome: \nCognome: \nData di nascita: \nCodice fiscale: \nEmail: "), 0, 0)
         grid.addWidget(User_int_utility.crea_label(self.controller.get_nome() + "\n"
                                                       + self.controller.get_cognome() + "\n"
                                                       + self.controller.get_data_nascita().toString("yyyy.MM.dd") + "\n"
                                                       + self.controller.get_cod_fisc() + "\n"
-                                                      + self.controller.get_email() + "\n"
-                                                      + self.controller.get_cod_abb() + "\n"
-                                                      + self.controller.get_cod_tess()), 0, 1)
+                                                      + self.controller.get_email()), 0, 1)
+        box.setLayout(grid)
+        return box
+
+    def crea_box_abb(self):
+        box = QGroupBox()
+        box.setTitle("Dati dell'abbonamento ")
+        box.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        grid = QGridLayout()
+        grid.setContentsMargins(8, 30, 8, 15)
+
+        grid.addWidget(User_int_utility.crea_label("Codice abbonamento: \nIngressi Disponibili: \nData di scadenza:"),
+                       0, 0)
+        grid.addWidget(User_int_utility.crea_label(self.controller.get_cod_abb() + "\n"
+                                                   + "-" + "\n" + "-" ), 0, 1)
+        box.setLayout(grid)
+        return box
+
+    def crea_box_tess(self):
+        box = QGroupBox()
+        box.setTitle("Dati della tessera ")
+        box.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        grid = QGridLayout()
+        grid.setContentsMargins(8, 30, 8, 15)
+
+        grid.addWidget(User_int_utility.crea_label("Codice tessera: \nPunti: "),
+                       0, 0)
+        grid.addWidget(User_int_utility.crea_label(self.controller.get_cod_tess() + "\n"
+                                                   + "-" ), 0, 1)
         box.setLayout(grid)
         return box
 

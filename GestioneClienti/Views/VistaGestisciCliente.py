@@ -18,11 +18,13 @@ class VistaGestisciCliente(QWidget):
         self.callback = callback
         self.callback()
 
+        # settaggio delle impostazioni generali della finestra
         self.setWindowTitle("Gestione Clienti")
         User_int_utility.set_window_style(self)
         self.setGeometry(0, 0, 1200, 650)
-        User_int_utility.sposta_al_centro(self)
+        User_int_utility.sposta_al_centro(self)           #sposta la finestra al centro dello schermo
 
+        # Creazione di un layout a griglia interno contenente i vari widget e l'immagine
         grid_layout = QGridLayout()
         grid_layout.addWidget(User_int_utility.crea_push_button("Registra Cliente", self.show_new_cliente,
                                                                 "Cliccare per aggiungere un cliente al sistema",
@@ -36,13 +38,14 @@ class VistaGestisciCliente(QWidget):
                               0, 2, 3, 1)
         grid_layout.setContentsMargins(20, 0, 0, 0)
 
+        # aggiunta dei due layout al layout esterno
         v_layout = QVBoxLayout()
         v_layout.addLayout(User_int_utility.crea_banda_superiore("Cl"))
         v_layout.addLayout(grid_layout)
         v_layout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(v_layout)
 
-
+    # metodo che crea il box contenente i widget per la ricerca di un cliente in base al nome e al cognome
     def crea_box_ricerca(self):
         box = QGroupBox()
         box.setTitle("Cerca un cliente")
@@ -74,13 +77,14 @@ class VistaGestisciCliente(QWidget):
         box.setLayout(layout)
         return box
 
+    # metodo che fa apparire la finestra per l'inserimento dei dati di un nuovo cliente
     def show_new_cliente(self):
         self.vista_registra_cliente = VistaRegistraCliente(self.controller, self.modifica_visibilita)
         self.vista_registra_cliente.show()
 
 
-        # Dopo aver verificato i campi inseriti apre la vista per la visualizzazione dei dipendenti se essi sono corretti,
-        # altrimenti genera un avviso
+    # Dopo aver verificato i campi inseriti apre la vista per la visualizzazione dei clienti se essi sono corretti,
+    # altrimenti genera un avviso
     def show_lista_clienti_filtrata(self):
             avviso = self.controller.controlla_campi_ricerca(self.nome_ricerca.text(), self.cognome_ricerca.text())
             if avviso == None:
@@ -91,15 +95,15 @@ class VistaGestisciCliente(QWidget):
             else:
                 QMessageBox.critical(self, 'Errore', avviso, QMessageBox.Ok, QMessageBox.Ok)
 
-
+    # metodo che fa apparire una finestra in cui vengono visualizzati tutti i clienti presenti a sistema
     def show_lista_clienti_completa(self):
             self.vista_lista_clienti = VistaVisualizzaClienti(self.controller, self.modifica_visibilita)
             self.vista_lista_clienti.show()
 
-
+    # metodo che modifica la visibilità della finestra
     def modifica_visibilita(self):
             User_int_utility.modifica_visibilita_finestra(self)
 
     def closeEvent(self, event):
-            self.controller.save_data()
-            self.callback()
+            self.controller.save_data()              #salvataggio dei dati
+            self.callback()                          #fa riapparire la finestra precedente

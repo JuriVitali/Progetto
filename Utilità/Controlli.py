@@ -54,6 +54,7 @@ class Controlli():
     @staticmethod
     def controlla_codice_abb(cod_abbon, lista_clienti):
         c = str(cod_abbon)
+        if c == '': return True
         if len(c) == 8 and c.isalnum():
             for cliente in lista_clienti:
                 if cliente.cod_abb == c: return False
@@ -65,6 +66,7 @@ class Controlli():
     @staticmethod
     def controlla_codice_tess(cod_tessera, lista_clienti):
         c = str(cod_tessera)
+        if c == '': return True
         if len(c) == 8 and c.isalnum():
             for cliente in lista_clienti:
                 if cliente.cod_tess == c: return False

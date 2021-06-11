@@ -21,7 +21,7 @@ class VistaVisualizzaClienti(QWidget):
         self.cognome_cercato = cognome
 
 
-        #se almeno uno tra nome e cognome cercati non è None filtra la lista dei dipendenti presente a sistema
+        #se almeno uno tra nome e cognome cercati non è None filtra la lista dei clienti presente a sistema
         #in base ad essi
         if self.nome_cercato != None or self.cognome_cercato!= None:
             self.lista_filtrata = self.get_cliente_by_nome()
@@ -38,7 +38,7 @@ class VistaVisualizzaClienti(QWidget):
         ext_layout.setContentsMargins(0, 0, 0, 0)
 
         self.list_view = User_int_utility.crea_list_view()
-        self.update_ui()                                    #popola la listview con i film corrispondenti agli
+        self.update_ui()                                    #popola la listview con i clienti corrispondenti agli
                                                             #eventuali parametri di ricerca
 
         # creazione di un layout orizzontale per i pushbutton
@@ -46,12 +46,12 @@ class VistaVisualizzaClienti(QWidget):
         butt_layout.addWidget(User_int_utility.crea_push_button("Visualizza dati cliente", self.show_info_cliente,
                                                                 "Visualizza le informazioni del cliente selezionato",
                                                                 QSizePolicy.Expanding, QSizePolicy.Minimum))
-        butt_layout.addWidget(User_int_utility.crea_push_button("Visualizza tessera", self.show_info_cliente_tess,
+        '''butt_layout.addWidget(User_int_utility.crea_push_button("Visualizza tessera", self.show_info_cliente_tess,
                                                                 "Visualizza le informazioni sulla tessera del cliente selezionato",
-                                                                QSizePolicy.Expanding, QSizePolicy.Minimum))
+                                                                QSizePolicy.Expanding, QSizePolicy.Minimum))                                    #parte da togliere
         butt_layout.addWidget(User_int_utility.crea_push_button("Visualizza abbonamento", self.show_info_cliente_abb,
                                                                 "Visualizza le informazioni sull'abbonamento del cliente selezionato",
-                                                                QSizePolicy.Expanding, QSizePolicy.Minimum))
+                                                                QSizePolicy.Expanding, QSizePolicy.Minimum))'''
         butt_layout.addWidget(User_int_utility.crea_green_or_red_push_button("Elimina", self.elimina_cliente_by_index,
                                                                              QSizePolicy.Expanding, QSizePolicy.Minimum, "R"))
 
@@ -63,11 +63,11 @@ class VistaVisualizzaClienti(QWidget):
         ext_layout.addLayout(butt_layout, 2, 0)
         self.setLayout(ext_layout)
 
-    # metodo che ritorna la lista dei dipendenti presenti a sistema filtrata in base al nome e al cognome cercati
+    # metodo che ritorna la lista dei clienti presenti a sistema filtrata in base al nome e al cognome cercati
     def get_cliente_by_nome(self):
         return self.controller.get_cliente_by_nome(self.nome_cercato, self.cognome_cercato)
 
-    # metodo che fa apparire una finestra con le informazioni dell'abbonamento del cliente selezionato
+    # metodo che fa apparire una finestra con le informazioni del cliente selezionato
     def show_info_cliente(self):
         if (len(self.list_view.selectedIndexes()) > 0):
             index = self.list_view.selectedIndexes()[0].row()
@@ -75,6 +75,7 @@ class VistaVisualizzaClienti(QWidget):
                                                                     self.modifica_visibilita)
             self.vista_visualizza_info.show()
 
+    '''
     # metodo che fa apparire una finestra con le informazioni dell'abbonamento del cliente selezionato
     def show_info_cliente_abb(self):
         if (len(self.list_view.selectedIndexes()) > 0):
@@ -88,8 +89,9 @@ class VistaVisualizzaClienti(QWidget):
             index = self.list_view.selectedIndexes()[0].row()
             self.vista_visualizza_tess = VistaVisualizzaTessera(self.lista_filtrata[index], self.modifica_visibilita)
             self.vista_visualizza_tess.show()
+    '''
 
-    # metodo che elimina il dipendente selezionato
+    # metodo che elimina il cliente selezionato
     def elimina_cliente_by_index(self):
         if (len(self.list_view.selectedIndexes()) > 0):
             index = self.list_view.selectedIndexes()[0].row()
@@ -97,12 +99,12 @@ class VistaVisualizzaClienti(QWidget):
             self.update_ui()
 
 
-            # metodo che aggiorna gli elementi nella listview
+    # metodo che aggiorna gli elementi nella listview
     def update_ui(self):
         self.listview_model = QStandardItemModel(self.list_view)
         for cliente in self.lista_filtrata:
             item = QStandardItem()
-            item.setText(cliente.nome + " " + cliente.cognome + "                     CF: " + cliente.cod_fisc + "                   " + cliente.data_nascita.toString("yyyy.MM.dd"))
+            item.setText(cliente.nome + " " + cliente.cognome + "                                                                         CF: " + cliente.cod_fisc  )
             item.setEditable(False)
             self.listview_model.appendRow(item)
         self.list_view.setModel(self.listview_model)
@@ -115,9 +117,6 @@ class VistaVisualizzaClienti(QWidget):
     def closeEvent(self, event):
         self.callback()         #fa riapparire la finestra precedente
 
-        '''if self.vista_visualizza_tess.isHidden() == False:
-            self.vista_visualizza_tess.hide()
-        if self.vista_visualizza_abb.isHidden() == False:
-            self.vista_visualizza_abb.hide()'''
+
 
 

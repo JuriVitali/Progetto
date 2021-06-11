@@ -26,7 +26,7 @@ class VistaRegistraCliente(QWidget):
         box_dati.setLayout(self.crea_form())                # viene creato il box contenente i widget per l'inserimento dei dati
         box_dati.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 
-        box_data_n = self.crea_box_nascita()  # viene creato il box contenente i widget per l'inserimento della data di nascita
+        box_data_n = self.crea_box_nascita()                # viene creato il box contenente i widget per l'inserimento della data di nascita
 
         box_abb_tess = self.crea_box_abb_tess()
 
@@ -46,7 +46,7 @@ class VistaRegistraCliente(QWidget):
         self.setLayout(ext_layout)
 
     # metodo che restituisce un form layout in cui sono contenuti i widget per l'inserimento
-    # dei dati del dipendente, ad eccezione della data di nascita
+    # dei dati del cliente, ad eccezione della data di nascita, del coidce abbonamento e del codice tessera
     def crea_form(self):
         form = QFormLayout()
 
@@ -63,6 +63,8 @@ class VistaRegistraCliente(QWidget):
         form.addRow(User_int_utility.crea_label("Email"), self.email)
         return form
 
+    # metodo che restituisce un group box in cui è contenuti il widget per l'inserimento
+    # della dati del abbonamento e della tessera del cliente
     def crea_box_abb_tess(self):
         box = QGroupBox()
         box.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
@@ -79,6 +81,8 @@ class VistaRegistraCliente(QWidget):
         box.setLayout(form)
         return box
 
+    # metodo che restituisce un group box in cui è contenuti il widget per l'inserimento
+    # della data del cliente
     def crea_box_nascita(self):
         box = QGroupBox()
         box.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
@@ -101,8 +105,8 @@ class VistaRegistraCliente(QWidget):
         box.setLayout(grid)
         return box
 
-    # metodo che permette di aggiungere il dipendente di cui sono stati inseriti i dati alla lista.
-    # prima viene eseguito un controllo sui dati. Se esso dà esito negativo il dipendente non viene aggiunto alla
+    # metodo che permette di aggiungere il cliente di cui sono stati inseriti i dati alla lista.
+    # prima viene eseguito un controllo sui dati. Se esso dà esito negativo il cliente non viene aggiunto alla
     # lista e sullo schermo compare un messaaggio di errore
     def add_cliente(self):
         data_nascita = QDate(self.anno_n.value(), self.mese_n.value(), self.giorno_n.value())

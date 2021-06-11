@@ -4,7 +4,7 @@ from PyQt5.QtGui import QPixmap, QIcon
 from Spettacoli.Views.VistaVisProgrammazioneSpettacoli import VistaVisProgrammazioneSpettacoli
 from GestioneClienti.Views.VistaGestisciCliente import VistaGestisciCliente
 from Utilità.User_int_utility import User_int_utility
-from Vendita_Biglietti.Views.VistaMappaPosti import VistaMappaPosti
+#from Vendita_Biglietti.Views.VistaMappaPosti import VistaMappaPosti
 
 class VistaHomeBiglietteria(QWidget):
 
