@@ -7,13 +7,15 @@ class ListaSpettacoli():
         self.lista_spettacoli = []
         self.lista_film = []
 
+        if os.path.isfile('Film/Salvataggio_lista_film.pickle'):           #caricamento dei dati
+                    with open('Film/Salvataggio_lista_film.pickle', 'rb') as f:
+                        self.lista_film = pickle.load(f)
+
         if os.path.isfile('Spettacoli/Salvataggio_lista_spettacoli.pickle'):
             with open('Spettacoli/Salvataggio_lista_spettacoli.pickle', 'rb') as handle:
                 self.lista_spettacoli = pickle.load(handle)
 
-        if os.path.isfile('Film/Salvataggio_lista_film.pickle'):           #caricamento dei dati
-            with open('Film/Salvataggio_lista_film.pickle', 'rb') as f:
-                self.lista_film = pickle.load(f)
+
 
     # aggiunge uno spettacolo alla lista degli spettacoli registrati a sistema
     def aggiungi_spettacolo(self, spettacolo):
