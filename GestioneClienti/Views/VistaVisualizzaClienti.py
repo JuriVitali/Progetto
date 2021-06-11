@@ -58,7 +58,7 @@ class VistaVisualizzaClienti(QWidget):
         # aggiunta di tutti i widget e i layout al layout esterno
         ext_layout.addLayout(User_int_utility.crea_banda_superiore("Cl"), 0, 0, 1, 2)
         ext_layout.addWidget(self.list_view, 1, 0)
-        ext_layout.addWidget(User_int_utility.crea_label_con_imm(QPixmap("Immagini/Sfondi/dipendenti_back.png"), QSizePolicy.Minimum,
+        ext_layout.addWidget(User_int_utility.crea_label_con_imm(QPixmap("Immagini/Sfondi/cliente_back.png"), QSizePolicy.Minimum,
                                                 QSizePolicy.Expanding), 1, 1, 2, 1)
         ext_layout.addLayout(butt_layout, 2, 0)
         self.setLayout(ext_layout)

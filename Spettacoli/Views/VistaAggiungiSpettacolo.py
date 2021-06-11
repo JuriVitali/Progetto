@@ -2,7 +2,6 @@ from PyQt5.QtCore import QTime
 from PyQt5.QtGui import QPixmap, QStandardItemModel, QStandardItem
 from PyQt5.QtWidgets import QWidget, QGridLayout, QGroupBox, QSizePolicy, QSpacerItem, QMessageBox
 
-from Spettacoli.Model.Posto import Posto
 from Utilità.User_int_utility import User_int_utility
 from Spettacoli.Model.Sala import Sala
 from Utilità.Parametri import Parametri
@@ -18,11 +17,12 @@ class VistaAggiungiSpettacoli(QWidget):
         self.callback = callback
         self.callback()
 
-        self.update_vis_spettacoli = update_vis_spettacoli
+        self.update_vis_spettacoli = update_vis_spettacoli      # funzione per aggiornare VistaVisProgrammazioneSpettacoli
 
-        self.data = data
+        self.data = data    # data
         self.lista_film = []
 
+        # settaggio delle impostazioni generali della finestra
         self.setWindowTitle("Nuovo spettacolo")
         self.setGeometry(0, 0, 1200, 650)
         User_int_utility.sposta_al_centro(self)
@@ -30,6 +30,7 @@ class VistaAggiungiSpettacoli(QWidget):
         ext_layout.setContentsMargins(0, 0, 0, 0)
         User_int_utility.set_window_style(self)
 
+        # aggiunta dei vari elementi che compongono la UI al layout esterno
         ext_layout.addLayout(User_int_utility.crea_banda_superiore("Sp"), 0, 0, 1, 3)
         ext_layout.addWidget(self.crea_box_ricerca_titolo(), 1, 0, 1, 2)
         ext_layout.addItem(QSpacerItem(10, 10, QSizePolicy.Expanding, QSizePolicy.Minimum), 2, 0, 1, 2)
@@ -44,6 +45,8 @@ class VistaAggiungiSpettacoli(QWidget):
         self.setLayout(ext_layout)
         self.show()
 
+    # metodo che crea una QGroupBox che permette di cercare e selezionare il film che dovrà essere
+    # proiettato
     def crea_box_ricerca_titolo(self):
         box = QGroupBox()
         box.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Expanding)
@@ -62,6 +65,7 @@ class VistaAggiungiSpettacoli(QWidget):
         box.setLayout(box_layout)
         return box
 
+    # metodo che crea una QGroupBox che permette di impostare l'orario in cui avrà inizio lo spettacolo
     def crea_box_orario(self):
         box = QGroupBox()
         box.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
@@ -81,6 +85,7 @@ class VistaAggiungiSpettacoli(QWidget):
         box.setLayout(box_layout)
         return box
 
+    # metodo che crea una QGroupBox che permette di selezionare la sala in cui avrà luogo lo spettacolo
     def crea_box_sala(self):
         box = QGroupBox()
         box.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
@@ -96,11 +101,18 @@ class VistaAggiungiSpettacoli(QWidget):
         box.setLayout(box_layout)
         return box
 
-
+    # metodo che consente la ricerca dei film con il titolo cercato e aggiorna la listview
     def cerca_film(self):
-        self.lista_film = self.controller.ricerca_film(self.titolo_cercato.text())
-        self.update_ui()
+        avviso = self.controller.controlla_campi_ricerca(self.titolo_cercato.text())
+        if avviso == None:
+            self.lista_film = self.controller.ricerca_film(self.titolo_cercato.text())
+            self.update_ui()
+        else:
+            QMessageBox.critical(self, 'Errore', avviso, QMessageBox.Ok, QMessageBox.Ok)
 
+    # metodo che aggiunge lo spettacolo alla lista lista degli spettacoli in programma se i dati sono validi.
+    # se il film si sovrappone con un altro film o finisce oltre l'orario di chiusura del cinema, fa
+    # comparire un messaggio di errore
     def add_spettacolo(self):
         if (len(self.list_view.selectedIndexes()) > 0):
             index = self.list_view.selectedIndexes()[0].row()
@@ -129,9 +141,7 @@ class VistaAggiungiSpettacoli(QWidget):
         else:
             QMessageBox.critical(self, 'Errore', "Non è stato selezionato alcun film", QMessageBox.Ok, QMessageBox.Ok)
 
-    def closeEvent(self, event):
-        self.callback()
-
+    # metodo che consente di aggiornare la listview dei film con il titolo cercato
     def update_ui(self):
         self.listview_model = QStandardItemModel(self.list_view)
         for film in self.lista_film:
@@ -140,5 +150,8 @@ class VistaAggiungiSpettacoli(QWidget):
             item.setEditable(False)
             self.listview_model.appendRow(item)
         self.list_view.setModel(self.listview_model)
+
+    def closeEvent(self, event):
+        self.callback() #fa riapparire la finestra precedente
 
 

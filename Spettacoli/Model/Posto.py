@@ -1,23 +1,27 @@
-from PyQt5.QtWidgets import QPushButton, QSizePolicy, QCheckBox
+from PyQt5.QtWidgets import QCheckBox
 from Utilità.User_int_utility import User_int_utility
 
 class Posto():
-    def __init__(self, fila, posizione, vip):
+    def __init__(self, fila, posizione, premium):
         self.disponibile = True
         self.fila = fila
         self.posizione = posizione
-        self.vip = vip
+        self.premium = premium
         self.box = QCheckBox()
 
+    # Metodo che consente la prenotazione di un posto
     def prenota(self):
         self.disponibile = False
         self.button.setDisabled(True)
 
+    # Metodo che restituisce un dizionario contenente la fila e la posizione del posto
     def get_posto(self):
         return {"Fila": self.fila, "Posizione": self.posizione}
 
+    # metodo che applica alla checkbox del posto uno stile che varia a seconda
+    # se un posto è standard o premium
     def applica_stile_check_box(self):
-        if self.vip == True:
+        if self.premium == True:
             self.box.setStyleSheet("QCheckBox {"
                                    "border: 2px solid " + User_int_utility.tertiary_color + ";"
                                    "background-color : " + User_int_utility.tertiary_color + ";"

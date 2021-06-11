@@ -56,6 +56,14 @@ class ControlloreListaSpettacoli():
     def controlla_campi_spettacolo(self, spettacolo):
         return None
 
+    # metodo che restituisce una stringa da inserire in un messaggio di errore se il titolo passato non
+    # è valido
+    def controlla_campi_ricerca(self, titolo):
+        if Controlli.controlla_stringa_stampabile(titolo) == False:
+            return "Il titolo inserito non è valido"
+        return None
+
+    # metodo che ritorna una lista contenente i film con il titolo cercato
     def ricerca_film(self, titolo):
         return self.model.ricerca_film(titolo)
 

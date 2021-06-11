@@ -4,6 +4,7 @@ from PyQt5.QtGui import QPixmap, QIcon
 from Spettacoli.Views.VistaVisProgrammazioneSpettacoli import VistaVisProgrammazioneSpettacoli
 from GestioneClienti.Views.VistaGestisciCliente import VistaGestisciCliente
 from Utilità.User_int_utility import User_int_utility
+from Vendita_Biglietti.Views.VistaMappaPosti import VistaMappaPosti
 
 class VistaHomeBiglietteria(QWidget):
 
@@ -77,7 +78,8 @@ class VistaHomeBiglietteria(QWidget):
 
     # metodo che fa apparire la finestra per la vendita dei biglietti
     def go_to_vend_biglietti(self):
-        pass
+        self.vista_vend_biglietti = VistaMappaPosti(self.modifica_visibilita)
+        self.vista_vend_biglietti.show()
 
     # metodo che fa apparire la finestra per la consultazione del manuale
     def go_to_manuale(self):

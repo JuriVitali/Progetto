@@ -25,7 +25,7 @@ class Controlli():
     @staticmethod
     def controlla_telefono(telefono):
         t = str(telefono)
-        if len(t) > 1 and len(t) < 13:
+        if len(t) > 2 and len(t) < 13:
                 return t.isdigit()
         return False
 
@@ -34,7 +34,7 @@ class Controlli():
     @staticmethod
     def controlla_stringa_stampabile(stringa):
         s = str(stringa)
-        if len(s) > 1 and len(s) < 50:
+        if len(s) > 0 and len(s) < 50:
             return s.isprintable()
         return False
 
