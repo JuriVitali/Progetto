@@ -1,6 +1,8 @@
 from PyQt5.QtWidgets import QWidget, QHBoxLayout, QPushButton, QSizePolicy, QLabel, QVBoxLayout, QSpacerItem
 from PyQt5 import QtCore
 from PyQt5.QtGui import QPixmap, QFont, QIcon
+
+from GestioneServizi.Views.VistaGestisciServizi import VistaGestisciServizi
 from Utilità.User_int_utility import User_int_utility
 from GestioneDipendenti.Views.VistaGestisciDipendente import VistaGestisciDipendente
 from Film.Views.VistaGestisciFilm import VistaGestisciFilm
@@ -79,7 +81,8 @@ class VistaHomeAmministratore(QWidget):
 
     # metodo che fa apparire la finestra per la gestione dei servizi
     def go_to_servizi(self):
-        pass
+        self.vista_servizi = VistaGestisciServizi(self.modifica_visibilita)
+        self.vista_servizi.show()
 
     # metodo che fa apparire la finestra per la consultazione del manuale
     def go_to_manuale(self):
