@@ -26,7 +26,7 @@ class VistaVisualizzaInfoCliente(QWidget):
         # aggiunta dei vari elementi che compongono la UI al layout esterno
         ext_layout.addLayout(User_int_utility.crea_banda_superiore("Di"), 0, 0, 1, 2)
         ext_layout.addWidget(self.crea_box_dati(), 1, 0)
-        ext_layout.addWidget(User_int_utility.crea_label_con_imm(QPixmap("Immagini/Sfondi/dipendenti_back.png"), QSizePolicy.Minimum,
+        ext_layout.addWidget(User_int_utility.crea_label_con_imm(QPixmap("Immagini/Sfondi/cliente_back.png"), QSizePolicy.Minimum,
                                                 QSizePolicy.Expanding), 1, 1, 2, 1)
         ext_layout.addItem(QSpacerItem(10, 190, QSizePolicy.Expanding, QSizePolicy.Minimum), 2, 0, 1, 2)
         self.setLayout(ext_layout)

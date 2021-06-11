@@ -26,13 +26,13 @@ class VistaGestisciCliente(QWidget):
         grid_layout = QGridLayout()
         grid_layout.addWidget(User_int_utility.crea_push_button("Registra Cliente", self.show_new_cliente,
                                                                 "Cliccare per aggiungere un cliente al sistema",
-                                                                QSizePolicy.Minimum, QSizePolicy.Expanding), 0, 0)
+                                                                QSizePolicy.Expanding, QSizePolicy.Expanding), 0, 0)
         grid_layout.addWidget(User_int_utility.crea_push_button("Visualizza tutti i clienti", self.show_lista_clienti_completa,
                                               "Cliccare per visualizzare tutti i clienti inseriti nel sistema",
-                                              QSizePolicy.Minimum, QSizePolicy.Expanding), 0, 1)
+                                              QSizePolicy.Expanding, QSizePolicy.Expanding), 0, 1)
         grid_layout.addItem(QSpacerItem(20, 95, QSizePolicy.Expanding, QSizePolicy.Minimum), 1, 0, 1, 2)
         grid_layout.addWidget(self.crea_box_ricerca(), 2, 0, 1, 2)
-        grid_layout.addWidget(User_int_utility.crea_label_con_imm(QPixmap("Immagini/Sfondi/dipendenti_back.png"), QSizePolicy.Minimum, QSizePolicy.Expanding),
+        grid_layout.addWidget(User_int_utility.crea_label_con_imm(QPixmap("Immagini/Sfondi/cliente_back.png"), QSizePolicy.Minimum, QSizePolicy.Minimum),
                               0, 2, 3, 1)
         grid_layout.setContentsMargins(20, 0, 0, 0)
 
@@ -46,7 +46,7 @@ class VistaGestisciCliente(QWidget):
     def crea_box_ricerca(self):
         box = QGroupBox()
         box.setTitle("Cerca un cliente")
-        box.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Expanding)
+        box.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         box.setStyleSheet("QGroupBox"
                           "{"
                           "background-color: #222;"

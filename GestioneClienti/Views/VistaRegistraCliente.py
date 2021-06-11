@@ -37,7 +37,7 @@ class VistaRegistraCliente(QWidget):
         ext_layout.addWidget(box_data_n, 2, 0)
         ext_layout.addWidget(box_abb_tess, 3, 0)
         ext_layout.addWidget(
-            User_int_utility.crea_label_con_imm(QPixmap("Immagini/Sfondi/dipendenti_back.png"), QSizePolicy.Minimum,
+            User_int_utility.crea_label_con_imm(QPixmap("Immagini/Sfondi/cliente_back.png"), QSizePolicy.Minimum,
                                                 QSizePolicy.Minimum), 1, 1, 5, 1)
         ext_layout.addItem(QSpacerItem(10, 50, QSizePolicy.Expanding, QSizePolicy.Minimum), 4, 0)
         ext_layout.addWidget(
