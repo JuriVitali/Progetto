@@ -232,7 +232,7 @@ class User_int_utility():
     @staticmethod
     def crea_list_view():
         list_view = QListView()
-        list_view.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        list_view.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Expanding)
         list_view.setStyleSheet("border-radius: 6px;"
                            "padding: 0 8px;"
                            "background: #111;"
@@ -276,6 +276,19 @@ class User_int_utility():
                              "border-radius: 4px"
                              "}"
                              )
+
+    @staticmethod
+    def box_scuro(box):
+        box.setStyleSheet("QGroupBox"
+                          "{"
+                          "background-color: #111;"
+                          "border-radius: 8px"
+                          "}"
+                          "QGroupBox::title"                                "{"
+                          "background-color: " + User_int_utility.tertiary_color + ";"
+                          "border-radius: 4px"
+                          "}"
+                          )
 
     @staticmethod
     def get_euro(importo):

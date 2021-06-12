@@ -1,5 +1,5 @@
 class Cliente():
-    def __init__(self, nome, cognome, data_nascita, cod_fisc, email, cod_abb = None, cod_tess = None ):
+    def __init__(self, nome, cognome, data_nascita, cod_fisc, email, cod_abb=None, cod_tess=None):
         super(Cliente, self).__init__()
         self.nome = nome
         self.cognome = cognome

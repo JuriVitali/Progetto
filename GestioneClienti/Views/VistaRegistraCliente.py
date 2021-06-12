@@ -116,9 +116,18 @@ class VistaRegistraCliente(QWidget):
                 self.cognome.text(),
                 data_nascita,
                 self.cod_fisc.text(),
-                self.email.text(),
-                self.cod_abb.text(),
-                self.cod_tess.text())
+                self.email.text())
+
+        if self.cod_abb.text() == "":
+            cliente.cod_abb = None
+        else:
+            cliente.cod_abb = self.cod_abb.text()
+
+        if self.cod_tess.text() == "":
+            cliente.cod_tess = None
+        else:
+            cliente.cod_tess = self.cod_tess.text()
+
         avviso = self.controller.controlla_campi_cliente(cliente)
         if avviso == None:
             self.controller.aggiungi_cliente(cliente)

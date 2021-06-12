@@ -38,9 +38,9 @@ class ControlloreListaClienti():
             return "Il codice fiscale inserito non è valido"
         if Controlli.controlla_stringa_stampabile(cliente.email) == False:
            return "L'indirizzo email inserito non è valido"
-        if Controlli.controlla_codice_abb(cliente.cod_abb, self.get_lista_completa()) == False:
+        if Controlli.controlla_codice_abb(cliente.cod_abb, self.get_lista_completa()) == False and cliente.cod_abb is not None:
             return "Il codice abbonamento inserito non è valido"
-        if Controlli.controlla_codice_tess(cliente.cod_tess, self.get_lista_completa()) == False:
+        if Controlli.controlla_codice_tess(cliente.cod_tess, self.get_lista_completa()) == False and cliente.cod_tess is not None:
             return "Il codice tessera inserito non è valido"
         if not QDate(cliente.data_nascita).isValid():
             return "La data inserita non è valida"

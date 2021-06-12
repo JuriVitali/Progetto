@@ -74,17 +74,7 @@ class VistaGestisciServizi(QWidget):
     def modifica_parametri_biglietto(self):
         box = QGroupBox()
         box.setTitle("Nuove tariffe dei biglietti")
-        box.setStyleSheet("QGroupBox"
-                          "{"
-                          "background-color: #111;"
-                          "border-radius: 8px"
-                          "}"
-                          "QGroupBox::title"
-                          "{"
-                          "background-color: " + User_int_utility.tertiary_color + ";"
-                          "border-radius: 4px"
-                          "}"
-                          )
+        User_int_utility.box_scuro(box)
         box_layout = QGridLayout()
         box_layout.setContentsMargins(8, 45, 8, 8)
 
@@ -152,17 +142,7 @@ class VistaGestisciServizi(QWidget):
     def modifica_parametri_tessera(self):
         box = QGroupBox()
         box.setTitle("Nuovi parametri della tessera")
-        box.setStyleSheet("QGroupBox"
-                             "{"
-                             "background-color: #111;"  
-                             "border-radius: 8px"
-                             "}"
-                             "QGroupBox::title"
-                             "{"
-                             "background-color: " + User_int_utility.tertiary_color + ";"
-                             "border-radius: 4px"
-                             "}"
-                          )
+        User_int_utility.box_scuro(box)
         box_layout = QGridLayout()
         box_layout.setContentsMargins(8, 45, 8, 8)
 
@@ -230,17 +210,7 @@ class VistaGestisciServizi(QWidget):
     def modifica_parametri_abbonamento(self):
         box = QGroupBox()
         box.setTitle("Nuovi parametri dell'abbonamento")
-        box.setStyleSheet("QGroupBox"
-                          "{"
-                          "background-color: #111;"
-                          "border-radius: 8px"
-                          "}"
-                          "QGroupBox::title"
-                          "{"
-                          "background-color: " + User_int_utility.tertiary_color + ";"
-                          "border-radius: 4px"
-                          "}"
-                          )
+        User_int_utility.box_scuro(box)
         box_layout = QGridLayout()
         box_layout.setContentsMargins(8, 45, 8, 8)
 

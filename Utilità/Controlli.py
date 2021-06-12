@@ -50,24 +50,23 @@ class Controlli():
         return False
 
     # ritorna True se il codice per l'abbonamento è valido , cioè se la sua lunghezza è 8,
-    # contiene solo caratteri alfanumerici e nessun altro cliente ne possiede uno uguale
+    # contiene solo caratteri alfanumerici di cui il primo è 'A' e nessun altro cliente ne possiede uno con
+    # lo stesso codice
     @staticmethod
     def controlla_codice_abb(cod_abbon, lista_clienti):
         c = str(cod_abbon)
-        if c == '': return True
-        if len(c) == 8 and c.isalnum():
+        if len(c) == 8 and c.isalnum() and c[0] == "A":
             for cliente in lista_clienti:
                 if cliente.cod_abb == c: return False
             return True
         return False
 
-    # ritorna True se il codice per la tessera è valido , cioè se la sua lunghezza è 8,
-    # contiene solo caratteri alfanumerici e nessun altro cliente ne possiede uno uguale
+    # ritorna True se il codice per la tessera è valido , cioè se la sua lunghezza è 10,
+    # contiene solo cifre e nessun altro cliente ne possiede una con lo stesso codice
     @staticmethod
     def controlla_codice_tess(cod_tessera, lista_clienti):
         c = str(cod_tessera)
-        if c == '': return True
-        if len(c) == 8 and c.isalnum():
+        if len(c) == 10 and c.isdigit():
             for cliente in lista_clienti:
                 if cliente.cod_tess == c: return False
             return True
