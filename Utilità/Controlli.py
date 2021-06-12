@@ -57,7 +57,7 @@ class Controlli():
         c = str(cod_abbon)
         if len(c) == 8 and c.isalnum() and c[0] == "A":
             for cliente in lista_clienti:
-                if cliente.cod_abb == c: return False
+                if cliente.abbonamento is not None and cliente.abbonamento.codice == c: return False
             return True
         return False
 
@@ -68,7 +68,7 @@ class Controlli():
         c = str(cod_tessera)
         if len(c) == 10 and c.isdigit():
             for cliente in lista_clienti:
-                if cliente.cod_tess == c: return False
+                if cliente.tessera is not None and cliente.tessera.codice == c: return False
             return True
         return False
 

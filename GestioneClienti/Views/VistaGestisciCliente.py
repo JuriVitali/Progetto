@@ -1,12 +1,12 @@
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QGridLayout, QSizePolicy, QGroupBox, QSpacerItem, QMessageBox
 
-from GestioneClienti.Controllers.ControlloreListaClienti import ControlloreListaClienti
-#from GestioneClienti.Views.VistaVisualizzaClienti import VistaVisualizzaClienti
+from GestioneClienti.Controller.ControlloreListaClienti import ControlloreListaClienti
+
 from GestioneClienti.Views.VistaRegistraCliente import VistaRegistraCliente
 from GestioneClienti.Views.VistaVisualizzaClienti import VistaVisualizzaClienti
 from Utilità.User_int_utility import User_int_utility
-#from GestioneClienti.Views.VistaRegistraCliente import VistaRegistraCliente
+
 
 
 class VistaGestisciCliente(QWidget):

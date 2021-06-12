@@ -1,7 +1,7 @@
 from PyQt5.QtCore import QDate
 
 from Utilità.Controlli import Controlli
-from GestioneClienti.Models.ListaClienti import ListaClienti
+from GestioneClienti.Model.ListaClienti import ListaClienti
 
 class ControlloreListaClienti():
     def __init__(self):
@@ -38,9 +38,9 @@ class ControlloreListaClienti():
             return "Il codice fiscale inserito non è valido"
         if Controlli.controlla_stringa_stampabile(cliente.email) == False:
            return "L'indirizzo email inserito non è valido"
-        if Controlli.controlla_codice_abb(cliente.cod_abb, self.get_lista_completa()) == False and cliente.cod_abb is not None:
+        if cliente.abbonamento is not None and Controlli.controlla_codice_abb(cliente.abbonamento.codice, self.get_lista_completa()) == False:
             return "Il codice abbonamento inserito non è valido"
-        if Controlli.controlla_codice_tess(cliente.cod_tess, self.get_lista_completa()) == False and cliente.cod_tess is not None:
+        if cliente.tessera is not None and Controlli.controlla_codice_tess(cliente.tessera.codice, self.get_lista_completa()) == False:
             return "Il codice tessera inserito non è valido"
         if not QDate(cliente.data_nascita).isValid():
             return "La data inserita non è valida"

@@ -1,10 +1,8 @@
+from PyQt5.QtCore import QDate
 from PyQt5.QtGui import QPixmap, QStandardItemModel, QStandardItem
-from PyQt5.QtWidgets import QWidget, QGridLayout, QSizePolicy, QListView, QHBoxLayout, QSpacerItem, QGroupBox, \
+from PyQt5.QtWidgets import QWidget, QGridLayout, QSizePolicy, QHBoxLayout, QSpacerItem, QGroupBox, \
     QVBoxLayout
 
-from GestioneClienti.Views.VistaVisualizzaAbb import VistaVisualizzaAbb
-from GestioneClienti.Views.VistaVisualizzaInfoCliente import VistaVisualizzaInfoCliente
-from GestioneClienti.Views.VistaVisualizzaTessera import VistaVisualizzaTessera
 from Utilità.User_int_utility import User_int_utility
 
 
@@ -83,7 +81,7 @@ class VistaVisualizzaClienti(QWidget):
                                     15, "s"))
         layout_anagrafica.addWidget(User_int_utility.crea_label(cliente_selezionato.nome + "\n"
                                                       + cliente_selezionato.cognome + "\n"
-                                                      + cliente_selezionato.data_nascita.toString("yyyy.MM.dd") + "\n"
+                                                      + QDate(cliente_selezionato.data_nascita).toString("yyyy.MM.dd") + "\n"
                                                       + cliente_selezionato.cod_fisc + "\n"
                                                       + cliente_selezionato.email, 15, "s"))
         ext_box_layout.addWidget(box_anagrafica)
@@ -94,10 +92,13 @@ class VistaVisualizzaClienti(QWidget):
         layout_abbonamento = QHBoxLayout()
         layout_abbonamento.setContentsMargins(8, 40, 8, 8)
         box_abbonamento.setLayout(layout_abbonamento)
-        if cliente_selezionato.cod_abb is not None:
+        if cliente_selezionato.abbonamento is not None:
             layout_abbonamento.addWidget(User_int_utility.crea_label("Codice abbonamento: \nIngressi Disponibili: \nData di scadenza:",
                                             15, "s"))
-            layout_abbonamento.addWidget(User_int_utility.crea_label("Codice abbonamento: \nIngressi Disponibili: \nData di scadenza:", 15, "s"))
+            layout_abbonamento.addWidget(User_int_utility.crea_label(str(cliente_selezionato.abbonamento.codice) + "\n" +
+                                                                     str(cliente_selezionato.abbonamento.ingressi_disponibili) + "\n" +
+                                                                     QDate(cliente_selezionato.abbonamento.data_scadenza).toString("yyyy.MM.dd"),
+                                                                     15, "s"))
         else:
             layout_abbonamento.addWidget(User_int_utility.crea_label(cliente_selezionato.nome + " " +cliente_selezionato.cognome +
                                                                      " non è in possesso di un abbonamento", 15, "s"))
@@ -109,9 +110,10 @@ class VistaVisualizzaClienti(QWidget):
         layout_tessera = QHBoxLayout()
         layout_tessera.setContentsMargins(8, 40, 8, 8)
         box_tessera.setLayout(layout_tessera)
-        if cliente_selezionato.cod_tess is not None:
+        if cliente_selezionato.tessera is not None:
             layout_tessera.addWidget(User_int_utility.crea_label("Codice tessera: \nPunti: ",15, "s"))
-            layout_tessera.addWidget(User_int_utility.crea_label("Codice tessera: \nPunti: ",15, "s"))
+            layout_tessera.addWidget(User_int_utility.crea_label(str(cliente_selezionato.tessera.codice) + "\n" +
+                                                                 str(cliente_selezionato.tessera.punti), 15, "s"))
         else:
             layout_tessera.addWidget(User_int_utility.crea_label(cliente_selezionato.nome + " " + cliente_selezionato.cognome +
                                             " non è in possesso di una tessera", 15, "s"))
@@ -137,7 +139,7 @@ class VistaVisualizzaClienti(QWidget):
             index = self.list_view.selectedIndexes()[0].row()
             self.controller.elimina_cliente_by_index(index, self.lista_filtrata)
             self.update_listview()
-            
+
             self.ext_layout.addWidget(User_int_utility.crea_label(""), 1, 1)
 
     # metodo che aggiorna gli elementi nella listview

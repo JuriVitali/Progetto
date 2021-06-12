@@ -3,7 +3,9 @@ from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QWidget, QGroupBox, QFormLayout, QSizePolicy, QGridLayout, \
     QSpacerItem, QMessageBox
 
-from GestioneClienti.Models.Cliente import Cliente
+from GestioneClienti.Model.Abbonamento import Abbonamento
+from GestioneClienti.Model.Cliente import Cliente
+from GestioneClienti.Model.Tessera import Tessera
 from Utilità.User_int_utility import User_int_utility
 
 class VistaRegistraCliente(QWidget):
@@ -118,15 +120,11 @@ class VistaRegistraCliente(QWidget):
                 self.cod_fisc.text(),
                 self.email.text())
 
-        if self.cod_abb.text() == "":
-            cliente.cod_abb = None
-        else:
-            cliente.cod_abb = self.cod_abb.text()
 
-        if self.cod_tess.text() == "":
-            cliente.cod_tess = None
-        else:
-            cliente.cod_tess = self.cod_tess.text()
+        if self.cod_abb.text() != "":
+            cliente.abbonamento = Abbonamento(self.cod_abb.text())
+        if self.cod_tess.text() != "":
+            cliente.tessera = Tessera(self.cod_tess.text())
 
         avviso = self.controller.controlla_campi_cliente(cliente)
         if avviso == None:
