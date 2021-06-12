@@ -1,6 +1,8 @@
 from PyQt5.QtWidgets import QWidget, QHBoxLayout, QSizePolicy, QVBoxLayout, QSpacerItem
 from PyQt5.QtGui import QPixmap, QIcon
 
+from RilasciaAbbonamento.View.VistaRilasciaAbbonamento import VistaRilasciaAbbonamento
+from RilasciaTessera.View.VistaRilasciaTessera import VistaRilasciaTessera
 from Spettacoli.Views.VistaVisProgrammazioneSpettacoli import VistaVisProgrammazioneSpettacoli
 from GestioneClienti.Views.VistaGestisciCliente import VistaGestisciCliente
 from Utilità.User_int_utility import User_int_utility
@@ -60,11 +62,13 @@ class VistaHomeBiglietteria(QWidget):
 
     # metodo che fa apparire la finestra per il rilascio di un abbonamento
     def go_to_ril_abbonamento(self):
-        pass
+        self.rilascia_abbonamento = VistaRilasciaAbbonamento(self.modifica_visibilita)
+        self.rilascia_abbonamento.show()
 
     # metodo che fa apparire la finestra per il rilascio di una tessera
     def go_to_ril_tessera(self):
-        pass
+        self.rilascia_tessera = VistaRilasciaTessera(self.modifica_visibilita)
+        self.rilascia_tessera.show()
 
     # metodo che fa apparire la finestra per la gestione dei clienti
     def go_to_clienti(self):
