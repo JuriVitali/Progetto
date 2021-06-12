@@ -54,6 +54,10 @@ class ControlloreListaSpettacoli():
 
     #controlla che tutti i campi del film che si vuole inserire a sistema siano corretti
     def controlla_campi_spettacolo(self, spettacolo):
+        if not Controlli.controlla_sovrapposizione_spettacoli(spettacolo, self.model.lista_spettacoli):
+            return "Lo spettacolo si sovrappone con un altro già in programma"
+        if spettacolo.ora_fine > Parametri.orario_di_chiusura and spettacolo.ora_fine < Parametri.orario_di_apertura:
+            return "Lo spettacolo termina dopo l'orario di chiusura del cinema"
         return None
 
     # metodo che restituisce una stringa da inserire in un messaggio di errore se il titolo passato non

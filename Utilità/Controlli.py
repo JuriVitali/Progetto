@@ -73,6 +73,20 @@ class Controlli():
             return True
         return False
 
+    # metodo statico che controlla se lo spettacolo passato come parametro si sovrappone con altri
+    # spettacoli in programma.
+    # lista_spettacoli è la lista contenente tutti gli spettacoli in programma
+    @staticmethod
+    def controlla_sovrapposizione_spettacoli(nuovo_spettacolo, lista_spettacoli):
+        for spettacolo in lista_spettacoli:
+            if spettacolo.data == nuovo_spettacolo.data and spettacolo.sala.nome == nuovo_spettacolo.sala.nome:
+                if nuovo_spettacolo.ora_inizio < spettacolo.ora_inizio and nuovo_spettacolo.ora_fine >= spettacolo.ora_inizio:
+                    return False
+                if nuovo_spettacolo.ora_inizio > spettacolo.ora_inizio and nuovo_spettacolo.ora_inizio <= spettacolo.ora_fine:
+                    return False
+                if nuovo_spettacolo.ora_inizio == spettacolo.ora_inizio:
+                    return False
+        return True
 
 
 

@@ -68,12 +68,12 @@ class VistaRegistraCliente(QWidget):
     def crea_box_abb_tess(self):
         box = QGroupBox()
         box.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
-        box.setTitle("Se si desidera rilasciare al cliente una tessera e/o un abbonamento inserire i rispettivi codici ")
+        box.setTitle("Assegnazione tessera e/o abbonamento")
         form = QFormLayout()
         form.setContentsMargins(8, 30, 8, 8)
 
-        self.cod_abb = User_int_utility.crea_casella_testo("Inserire il codice abbonamento")
-        self.cod_tess = User_int_utility.crea_casella_testo("Inserire il codice tessera")
+        self.cod_abb = User_int_utility.crea_casella_testo("Se si desidera rilasciare un abbonamento inserire il codice")
+        self.cod_tess = User_int_utility.crea_casella_testo("Se si desidera rilasciare una tessera inserire il codice")
 
         form.addRow(User_int_utility.crea_label("Codice abbonamento"), self.cod_abb)
         form.addRow(User_int_utility.crea_label("Codice tessera"), self.cod_tess)

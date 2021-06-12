@@ -1,6 +1,6 @@
 from PyQt5.QtCore import QSize
-from PyQt5.QtGui import QPalette, QImage, QBrush, QIcon, QKeySequence
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QGroupBox, QSizePolicy, QGridLayout, QPushButton, QShortcut
+from PyQt5.QtGui import QPalette, QImage, QBrush, QIcon
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QGroupBox, QSizePolicy, QGridLayout, QPushButton
 from Utilità.User_int_utility import User_int_utility
 from Home.VistaHomeAmministratore import VistaHomeAmministratore
 from Home.VistaHomeBiglietteria import VistaHomeBiglietteria

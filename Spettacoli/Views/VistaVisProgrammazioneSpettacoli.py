@@ -111,7 +111,7 @@ class VistaVisProgrammazioneSpettacoli(QWidget):
 
     # metodo che aggiorna l'interfaccia in base all'attributo self.data
     def update_ui(self):
-        self.label_giorno.setText("Film in programma per il giorno " + str(self.data.day()) + "-" + str(self.data.month()) + ""
+        self.label_giorno.setText("Spettacoli in programma per il giorno " + str(self.data.day()) + "-" + str(self.data.month()) + ""
                                   "-" + str(self.data.year()))
 
         self.lista_spettacoli_giornaliera = self.controller.get_spettacoli_by_day(self.data)

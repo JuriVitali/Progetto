@@ -94,10 +94,14 @@ class User_int_utility():
 
     #Metodo statico che ritorna una label con titolo e dimensione del font passati come parametri e stile predefinito
     @staticmethod
-    def crea_label(titolo, fontsize=15):
+    def crea_label(titolo, fontsize=15, colore = "c"):
         label = QLabel(titolo)
-        label.setStyleSheet("color: #DDD;"
+        if colore == "c":
+            label.setStyleSheet("color: #DDD;"
                             "background-color: #222;")
+        else:
+            label.setStyleSheet("color: #DDD;"
+                            "background-color: #111;")
         label.setFont(QFont("Segoe UI Semibold", fontsize))
         return label
 
@@ -272,6 +276,16 @@ class User_int_utility():
                              "border-radius: 4px"
                              "}"
                              )
+
+    @staticmethod
+    def get_euro(importo):
+        euro = float(importo) // 1
+        return euro
+
+    @staticmethod
+    def get_centesimi(importo):
+        cent = (float(importo) % 1) * 100
+        return cent
 
 
 
