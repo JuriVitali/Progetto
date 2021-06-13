@@ -46,6 +46,17 @@ class ControlloreListaClienti():
             return "La data inserita non è valida"
         return None
 
+    def rilascia_abbonamento(self, codice_abb, cliente_selezionato):
+        if Controlli.controlla_codice_abb(codice_abb, self.get_lista_completa()) and cliente_selezionato.abbonamento is None:
+            self.model.assegna_abbonamento(codice_abb, cliente_selezionato.cod_fisc)
+            return None
+        return "Il codice dell'abbonamento inserito non è valido\no il cliente è già in possesso di un abbonamento"
+
+    def rilascia_tessera(self, codice_tess, cliente_selezionato):
+        if Controlli.controlla_codice_tess(codice_tess, self.get_lista_completa()) and cliente_selezionato.tessera is None:
+            self.model.assegna_tessera(codice_tess, cliente_selezionato.cod_fisc)
+            return None
+        return "Il codice della tessera inserito non è valido\no il cliente è già in possesso di una tessera"
 
     def save_data(self):
         self.model.save_data()

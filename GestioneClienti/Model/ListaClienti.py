@@ -26,6 +26,16 @@ class ListaClienti():
                 lista_clien_filtrata.append(self.lista_clienti[i])
         return lista_clien_filtrata
 
+    def assegna_abbonamento(self, codice, cod_fisc_cliente):
+        for cliente in self.lista_clienti:
+            if cliente.cod_fisc == cod_fisc_cliente:
+                cliente.assegna_abbonamento(codice)
+
+    def assegna_tessera(self, codice, cod_fisc_cliente):
+        for cliente in self.lista_clienti:
+            if cliente.cod_fisc == cod_fisc_cliente:
+                cliente.assegna_tessera(codice)
+
     def save_data(self):
         with open('GestioneClienti/Salvataggio_lista_clienti.pickle', 'wb') as handle:
             pickle.dump(self.lista_clienti, handle, pickle.HIGHEST_PROTOCOL)

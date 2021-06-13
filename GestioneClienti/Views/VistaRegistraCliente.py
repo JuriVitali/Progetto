@@ -95,7 +95,7 @@ class VistaRegistraCliente(QWidget):
         self.giorno_n = User_int_utility.crea_spin_box(1, 31, 1)
         self.mese_n = User_int_utility.crea_spin_box(1, 12, 1)
         oggi = QDate.currentDate()
-        self.anno_n = User_int_utility.crea_spin_box(1940, (oggi.year() - 16), 1980)
+        self.anno_n = User_int_utility.crea_spin_box(1940, (oggi.year() - 14), 1980)
 
         grid.addWidget(User_int_utility.crea_label("Giorno"), 0, 0)
         grid.addWidget(User_int_utility.crea_label("Mese"), 0, 1)
