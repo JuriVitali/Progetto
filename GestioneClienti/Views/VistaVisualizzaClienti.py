@@ -1,7 +1,7 @@
 from PyQt5.QtCore import QDate
 from PyQt5.QtGui import QPixmap, QStandardItemModel, QStandardItem
 from PyQt5.QtWidgets import QWidget, QGridLayout, QSizePolicy, QHBoxLayout, QSpacerItem, QGroupBox, \
-    QVBoxLayout
+    QVBoxLayout, QMessageBox
 
 from Utilità.User_int_utility import User_int_utility
 
@@ -89,34 +89,42 @@ class VistaVisualizzaClienti(QWidget):
         box_abbonamento = QGroupBox()
         box_abbonamento.setTitle("Informazioni abbonamento")
         User_int_utility.box_scuro(box_abbonamento)
-        layout_abbonamento = QHBoxLayout()
-        layout_abbonamento.setContentsMargins(8, 40, 8, 8)
-        box_abbonamento.setLayout(layout_abbonamento)
+        self.layout_abbonamento = QGridLayout()
+        self.layout_abbonamento.setContentsMargins(8, 40, 8, 8)
+        box_abbonamento.setLayout(self.layout_abbonamento)
         if cliente_selezionato.abbonamento is not None:
-            layout_abbonamento.addWidget(User_int_utility.crea_label("Codice abbonamento: \nIngressi Disponibili: \nData di scadenza:",
-                                            15, "s"))
-            layout_abbonamento.addWidget(User_int_utility.crea_label(str(cliente_selezionato.abbonamento.codice) + "\n" +
-                                                                     str(cliente_selezionato.abbonamento.ingressi_disponibili) + "\n" +
-                                                                     QDate(cliente_selezionato.abbonamento.data_scadenza).toString("yyyy.MM.dd"),
-                                                                     15, "s"))
+            self.layout_abbonamento.addWidget(User_int_utility.crea_label("Codice abbonamento: \nIngressi Disponibili: \nData di scadenza:",
+                                                                          15, "s"), 0, 0)
+            self.layout_abbonamento.addWidget(User_int_utility.crea_label(str(cliente_selezionato.abbonamento.codice) + "\n" +
+                                                                          str(cliente_selezionato.abbonamento.ingressi_disponibili) + "\n" +
+                                                                          QDate(cliente_selezionato.abbonamento.data_scadenza).toString("yyyy.MM.dd"),
+                                                                          15, "s"), 0, 1)
         else:
-            layout_abbonamento.addWidget(User_int_utility.crea_label(cliente_selezionato.nome + " " +cliente_selezionato.cognome +
-                                                                     " non è in possesso di un abbonamento", 15, "s"))
+            self.layout_abbonamento.addWidget(User_int_utility.crea_label(cliente_selezionato.nome + " " + cliente_selezionato.cognome +
+                                                                     " non è in possesso di un abbonamento\n o il suo abbonamento "
+                                                                     "non è più valido.", 15, "s"), 0, 0, 1, 3)
+            self.layout_abbonamento.addWidget(User_int_utility.crea_push_button("Rilascia un abbonamento", self.rilascia_abbonamento, "",
+                                                                                QSizePolicy.Expanding, QSizePolicy.Minimum), 1, 0, 1, 3)
+
         ext_box_layout.addWidget(box_abbonamento)
 
         box_tessera = QGroupBox()
         box_tessera.setTitle("Informazioni tessera")
         User_int_utility.box_scuro(box_tessera)
-        layout_tessera = QHBoxLayout()
-        layout_tessera.setContentsMargins(8, 40, 8, 8)
-        box_tessera.setLayout(layout_tessera)
+        self.layout_tessera = QGridLayout()
+        self.layout_tessera.setContentsMargins(8, 40, 8, 8)
+        box_tessera.setLayout(self.layout_tessera)
         if cliente_selezionato.tessera is not None:
-            layout_tessera.addWidget(User_int_utility.crea_label("Codice tessera: \nPunti: ",15, "s"))
-            layout_tessera.addWidget(User_int_utility.crea_label(str(cliente_selezionato.tessera.codice) + "\n" +
-                                                                 str(cliente_selezionato.tessera.punti), 15, "s"))
+            self.layout_tessera.addWidget(User_int_utility.crea_label("Codice tessera: \nPunti: ", 15, "s"), 0, 0)
+            self.layout_tessera.addWidget(User_int_utility.crea_label(str(cliente_selezionato.tessera.codice) + "\n" +
+                                                                      str(cliente_selezionato.tessera.punti), 15, "s"), 0, 1)
         else:
-            layout_tessera.addWidget(User_int_utility.crea_label(cliente_selezionato.nome + " " + cliente_selezionato.cognome +
-                                            " non è in possesso di una tessera", 15, "s"))
+            self.layout_tessera.addWidget(User_int_utility.crea_label(cliente_selezionato.nome + " " + cliente_selezionato.cognome +
+                                            " non è in possesso di una tessera.", 15, "s"), 0, 0, 1, 3)
+            self.layout_tessera.addWidget(User_int_utility.crea_push_button("Rilascia una tessera", self.rilascia_tessera, "",
+                                                                                QSizePolicy.Expanding, QSizePolicy.Minimum), 1, 0, 1, 3)
+
+
         ext_box_layout.addWidget(box_tessera)
 
         ext_box_layout.addItem(QSpacerItem(10, 10, QSizePolicy.Expanding,QSizePolicy.Expanding))
@@ -131,7 +139,8 @@ class VistaVisualizzaClienti(QWidget):
     def show_info_cliente(self):
         if (len(self.list_view.selectedIndexes()) > 0):
             index = self.list_view.selectedIndexes()[0].row()
-            self.ext_layout.addWidget(self.crea_box_info_cliente(self.lista_filtrata[index]), 1, 1)
+            self.cliente_selezionato = self.lista_filtrata[index]
+            self.ext_layout.addWidget(self.crea_box_info_cliente(self.cliente_selezionato), 1, 1)
 
     # metodo che elimina il cliente selezionato
     def elimina_cliente_by_index(self):
@@ -151,6 +160,46 @@ class VistaVisualizzaClienti(QWidget):
             item.setEditable(False)
             self.listview_model.appendRow(item)
         self.list_view.setModel(self.listview_model)
+
+
+    def rilascia_abbonamento(self):
+        self.codice_abb = User_int_utility.crea_casella_testo("Inserisci il codice ")
+
+        self.layout_abbonamento.itemAt(0).widget().setParent(None)
+        self.layout_abbonamento.itemAt(0).widget().setParent(None)
+
+        self.layout_abbonamento.addWidget(User_int_utility.crea_label("Codice abbonamento: ", 15, "s"), 0, 0)
+        self.layout_abbonamento.addWidget(self.codice_abb, 0, 1)
+        self.layout_abbonamento.addWidget(User_int_utility.crea_green_or_red_push_button("Conferma", self.assegna_abbonamento,
+                                                                        QSizePolicy.Expanding, QSizePolicy.Minimum, "G"), 0, 2)
+
+    def assegna_abbonamento(self):
+        avviso = self.controller.rilascia_abbonamento(self.codice_abb.text(), self.cliente_selezionato)
+        if avviso is None:
+            self.crea_box_info_cliente(self.cliente_selezionato)
+            self.ext_layout.addWidget(User_int_utility.crea_label(""), 1, 1)
+        else:
+            QMessageBox.critical(self, 'Errore', avviso, QMessageBox.Ok, QMessageBox.Ok)
+
+
+    def rilascia_tessera(self):
+        self.codice_tess = User_int_utility.crea_casella_testo("Inserisci il codice ")
+
+        self.layout_tessera.itemAt(0).widget().setParent(None)
+        self.layout_tessera.itemAt(0).widget().setParent(None)
+
+        self.layout_tessera.addWidget(User_int_utility.crea_label("Codice tessera: ", 15, "s"), 0, 0)
+        self.layout_tessera.addWidget(self.codice_tess, 0, 1)
+        self.layout_tessera.addWidget(User_int_utility.crea_green_or_red_push_button("Conferma", self.assegna_tessera,
+                                                           QSizePolicy.Expanding, QSizePolicy.Minimum, "G"), 0, 2)
+
+    def assegna_tessera(self):
+        avviso = self.controller.rilascia_tessera(self.codice_tess.text(), self.cliente_selezionato)
+        if avviso is None:
+            self.crea_box_info_cliente(self.cliente_selezionato)
+            self.ext_layout.addWidget(User_int_utility.crea_label(""), 1, 1)
+        else:
+            QMessageBox.critical(self, 'Errore', avviso, QMessageBox.Ok, QMessageBox.Ok)
 
 
     # metodo che modifica la visibilità della finestra

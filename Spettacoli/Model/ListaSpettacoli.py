@@ -1,6 +1,8 @@
 import os
 import pickle
 
+from PyQt5.QtCore import QDate
+
 class ListaSpettacoli():
     def __init__(self):
         super(ListaSpettacoli, self).__init__()
@@ -8,14 +10,26 @@ class ListaSpettacoli():
         self.lista_film = []
 
         if os.path.isfile('Film/Salvataggio_lista_film.pickle'):           #caricamento dei dati
-                    with open('Film/Salvataggio_lista_film.pickle', 'rb') as f:
+                with open('Film/Salvataggio_lista_film.pickle', 'rb') as f:
                         self.lista_film = pickle.load(f)
 
         if os.path.isfile('Spettacoli/Salvataggio_lista_spettacoli.pickle'):
-            with open('Spettacoli/Salvataggio_lista_spettacoli.pickle', 'rb') as handle:
-                self.lista_spettacoli = pickle.load(handle)
+            with open('Spettacoli/Salvataggio_lista_spettacoli.pickle', 'rb') as g:
+                self.lista_spettacoli = pickle.load(g)
 
+        if os.path.isfile('Spettacoli/Salvataggio_lista_sale.pickle'):
+            with open('Spettacoli/Salvataggio_lista_sale.pickle', 'rb') as h:
+                lista_sale = pickle.load(h)
 
+        i = 0
+        for spettacolo in self.lista_spettacoli:
+          spettacolo.ricostruisci_sala(lista_sale[i])
+          i += 1
+
+        #rimuove gli spettacoli avvenuti più di 14 giorni fa
+        for spettacolo in self.lista_spettacoli:
+            if spettacolo.data < (QDate.currentDate().addDays(-14)):
+                self.lista_spettacoli.remove(spettacolo)
 
     # aggiunge uno spettacolo alla lista degli spettacoli registrati a sistema
     def aggiungi_spettacolo(self, spettacolo):
@@ -45,7 +59,17 @@ class ListaSpettacoli():
                 lista_film_filtrata.append(self.lista_film[i])
         return lista_film_filtrata
 
-    # Salva su file i dati relativi agli spettacoli registrati a sistema
+    #Salva su file i dati relativi agli spettacoli registrati a sistema
     def save_data(self):
-        with open('Spettacoli/Salvataggio_lista_spettacoli.pickle', 'wb') as handle:
+        lista_sale = []
+        for spettacolo in self.lista_spettacoli:
+            lista_sale.append({"Sala" : spettacolo.sala.nome, "Prenotazioni" : spettacolo.sala.get_posti_occupati()})
+
+        with open("Spettacoli/Salvataggio_lista_sale.pickle", "wb") as handle:
+            pickle.dump(lista_sale, handle, pickle.HIGHEST_PROTOCOL)
+
+        for spettacolo in self.lista_spettacoli:
+            spettacolo.sala = None
+
+        with open("Spettacoli/Salvataggio_lista_spettacoli.pickle", "wb") as handle:
             pickle.dump(self.lista_spettacoli, handle, pickle.HIGHEST_PROTOCOL)

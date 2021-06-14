@@ -13,7 +13,7 @@ class ControlloreListaSpettacoli():
     def aggiungi_spettacolo(self, spettacolo):
         self.model.aggiungi_spettacolo(spettacolo)
 
-    #ritorna una lista contenente contenente una lista per ogni sala
+    #ritorna una lista contenente contenente una lista per ogni sala;
     #all'interno di ognuna di queste liste ci sono gli spettacoli programmati per il giorno
     #passato come parametro nella sala corrispondente
     def get_spettacoli_by_day(self, data):

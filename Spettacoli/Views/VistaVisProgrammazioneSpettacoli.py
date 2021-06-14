@@ -177,5 +177,5 @@ class VistaVisProgrammazioneSpettacoli(QWidget):
         User_int_utility.modifica_visibilita_finestra(self)
 
     def closeEvent(self, event):
-        #self.controller.save_data()     #salvataggio dei dati
+        self.controller.save_data()     #salvataggio dei dati
         self.callback()                 #fa riapparire la finestra precedente

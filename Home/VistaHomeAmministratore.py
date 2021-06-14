@@ -43,6 +43,7 @@ class VistaHomeAmministratore(QWidget):
     def crea_menu_pulsanti(self):
         menu_pulsanti = QVBoxLayout()  # creazione del layout verticale che conterrà i pulsanti
         menu_pulsanti.addItem(QSpacerItem(10, 7, QSizePolicy.Minimum, QSizePolicy.Minimum))
+
         menu_pulsanti.addWidget(User_int_utility.crea_home_push_button(self.go_to_dipendenti, QIcon('Immagini/Icone/dipendente_icon.png'),
                                                    'Gestione dei dipendenti'))
         menu_pulsanti.addWidget(User_int_utility.crea_home_push_button(self.go_to_film, QIcon('Immagini/Icone/film_icon.png'),
@@ -53,10 +54,11 @@ class VistaHomeAmministratore(QWidget):
                                                    'Visualizzazione dei report'))
         menu_pulsanti.addWidget(User_int_utility.crea_home_push_button(self.go_to_servizi, QIcon('Immagini/Icone/servizi_icon.ico'),
                                                    'Gestione dei servizi'))
+        menu_pulsanti.addWidget(User_int_utility.crea_home_push_button(self.go_to_lista_presenze, QIcon('Immagini/Icone/lista_presenza_icon.png'),
+                                                   'Lista Presenze'))
         menu_pulsanti.addItem(QSpacerItem(10, 20, QSizePolicy.Minimum, QSizePolicy.Expanding))
         menu_pulsanti.addWidget(User_int_utility.crea_home_push_button(self.logout, QIcon('Immagini/Icone/logout_icon.png'), 'Logout'))
-        menu_pulsanti.addWidget(User_int_utility.crea_home_push_button(self.go_to_manuale, QIcon('Immagini/Icone/manual_icon.png'),
-                                                   'Manuale'))
+
         menu_pulsanti.setContentsMargins(4, 0, 4, 0)
         return menu_pulsanti
 
@@ -85,7 +87,7 @@ class VistaHomeAmministratore(QWidget):
         self.vista_servizi.show()
 
     # metodo che fa apparire la finestra per la consultazione del manuale
-    def go_to_manuale(self):
+    def go_to_lista_presenze(self):
         pass
 
     # metodo che fa tornare alla schermata del login

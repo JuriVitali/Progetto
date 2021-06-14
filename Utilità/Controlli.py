@@ -55,7 +55,7 @@ class Controlli():
     @staticmethod
     def controlla_codice_abb(cod_abbon, lista_clienti):
         c = str(cod_abbon)
-        if len(c) == 8 and c.isalnum() and c[0] == "A":
+        if len(c) == 8 and c[1:].isdigit() and c[0] == "A":
             for cliente in lista_clienti:
                 if cliente.abbonamento is not None and cliente.abbonamento.codice == c: return False
             return True
