@@ -1,3 +1,6 @@
+from PyQt5.QtCore import QTime
+
+
 class Controlli():
 
     #ritorna True se la stringa è valida, cioè se la sua lunghezza è compresa tra 1 e 35 e se contiene solo
@@ -79,9 +82,9 @@ class Controlli():
     def controlla_sovrapposizione_spettacoli(nuovo_spettacolo, lista_spettacoli):
         for spettacolo in lista_spettacoli:
             if spettacolo.data == nuovo_spettacolo.data and spettacolo.sala.nome == nuovo_spettacolo.sala.nome:
-                if nuovo_spettacolo.ora_inizio < spettacolo.ora_inizio and nuovo_spettacolo.ora_fine >= spettacolo.ora_inizio:
+                if nuovo_spettacolo.ora_inizio < spettacolo.ora_inizio and (nuovo_spettacolo.ora_fine >= spettacolo.ora_inizio or (nuovo_spettacolo.ora_fine >= QTime(0, 0) and nuovo_spettacolo.ora_fine <= QTime(1, 0))):
                     return False
-                if nuovo_spettacolo.ora_inizio > spettacolo.ora_inizio and nuovo_spettacolo.ora_inizio <= spettacolo.ora_fine:
+                if nuovo_spettacolo.ora_inizio > spettacolo.ora_inizio and (nuovo_spettacolo.ora_inizio <= spettacolo.ora_fine or (spettacolo.ora_fine >= QTime(0,0) and spettacolo.ora_fine <= QTime(1,0))):
                     return False
                 if nuovo_spettacolo.ora_inizio == spettacolo.ora_inizio:
                     return False

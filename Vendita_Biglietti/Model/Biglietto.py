@@ -2,7 +2,7 @@ from GestioneServizi.Model.ParametriServizi import ParametriServizi
 
 
 class Biglietto():
-    def __init__(self, titolo_film, data_spett, ora_inizio_spett, sala, fila_posto, colonna_posto):
+    def __init__(self, titolo_film, data_spett, ora_inizio_spett, sala, fila_posto, colonna_posto, cliente):
         super(Biglietto, self).__init__()
         self.titolo_film = titolo_film
         self.data_spett = data_spett
@@ -10,11 +10,13 @@ class Biglietto():
         self.sala = sala
         self.fila_posto = fila_posto
         self.colonna_posto = colonna_posto
+        self.cliente = cliente
 
         self.prezzo = 0.0
         self.poltrona_premium = False
         self.weekend = False
         self.under_14 = False
+
 
     def calcola_prezzo(self):
         p = ParametriServizi()

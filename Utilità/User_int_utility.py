@@ -107,8 +107,9 @@ class User_int_utility():
 
     #metodo statico che ritorna una QlineEdit con uno stile predefinito
     @staticmethod
-    def crea_casella_testo(placeholder=None):
+    def crea_casella_testo(placeholder=None, oSizePolicy=QSizePolicy.Expanding):
         line = QLineEdit()
+        line.setSizePolicy(oSizePolicy, QSizePolicy.Fixed)
         line.setPlaceholderText(placeholder)
         line.setStyleSheet("border-radius: 6px;"
                            "padding: 0 8px;"
