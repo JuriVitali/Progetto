@@ -3,7 +3,7 @@ import sys
 from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QApplication
 
-from Home.VistaLogin import VistaLogin
+from Home.Views.VistaLogin import VistaLogin
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
