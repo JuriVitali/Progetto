@@ -2,8 +2,8 @@ from PyQt5.QtCore import QSize
 from PyQt5.QtGui import QPalette, QImage, QBrush, QIcon
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QGroupBox, QSizePolicy, QGridLayout, QPushButton
 from Utilità.User_int_utility import User_int_utility
-from Home.VistaHomeAmministratore import VistaHomeAmministratore
-from Home.VistaHomeBiglietteria import VistaHomeBiglietteria
+from Home.Views.VistaHomeAmministratore import VistaHomeAmministratore
+from Home.Views.VistaHomeBiglietteria import VistaHomeBiglietteria
 
 class VistaLogin(QWidget):
 

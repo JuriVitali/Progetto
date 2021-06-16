@@ -46,14 +46,10 @@ class VistaGestisciServizi(QWidget):
         self.conferma_par_biglietto = User_int_utility.crea_green_or_red_push_button("Conferma modifiche", self.conferma_parametri_biglietto,
                                                                         QSizePolicy.Expanding, QSizePolicy.Minimum, "G")
 
-        new_tariffa_base = {'euro': User_int_utility.crea_spin_box(0, 60, User_int_utility.get_euro(self.controller.get_tariffa_base_biglietto())),
-                                 'centesimi': User_int_utility.crea_spin_box(0, 99, User_int_utility.get_centesimi(self.controller.get_tariffa_base_biglietto()), 10)}
-        new_magg_weekend = {'euro': User_int_utility.crea_spin_box(0, 60, User_int_utility.get_euro(self.controller.get_magg_weekend_biglietto())),
-                                 'centesimi': User_int_utility.crea_spin_box(0, 99, User_int_utility.get_centesimi(self.controller.get_magg_weekend_biglietto()), 10)}
-        new_magg_premium = {'euro': User_int_utility.crea_spin_box(0, 60, User_int_utility.get_euro(self.controller.get_magg_premium_biglietto())),
-                                 'centesimi': User_int_utility.crea_spin_box(0, 99, User_int_utility.get_centesimi(self.controller.get_magg_premium_biglietto()), 10)}
-        new_sconto_under_14 = {'euro': User_int_utility.crea_spin_box(0, 60, User_int_utility.get_euro(self.controller.get_sconto_under_14_biglietto())),
-                                 'centesimi': User_int_utility.crea_spin_box(0, 99, User_int_utility.get_centesimi(self.controller.get_sconto_under_14_biglietto()), 10)}
+        new_tariffa_base = User_int_utility.crea_double_spin_box(0, 60, self.controller.get_tariffa_base_biglietto())
+        new_magg_premium = User_int_utility.crea_double_spin_box(0, 60, self.controller.get_magg_premium_biglietto())
+        new_magg_weekend = User_int_utility.crea_double_spin_box(0, 60, self.controller.get_magg_weekend_biglietto())
+        new_sconto_under_14 = User_int_utility.crea_double_spin_box(0, 60, self.controller.get_sconto_under_14_biglietto())
         self.lista_nuovi_par_biglietto = [ new_tariffa_base, new_magg_premium, new_magg_weekend, new_sconto_under_14]
 
         self.layout_biglietto = QGridLayout()
@@ -85,9 +81,8 @@ class VistaGestisciServizi(QWidget):
 
         i = 0
         for parametro in self.lista_nuovi_par_biglietto:
-            box_layout.addWidget(parametro['euro'], i, 1)
-            box_layout.addWidget(parametro['centesimi'], i, 2)
-            box_layout.addWidget(User_int_utility.crea_label("€", 15, "s"), i, 3)
+            box_layout.addWidget(parametro, i, 1)
+            box_layout.addWidget(User_int_utility.crea_label("€", 15, "s"), i, 2)
             i = i + 1
 
         box_layout.addItem(QSpacerItem(10, 10, QSizePolicy.Expanding, QSizePolicy.Minimum), 0, 4, 4, 1)
@@ -97,10 +92,10 @@ class VistaGestisciServizi(QWidget):
         self.layout_biglietto.addWidget(self.conferma_par_biglietto, 4, 0, 1, 2)
 
     def conferma_parametri_biglietto(self):
-        new_tariffa_base = self.lista_nuovi_par_biglietto[0]["euro"].value() + (self.lista_nuovi_par_biglietto[0]["centesimi"].value() / 100)
-        new_magg_premium = self.lista_nuovi_par_biglietto[1]["euro"].value() + (self.lista_nuovi_par_biglietto[1]["centesimi"].value() / 100)
-        new_magg_weekend = self.lista_nuovi_par_biglietto[2]["euro"].value() + (self.lista_nuovi_par_biglietto[2]["centesimi"].value() / 100)
-        new_sconto_under_14 = self.lista_nuovi_par_biglietto[3]["euro"].value() + (self.lista_nuovi_par_biglietto[3]["centesimi"].value() / 100)
+        new_tariffa_base = self.lista_nuovi_par_biglietto[0].value()
+        new_magg_premium = self.lista_nuovi_par_biglietto[1].value()
+        new_magg_weekend = self.lista_nuovi_par_biglietto[2].value()
+        new_sconto_under_14 = self.lista_nuovi_par_biglietto[3].value()
         self.controller.set_parametri_biglietto([new_tariffa_base, new_magg_premium, new_magg_weekend, new_sconto_under_14])
 
         self.show_biglietto()
@@ -115,11 +110,9 @@ class VistaGestisciServizi(QWidget):
         self.conferma_par_tessera = User_int_utility.crea_green_or_red_push_button("Conferma modifiche", self.conferma_parametri_tessera,
                                                                         QSizePolicy.Expanding, QSizePolicy.Minimum, "G")
 
-        new_prezzo_tessera = {'euro': User_int_utility.crea_spin_box(0, 60, User_int_utility.get_euro(self.controller.get_prezzo_tessera())),
-                                 'centesimi': User_int_utility.crea_spin_box(0, 99, User_int_utility.get_centesimi(self.controller.get_prezzo_tessera()), 10)}
-        new_soglia_punti = {'punti': User_int_utility.crea_spin_box(10, 2000, int(self.controller.get_soglia_punti_sconto_tessera()),10)}
-        new_sconto_tessera = {'euro': User_int_utility.crea_spin_box(0, 60, User_int_utility.get_euro(self.controller.get_sconto_tessera())),
-                                 'centesimi': User_int_utility.crea_spin_box(0, 99, User_int_utility.get_centesimi(self.controller.get_sconto_tessera()), 10)}
+        new_prezzo_tessera = User_int_utility.crea_double_spin_box(0, 60, self.controller.get_prezzo_tessera())
+        new_soglia_punti = User_int_utility.crea_spin_box(10, 2000, int(self.controller.get_soglia_punti_sconto_tessera()), 10)
+        new_sconto_tessera = User_int_utility.crea_double_spin_box(0, 60, self.controller.get_sconto_tessera())
         self.lista_nuovi_par_tessera = [new_prezzo_tessera, new_soglia_punti, new_sconto_tessera]
 
 
@@ -150,15 +143,11 @@ class VistaGestisciServizi(QWidget):
         box_layout.addWidget(User_int_utility.crea_label("Nuova soglia punti da raggiungere per lo sconto", 15, "s"), 1, 0)
         box_layout.addWidget(User_int_utility.crea_label("Nuovo sconto ottenibile con la tessera", 15, "s"), 2, 0)
 
-        i = 0
-        for parametro in self.lista_nuovi_par_tessera:
-            if i==1 :
-                box_layout.addWidget(parametro['punti'], i, 1)
-            else:
-                box_layout.addWidget(parametro['euro'], i, 1)
-                box_layout.addWidget(parametro['centesimi'], i, 2)
-                box_layout.addWidget(User_int_utility.crea_label("€", 15, "s"), i, 3)
-            i = i + 1
+        box_layout.addWidget(self.lista_nuovi_par_tessera[0], 0, 1)
+        box_layout.addWidget(User_int_utility.crea_label("€", 15, "s"), 0, 2)
+        box_layout.addWidget(self.lista_nuovi_par_tessera[1], 1, 1)
+        box_layout.addWidget(self.lista_nuovi_par_tessera[2], 2, 1)
+        box_layout.addWidget(User_int_utility.crea_label("€", 15, "s"), 2, 2)
 
         box_layout.addItem(QSpacerItem(10, 10, QSizePolicy.Expanding, QSizePolicy.Minimum), 0, 4, 3, 1)
         box.setLayout(box_layout)
@@ -167,9 +156,9 @@ class VistaGestisciServizi(QWidget):
         self.layout_tessera.addWidget(self.conferma_par_tessera, 4, 0, 1, 2)
 
     def conferma_parametri_tessera(self):
-        new_prezzo_tessera = self.lista_nuovi_par_tessera[0]["euro"].value() + (self.lista_nuovi_par_tessera[0]["centesimi"].value() / 100)
-        new_soglia_punti = self.lista_nuovi_par_tessera[1]["punti"].value()
-        new_sconto_tessera = self.lista_nuovi_par_tessera[2]["euro"].value() + (self.lista_nuovi_par_tessera[2]["centesimi"].value() / 100)
+        new_prezzo_tessera = self.lista_nuovi_par_tessera[0].value()
+        new_soglia_punti = self.lista_nuovi_par_tessera[1].value()
+        new_sconto_tessera = self.lista_nuovi_par_tessera[2].value()
         self.controller.set_parametri_tessera([new_prezzo_tessera, new_soglia_punti, new_sconto_tessera])
 
         self.show_tessera()
@@ -186,10 +175,9 @@ class VistaGestisciServizi(QWidget):
                                                                                    QSizePolicy.Expanding,
                                                                                    QSizePolicy.Minimum, "G")
 
-        new_prezzo_abbonamento = {'euro': User_int_utility.crea_spin_box(0, 150, User_int_utility.get_euro(self.controller.get_prezzo_abbonamento())),
-                                  'centesimi': User_int_utility.crea_spin_box(0, 99, User_int_utility.get_centesimi(self.controller.get_prezzo_abbonamento()), 10)}
+        new_prezzo_abbonamento = User_int_utility.crea_double_spin_box(0, 150, self.controller.get_prezzo_abbonamento())
         new_ingressi_consentiti = User_int_utility.crea_spin_box(1, 100, self.controller.get_ingressi_consentiti_abb())
-        new_durata_abbonamento = User_int_utility.crea_spin_box(1, 800, User_int_utility.get_euro(self.controller.get_durata_abb()))
+        new_durata_abbonamento = User_int_utility.crea_spin_box(1, 800, self.controller.get_durata_abb())
         self.lista_nuovi_par_abbonamento = [new_prezzo_abbonamento, new_ingressi_consentiti, new_durata_abbonamento]
 
         self.layout_abbonamento = QGridLayout()
@@ -214,16 +202,14 @@ class VistaGestisciServizi(QWidget):
         box_layout = QGridLayout()
         box_layout.setContentsMargins(8, 45, 8, 8)
 
-
         box_layout.addWidget(User_int_utility.crea_label("Nuovo prezzo abbonamento", 15, "s"), 0, 0)
         box_layout.addWidget(User_int_utility.crea_label("Nuovo numero di ingressi consentiti con l'abbonamento", 15, "s"), 1,0)
         box_layout.addWidget(User_int_utility.crea_label("Nuova durata (in giorni) dell'abbonamento", 15, "s"), 2, 0)
 
-        box_layout.addWidget(self.lista_nuovi_par_abbonamento[0]['euro'], 0, 1)
-        box_layout.addWidget(self.lista_nuovi_par_abbonamento[0]['centesimi'], 0, 2)
-        box_layout.addWidget(User_int_utility.crea_label("€", 15, "s"), 0, 3)
-        box_layout.addWidget(self.lista_nuovi_par_abbonamento[1], 1, 1, 1, 2)
-        box_layout.addWidget(self.lista_nuovi_par_abbonamento[2], 2, 1, 1, 2)
+        box_layout.addWidget(self.lista_nuovi_par_abbonamento[0], 0, 1)
+        box_layout.addWidget(User_int_utility.crea_label("€", 15, "s"), 0, 2)
+        box_layout.addWidget(self.lista_nuovi_par_abbonamento[1], 1, 1)
+        box_layout.addWidget(self.lista_nuovi_par_abbonamento[2], 2, 1)
 
         box_layout.addItem(QSpacerItem(10, 10, QSizePolicy.Expanding, QSizePolicy.Minimum), 0, 4, 3, 1)
         box.setLayout(box_layout)
@@ -232,7 +218,7 @@ class VistaGestisciServizi(QWidget):
         self.layout_abbonamento.addWidget(self.conferma_par_abbonamento, 4, 0, 1, 2)
 
     def conferma_parametri_abbonamento(self):
-        new_prezzo_abbonamento = self.lista_nuovi_par_abbonamento[0]["euro"].value() + (self.lista_nuovi_par_abbonamento[0]["centesimi"].value() / 100)
+        new_prezzo_abbonamento = self.lista_nuovi_par_abbonamento[0].value()
         new_ingressi_consentiti = self.lista_nuovi_par_abbonamento[1].value()
         new_durata = self.lista_nuovi_par_abbonamento[2].value()
         self.controller.set_parametri_abbonamento([new_prezzo_abbonamento, new_ingressi_consentiti, new_durata])

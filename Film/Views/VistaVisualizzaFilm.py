@@ -4,7 +4,6 @@ from PyQt5.QtWidgets import QWidget, QGridLayout, QHBoxLayout, QSizePolicy
 from Film.Views.VistaVisualizzaInfoFilm import VistaVisualizzaInfoFilm
 from Utilità.User_int_utility import User_int_utility
 
-
 class VistaVisualizzaFilm(QWidget):
     def __init__(self, controller, callback, titolo=None, parent=None):
         super(VistaVisualizzaFilm, self).__init__()

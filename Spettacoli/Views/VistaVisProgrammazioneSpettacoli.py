@@ -131,6 +131,7 @@ class VistaVisProgrammazioneSpettacoli(QWidget):
                 item = QStandardItem()
                 item.setText("Nessuno spettacolo\nin programma")
                 item.setEditable(False)
+                item.setSelectable(False)
                 self.listviews_models[i].appendRow(item)
             self.lista_list_view[i].setModel(self.listviews_models[i])
 

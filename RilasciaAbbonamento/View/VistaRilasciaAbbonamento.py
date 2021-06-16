@@ -22,6 +22,7 @@ class VistaRilasciaAbbonamento(QWidget):
         User_int_utility.sposta_al_centro(self)           #sposta la finestra al centro dello schermo
 
         ext_layout = QGridLayout()
+        ext_layout.setContentsMargins(0, 0, 0, 0)
         ext_layout.addLayout(User_int_utility.crea_banda_superiore("Ab"), 0, 0, 1, 2)
         ext_layout.addWidget(self.crea_box_ricerca_cliente(), 1, 0, 2, 1)
         ext_layout.addWidget(self.crea_box_codice(), 3, 0)
@@ -105,8 +106,9 @@ class VistaRilasciaAbbonamento(QWidget):
             index = self.list_view.selectedIndexes()[0].row()
             cliente_selezionato = self.lista_clienti_filtrata[index]
 
-            avviso = self.controller.rilascia_abbonamento(self.codice_abb.text(), cliente_selezionato)
+            avviso = self.controller.controlla_abbonamento(self.codice_abb.text(), cliente_selezionato)
             if avviso is None:
+                self.controller.rilascia_abbonamento(self.codice_abb.text(), cliente_selezionato)
                 self.close()
             else:
                 QMessageBox.critical(self, 'Errore', avviso, QMessageBox.Ok, QMessageBox.Ok)

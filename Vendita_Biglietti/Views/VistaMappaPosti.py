@@ -212,9 +212,12 @@ class VistaMappaPosti(QWidget):
             for biglietto in lista_biglietti:
                 self.spettacolo.lista_presenze.append(biglietto.cliente)
 
-            self.vista_inserimento_dati = VistaInserimentoDatiBiglietti()
+            self.vista_inserimento_dati = VistaInserimentoDatiBiglietti(self.spettacolo, self.controller, self.modifica_visibilita)
             self.vista_inserimento_dati.show()
-        #mostra nuova finestra
+
+
+    def modifica_visibilita(self):
+        User_int_utility.modifica_visibilita_finestra(self)
 
     def closeEvent(self, event):
         self.callback()                 #fa riapparire la finestra precedente

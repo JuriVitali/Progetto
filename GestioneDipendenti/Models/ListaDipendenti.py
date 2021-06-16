@@ -21,8 +21,8 @@ class ListaDipendenti():
                 self.lista_dipendenti.remove(self.lista_dipendenti[i])
                 break
 
-    # ritorna una lista contenente i dipendenti registrati a sistema che contengono nel loro nome e cognome
-    # rispettivamente l nome ed il cognome passati come parametro
+    # Ritorna una lista contenente i dipendenti registrati a sistema che contengono nel loro nome e cognome
+    # rispettivamente il nome ed il cognome passati come parametro
     def get_dipendente_by_nome(self, nome, cognome):
         lista_dip_filtrata = []
         for i in range(0, len(self.lista_dipendenti)):

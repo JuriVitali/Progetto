@@ -5,7 +5,6 @@ from PyQt5.QtWidgets import QWidget, QGroupBox, QFormLayout, QSizePolicy, QGridL
 
 from GestioneDipendenti.Models.Dipendente import Dipendente
 from Utilità.User_int_utility import User_int_utility
-from Utilità.Controlli import Controlli
 from Utilità.Parametri import Parametri
 
 
@@ -27,30 +26,32 @@ class VistaRegistraDipendente(QWidget):
         User_int_utility.set_window_style(self)
 
         box_dati = QGroupBox()
+        box_dati.setTitle("Dati del nuovo dipendente")
         box_dati.setLayout(self.crea_form())                #viene creato il box contenente i widget per l'inserimento dei dati
         box_dati.setSizePolicy(QSizePolicy.Expanding,QSizePolicy.Expanding)
-
-        box_data_n = self.crea_box_nascita()                #viene creato il box contenente i widget per l'inserimento della data di nascita
 
         # vengono aggiunti alla finestra tutti i layout ed i widget necessari
         ext_layout.addLayout(User_int_utility.crea_banda_superiore("Di"), 0, 0, 1, 2)
         ext_layout.addWidget(box_dati, 1, 0)
         ext_layout.addItem(QSpacerItem(10, 50, QSizePolicy.Expanding, QSizePolicy.Minimum), 2, 0)
-        ext_layout.addWidget(box_data_n, 3, 0)
         ext_layout.addWidget(User_int_utility.crea_label_con_imm(QPixmap("Immagini/Sfondi/dipendenti_back.png"), QSizePolicy.Minimum, QSizePolicy.Minimum), 1, 1, 5, 1)
-        ext_layout.addItem(QSpacerItem(10, 50, QSizePolicy.Expanding, QSizePolicy.Minimum), 4, 0)
-        ext_layout.addWidget(User_int_utility.crea_green_or_red_push_button("Conferma", self.add_dipendente, QSizePolicy.Minimum, QSizePolicy.Expanding, "G"), 5, 0)
+        ext_layout.addItem(QSpacerItem(10, 30, QSizePolicy.Expanding, QSizePolicy.Minimum), 3, 0)
+        ext_layout.addWidget(User_int_utility.crea_green_or_red_push_button("Conferma", self.add_dipendente, QSizePolicy.Minimum, QSizePolicy.Expanding, "G"), 4, 0)
+        ext_layout.addItem(QSpacerItem(10, 45, QSizePolicy.Expanding, QSizePolicy.Minimum), 5, 0)
         self.setLayout(ext_layout)
 
     # metodo che restituisce un form layout in cui sono contenuti i widget per l'inserimento
     # dei dati del dipendente, ad eccezione della data di nascita
     def crea_form(self):
         form = QFormLayout()
+        form.setContentsMargins(8, 40, 8, 12)
+        oggi = QDate.currentDate()
 
         # creazione dei widget per l'inserimento dei dati
         self.lista_aree_competenza = ["Biglietteria", "Bar", "Pulizie"]
         self.nome = User_int_utility.crea_casella_testo("Inserire il nome")
         self.cognome = User_int_utility.crea_casella_testo("Inserire il cognome")
+        self.data_nascita = User_int_utility.crea_date_edit(oggi.addYears(-90), oggi.addYears(-16))
         self.cod_fisc = User_int_utility.crea_casella_testo("Inserire il codice fiscale")
         self.telefono = User_int_utility.crea_casella_testo("Inserire il numero di telefono")
         self.email = User_int_utility.crea_casella_testo("Inserire l'email")
@@ -60,6 +61,7 @@ class VistaRegistraDipendente(QWidget):
         # aggiunta dei widget al layout
         form.addRow(User_int_utility.crea_label("Nome"), self.nome)
         form.addRow(User_int_utility.crea_label("Cognome"), self.cognome)
+        form.addRow(User_int_utility.crea_label("Data di nascita"), self.data_nascita)
         form.addRow(User_int_utility.crea_label("Codice fiscale"), self.cod_fisc)
         form.addRow(User_int_utility.crea_label("Telefono"), self.telefono)
         form.addRow(User_int_utility.crea_label("Email"), self.email)
@@ -67,39 +69,17 @@ class VistaRegistraDipendente(QWidget):
         form.addRow(User_int_utility.crea_label("Codice autenticazione"), self.cod_autent)
         return form
 
-    def crea_box_nascita(self):
-        box = QGroupBox()
-        box.setSizePolicy(QSizePolicy.Minimum,QSizePolicy.Minimum)
-        box.setTitle("Data di nascita")
-        grid = QGridLayout()
-        grid.setContentsMargins(8, 30, 8, 8)
-
-        self.giorno_n = User_int_utility.crea_spin_box(1, 31, 1)
-        self.mese_n = User_int_utility.crea_spin_box(1, 12, 1)
-        oggi = QDate.currentDate()
-        self.anno_n = User_int_utility.crea_spin_box(1940, (oggi.year() - 16), 1980)
-
-        grid.addWidget(User_int_utility.crea_label("Giorno"), 0, 0)
-        grid.addWidget(User_int_utility.crea_label("Mese"), 0, 1)
-        grid.addWidget(User_int_utility.crea_label("Anno"), 0, 2)
-        grid.addWidget(self.giorno_n, 1, 0)
-        grid.addWidget(self.mese_n, 1, 1)
-        grid.addWidget(self.anno_n, 1, 2)
-
-        box.setLayout(grid)
-        return box
-
     # metodo che permette di aggiungere il dipendente di cui sono stati inseriti i dati alla lista.
     # prima viene eseguito un controllo sui dati. Se esso dà esito negativo il dipendente non viene aggiunto alla
     # lista e sullo schermo compare un messaaggio di errore
     def add_dipendente(self):
-        data_nascita = QDate(self.anno_n.value(), self.mese_n.value(), self.giorno_n.value())
         area_competenza = Parametri.aree_di_competenza[self.area_comp.currentIndex()]
+
         if area_competenza == "Biglietteria":
             dipendente = Dipendente(
                 self.nome.text(),
                 self.cognome.text(),
-                data_nascita,
+                self.data_nascita.date(),
                 self.cod_fisc.text(),
                 self.telefono.text(),
                 self.email.text(),
@@ -109,7 +89,7 @@ class VistaRegistraDipendente(QWidget):
             dipendente = Dipendente(
                 self.nome.text(),
                 self.cognome.text(),
-                data_nascita,
+                self.data_nascita.date(),
                 self.cod_fisc.text(),
                 self.telefono.text(),
                 self.email.text(),

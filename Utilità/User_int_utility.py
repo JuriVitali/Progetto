@@ -1,7 +1,7 @@
 from PyQt5.QtCore import QSize
 from PyQt5.QtGui import QPixmap, QFont, QStandardItemModel, QStandardItem
 from PyQt5.QtWidgets import QSizePolicy, QLabel, QHBoxLayout, QPushButton, QLineEdit, QDesktopWidget, QComboBox, \
-    QSpinBox, QListView, QGroupBox, QMessageBox
+    QSpinBox, QListView, QGroupBox, QMessageBox, QDoubleSpinBox, QDateEdit
 
 
 class User_int_utility():
@@ -186,6 +186,30 @@ class User_int_utility():
                                "color: #DDD")
         return spin_box
 
+    @staticmethod
+    def crea_double_spin_box(min, max, initial_value, step=0.10):
+        double_spin_box = QDoubleSpinBox()
+        double_spin_box.setMinimum(min)
+        double_spin_box.setMaximum(max)
+        double_spin_box.setValue(initial_value)
+        double_spin_box.setSingleStep(step)
+        double_spin_box.setStyleSheet("border-radius: 6px;"
+                               "padding: 0 8px;"
+                               "background: #111;"
+                               "color: #DDD")
+        return double_spin_box
+
+    @staticmethod
+    def crea_date_edit(min, max):
+        date_edit = QDateEdit()
+        date_edit.setMinimumDate(min)
+        date_edit.setMaximumDate(max)
+        date_edit.setStyleSheet("border-radius: 6px;"
+                               "padding: 0 8px;"
+                               "background: #111;"
+                               "color: #DDD")
+        return date_edit
+
     #metodo statico che crea un pushbutton con titolo, collegamento, size policy e colore passati.
     #il colore è verde se viene passato "G", mentre negli altri casi è rosso
     @staticmethod
@@ -285,21 +309,11 @@ class User_int_utility():
                           "background-color: #111;"
                           "border-radius: 8px"
                           "}"
-                          "QGroupBox::title"                                "{"
+                          "QGroupBox::title {"
                           "background-color: " + User_int_utility.tertiary_color + ";"
                           "border-radius: 4px"
                           "}"
                           )
-
-    @staticmethod
-    def get_euro(importo):
-        euro = float(importo) // 1
-        return euro
-
-    @staticmethod
-    def get_centesimi(importo):
-        cent = (float(importo) % 1) * 100
-        return cent
 
 
 

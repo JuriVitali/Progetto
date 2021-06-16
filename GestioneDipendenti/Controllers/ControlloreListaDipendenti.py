@@ -1,8 +1,6 @@
-from PyQt5.QtCore import QDate
 
 from GestioneDipendenti.Models.ListaDipendenti import ListaDipendenti
 from Utilità.Controlli import Controlli
-
 
 class ControlloreListaDipendenti():
     def __init__(self):
@@ -37,23 +35,21 @@ class ControlloreListaDipendenti():
             return "Il cognome inserito non è valido"
         return None
 
-    # controlla che tutti i campi del dipendente he si vuole inserire a sistema siano corretti
+    # controlla che tutti i campi del dipendente che si vuole inserire a sistema siano corretti
     def controlla_campi_dipendente(self, dipendente):
-        if Controlli.controlla_stringa_lettere(dipendente.nome) == False:
+        if not Controlli.controlla_stringa_lettere(dipendente.nome):
             return "Il nome inserito non è valido"
-        if Controlli.controlla_stringa_lettere(dipendente.cognome) == False:
+        if not Controlli.controlla_stringa_lettere(dipendente.cognome):
             return "Il cognome inserito non è valido"
-        if Controlli.controlla_cod_fisc(dipendente.cod_fisc, self.get_lista_completa()) == False:
+        if not Controlli.controlla_cod_fisc(dipendente.cod_fisc, self.get_lista_completa()):
             return "Il codice fiscale inserito non è valido"
-        if Controlli.controlla_telefono(dipendente.telefono) == False:
+        if not Controlli.controlla_telefono(dipendente.telefono):
             return "Il numero di telefono inserito non è valido"
-        if Controlli.controlla_stringa_stampabile(dipendente.email) == False:
+        if not Controlli.controlla_stringa_stampabile(dipendente.email):
             return "L'indirizzo email inserito non è valido"
         if dipendente.area_comp == "Biglietteria":
-            if Controlli.controlla_codice_autenticazione(dipendente.codice_autent, self.get_lista_completa()) == False:
+            if not Controlli.controlla_codice_autenticazione(dipendente.codice_autent, self.get_lista_completa()):
                 return "Il codice per la futura autenticazione inserito non è valido"
-        if not QDate(dipendente.data_nascita).isValid():
-            return "La data inserita non è valida"
         return None
 
     # Salva su file i dati relativi ai dipendenti registrati a sistema

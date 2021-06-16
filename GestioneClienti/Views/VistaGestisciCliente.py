@@ -7,8 +7,6 @@ from GestioneClienti.Views.VistaRegistraCliente import VistaRegistraCliente
 from GestioneClienti.Views.VistaVisualizzaClienti import VistaVisualizzaClienti
 from Utilità.User_int_utility import User_int_utility
 
-
-
 class VistaGestisciCliente(QWidget):
     def __init__(self, callback, parent=None):
         super(VistaGestisciCliente, self).__init__()
@@ -34,8 +32,8 @@ class VistaGestisciCliente(QWidget):
                                               QSizePolicy.Expanding, QSizePolicy.Expanding), 0, 1)
         grid_layout.addItem(QSpacerItem(20, 95, QSizePolicy.Expanding, QSizePolicy.Minimum), 1, 0, 1, 2)
         grid_layout.addWidget(self.crea_box_ricerca(), 2, 0, 1, 2)
-        grid_layout.addWidget(User_int_utility.crea_label_con_imm(QPixmap("Immagini/Sfondi/cliente_back.png"), QSizePolicy.Minimum, QSizePolicy.Minimum),
-                              0, 2, 3, 1)
+        grid_layout.addWidget(User_int_utility.crea_label_con_imm(QPixmap("Immagini/Sfondi/cliente_back.png"),
+                                                                  QSizePolicy.Minimum, QSizePolicy.Minimum), 0, 2, 3, 1)    #immagine
         grid_layout.setContentsMargins(20, 0, 0, 0)
 
         # aggiunta dei due layout al layout esterno
@@ -59,7 +57,7 @@ class VistaGestisciCliente(QWidget):
                           "{"
                           "background-color: " + User_int_utility.tertiary_color + ";"
                           "border-radius: 4px"
-                           "}"
+                          "}"
                           )
         layout = QGridLayout()
 
@@ -83,7 +81,7 @@ class VistaGestisciCliente(QWidget):
         self.vista_registra_cliente.show()
 
 
-    # Dopo aver verificato i campi inseriti apre la vista per la visualizzazione dei clienti se essi sono corretti,
+    # Metodo che, dopo aver verificato i campi inseriti, apre la vista per la visualizzazione dei clienti se essi sono corretti,
     # altrimenti genera un avviso
     def show_lista_clienti_filtrata(self):
             avviso = self.controller.controlla_campi_ricerca(self.nome_ricerca.text(), self.cognome_ricerca.text())

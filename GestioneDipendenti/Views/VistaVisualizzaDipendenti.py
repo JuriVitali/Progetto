@@ -1,5 +1,5 @@
 from PyQt5.QtGui import QPixmap, QStandardItemModel, QStandardItem
-from PyQt5.QtWidgets import QWidget, QGridLayout, QSizePolicy, QListView, QHBoxLayout
+from PyQt5.QtWidgets import QWidget, QGridLayout, QSizePolicy, QHBoxLayout
 
 from GestioneDipendenti.Views.VistaVisualizzaInfoDipendente import VistaVisualizzaInfoDipendente
 from Utilità.User_int_utility import User_int_utility

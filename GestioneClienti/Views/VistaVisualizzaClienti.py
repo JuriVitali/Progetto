@@ -5,7 +5,6 @@ from PyQt5.QtWidgets import QWidget, QGridLayout, QSizePolicy, QHBoxLayout, QSpa
 
 from Utilità.User_int_utility import User_int_utility
 
-
 class VistaVisualizzaClienti(QWidget):
     def __init__(self, controller, callback, nome=None, cognome=None, parent=None):
         super(VistaVisualizzaClienti, self).__init__()
@@ -41,6 +40,8 @@ class VistaVisualizzaClienti(QWidget):
                                                 QSizePolicy.Expanding), 1, 2)
         self.setLayout(self.ext_layout)
 
+    # Metodo che crea e restituisce un box contenente una list_view, dove compare la
+    # lista dei clienti che soddisfano i requisiti immessi nella ricerca, e due pulsanti
     def crea_box_lista_clienti(self):
         box = QGroupBox()
         box.setTitle("Lista dei clienti")
@@ -62,14 +63,17 @@ class VistaVisualizzaClienti(QWidget):
         box.setLayout(box_layout)
         return box
 
+    # Metodo che crea e restituisce un box contenente i dati del cliente e, se li possiede,
+    # i dati della tessera e dell'abbonamento
     def crea_box_info_cliente(self, cliente_selezionato):
-        ext_box = QGroupBox()
+        ext_box = QGroupBox()                       # Il box conterrà a sua volta tre box interni
         ext_box.setTitle("Info di " + cliente_selezionato.nome + " " + cliente_selezionato.cognome)
         ext_box.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         ext_box_layout = QVBoxLayout()
         ext_box_layout.setContentsMargins(8, 40, 8, 8)
         ext_box.setLayout(ext_box_layout)
 
+        # creazione del primo box con le info del cliente
         box_anagrafica = QGroupBox()
         box_anagrafica.setTitle("Anagrafica")
         User_int_utility.box_scuro(box_anagrafica)
@@ -77,22 +81,24 @@ class VistaVisualizzaClienti(QWidget):
         layout_anagrafica.setContentsMargins(8, 40, 8, 8)
         box_anagrafica.setLayout(layout_anagrafica)
 
-        layout_anagrafica.addWidget(User_int_utility.crea_label("Nome: \nCognome: \nData di nascita: \nCodice fiscale: \nEmail: ",
+        layout_anagrafica.addWidget(User_int_utility.crea_label("Nome: \nCognome: \nData di nascita: \nCodice fiscale: \nTelefono: \nEmail: ",
                                     15, "s"))
         layout_anagrafica.addWidget(User_int_utility.crea_label(cliente_selezionato.nome + "\n"
                                                       + cliente_selezionato.cognome + "\n"
                                                       + QDate(cliente_selezionato.data_nascita).toString("yyyy.MM.dd") + "\n"
                                                       + cliente_selezionato.cod_fisc + "\n"
+                                                      + cliente_selezionato.telefono + "\n"
                                                       + cliente_selezionato.email, 15, "s"))
         ext_box_layout.addWidget(box_anagrafica)
 
+        # creazione del secondo box con le info del suo abbonamento
         box_abbonamento = QGroupBox()
         box_abbonamento.setTitle("Informazioni abbonamento")
         User_int_utility.box_scuro(box_abbonamento)
         self.layout_abbonamento = QGridLayout()
         self.layout_abbonamento.setContentsMargins(8, 40, 8, 8)
         box_abbonamento.setLayout(self.layout_abbonamento)
-        if cliente_selezionato.abbonamento is not None:
+        if cliente_selezionato.abbonamento is not None:         #viene verificato se possiede l'abbonamento
             self.layout_abbonamento.addWidget(User_int_utility.crea_label("Codice abbonamento: \nIngressi Disponibili: \nData di scadenza:",
                                                                           15, "s"), 0, 0)
             self.layout_abbonamento.addWidget(User_int_utility.crea_label(str(cliente_selezionato.abbonamento.codice) + "\n" +
@@ -103,11 +109,14 @@ class VistaVisualizzaClienti(QWidget):
             self.layout_abbonamento.addWidget(User_int_utility.crea_label(cliente_selezionato.nome + " " + cliente_selezionato.cognome +
                                                                      " non è in possesso di un abbonamento\n o il suo abbonamento "
                                                                      "non è più valido.", 15, "s"), 0, 0, 1, 3)
+
+            # Se non possiede un abbonamento viene creato un pulsante che consente di assegnarglielo
             self.layout_abbonamento.addWidget(User_int_utility.crea_push_button("Rilascia un abbonamento", self.rilascia_abbonamento, "",
                                                                                 QSizePolicy.Expanding, QSizePolicy.Minimum), 1, 0, 1, 3)
 
         ext_box_layout.addWidget(box_abbonamento)
 
+        # creazione del terzo box con le info della sua tessera
         box_tessera = QGroupBox()
         box_tessera.setTitle("Informazioni tessera")
         User_int_utility.box_scuro(box_tessera)
@@ -121,9 +130,10 @@ class VistaVisualizzaClienti(QWidget):
         else:
             self.layout_tessera.addWidget(User_int_utility.crea_label(cliente_selezionato.nome + " " + cliente_selezionato.cognome +
                                             " non è in possesso di una tessera.", 15, "s"), 0, 0, 1, 3)
+
+            # Se non possiede una tessera viene creato un pulsante che consente di assegnargliela
             self.layout_tessera.addWidget(User_int_utility.crea_push_button("Rilascia una tessera", self.rilascia_tessera, "",
                                                                                 QSizePolicy.Expanding, QSizePolicy.Minimum), 1, 0, 1, 3)
-
 
         ext_box_layout.addWidget(box_tessera)
 
@@ -142,7 +152,7 @@ class VistaVisualizzaClienti(QWidget):
             self.cliente_selezionato = self.lista_filtrata[index]
             self.ext_layout.addWidget(self.crea_box_info_cliente(self.cliente_selezionato), 1, 1)
 
-    # metodo che elimina il cliente selezionato
+    # metodo che elimina il cliente selezionato dal sistema
     def elimina_cliente_by_index(self):
         if (len(self.list_view.selectedIndexes()) > 0):
             index = self.list_view.selectedIndexes()[0].row()
@@ -161,46 +171,57 @@ class VistaVisualizzaClienti(QWidget):
             self.listview_model.appendRow(item)
         self.list_view.setModel(self.listview_model)
 
-
+    # Metodo che fa apparire la casella di testo ed il pulsante di conferma per assegnare un abbonamento
+    # ad un cliente che ne è sprovvisto
     def rilascia_abbonamento(self):
         self.codice_abb = User_int_utility.crea_casella_testo("Inserisci il codice ")
 
+        # Rimozione dei widget dal layout della box
         self.layout_abbonamento.itemAt(0).widget().setParent(None)
         self.layout_abbonamento.itemAt(0).widget().setParent(None)
 
+        # Aggiunta dei nuovi widget al layout della box
         self.layout_abbonamento.addWidget(User_int_utility.crea_label("Codice abbonamento: ", 15, "s"), 0, 0)
         self.layout_abbonamento.addWidget(self.codice_abb, 0, 1)
         self.layout_abbonamento.addWidget(User_int_utility.crea_green_or_red_push_button("Conferma", self.assegna_abbonamento,
                                                                         QSizePolicy.Expanding, QSizePolicy.Minimum, "G"), 0, 2)
 
+    # Metodo che assegna l'abbonamento al cliente controllando prima se il codice inserito è valido
+    # e se il cliente ha più di 14 anni
     def assegna_abbonamento(self):
-        avviso = self.controller.rilascia_abbonamento(self.codice_abb.text(), self.cliente_selezionato)
+        avviso = self.controller.controlla_abbonamento(self.codice_abb.text(), self.cliente_selezionato)
         if avviso is None:
+            self.controller.rilascia_abbonamento(self.codice_abb.text(), self.cliente_selezionato)
             self.crea_box_info_cliente(self.cliente_selezionato)
             self.ext_layout.addWidget(User_int_utility.crea_label(""), 1, 1)
         else:
             QMessageBox.critical(self, 'Errore', avviso, QMessageBox.Ok, QMessageBox.Ok)
 
-
+    # Metodo che fa apparire la casella di testo ed il pulsante di conferma per assegnare un tessera
+    # ad un cliente che ne è sprovvisto
     def rilascia_tessera(self):
         self.codice_tess = User_int_utility.crea_casella_testo("Inserisci il codice ")
 
+        # Rimozione dei widget dal layout della box
         self.layout_tessera.itemAt(0).widget().setParent(None)
         self.layout_tessera.itemAt(0).widget().setParent(None)
 
+        # Aggiunta dei nuovi widget al layout della box
         self.layout_tessera.addWidget(User_int_utility.crea_label("Codice tessera: ", 15, "s"), 0, 0)
         self.layout_tessera.addWidget(self.codice_tess, 0, 1)
         self.layout_tessera.addWidget(User_int_utility.crea_green_or_red_push_button("Conferma", self.assegna_tessera,
                                                            QSizePolicy.Expanding, QSizePolicy.Minimum, "G"), 0, 2)
 
+    # Metodo che assegna la tessera al cliente controllando prima se il codice inserito è valido
+    # e se il cliente ha più di 14 anni
     def assegna_tessera(self):
-        avviso = self.controller.rilascia_tessera(self.codice_tess.text(), self.cliente_selezionato)
+        avviso = self.controller.controlla_tessera(self.codice_tess.text(), self.cliente_selezionato)
         if avviso is None:
+            self.controller.rilascia_tessera(self.codice_tess.text(), self.cliente_selezionato)
             self.crea_box_info_cliente(self.cliente_selezionato)
             self.ext_layout.addWidget(User_int_utility.crea_label(""), 1, 1)
         else:
             QMessageBox.critical(self, 'Errore', avviso, QMessageBox.Ok, QMessageBox.Ok)
-
 
     # metodo che modifica la visibilità della finestra
     def modifica_visibilita(self):

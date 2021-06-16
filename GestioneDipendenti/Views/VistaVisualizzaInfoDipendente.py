@@ -47,6 +47,8 @@ class VistaVisualizzaInfoDipendente(QWidget):
                                                    + self.controller.get_telefono() + "\n"
                                                    + self.controller.get_email() + "\n"
                                                    + self.controller.get_area_comp()), 0, 1)
+
+        # Se il dipendente lavora nella biglietteria, gli viene assegnato il codice di autenticazione inserito
         if self.controller.get_area_comp() == "Biglietteria":
             grid.addItem(QSpacerItem(10, 30, QSizePolicy.Expanding,QSizePolicy.Minimum),1, 0, 1, 2)
             grid.addWidget(User_int_utility.crea_label("Codice Autenticazione:"), 2, 0)

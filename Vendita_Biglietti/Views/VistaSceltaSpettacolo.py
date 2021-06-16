@@ -75,6 +75,7 @@ class VistaSceltaSpettacolo(QWidget):
             item = QStandardItem()
             item.setText("Nessuno spettacolo in programma")
             item.setEditable(False)
+            item.setSelectable(False)
             self.listviews_models[numero_sala-1].appendRow(item)
         list_view.setModel(self.listviews_models[numero_sala-1])
 
