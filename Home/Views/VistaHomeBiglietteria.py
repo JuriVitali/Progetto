@@ -6,7 +6,6 @@ from RilasciaTessera.View.VistaRilasciaTessera import VistaRilasciaTessera
 from Spettacoli.Views.VistaVisProgrammazioneSpettacoli import VistaVisProgrammazioneSpettacoli
 from GestioneClienti.Views.VistaGestisciCliente import VistaGestisciCliente
 from Utilità.User_int_utility import User_int_utility
-#from Vendita_Biglietti.Views.VistaMappaPosti import VistaMappaPosti
 from Vendita_Biglietti.Views.VistaSceltaSpettacolo import VistaSceltaSpettacolo
 
 

@@ -31,7 +31,8 @@ class VistaRilasciaTessera(QWidget):
         ext_layout.addWidget(self.crea_box_descrizione(), 1, 1)
         self.setLayout(ext_layout)
 
-    # metodo che crea il box contenente i widget per la ricerca di un cliente in base al nome e al cognome
+    # metodo che crea e restituisce un box contenente i widget per la ricerca
+    # di un cliente in base al nome e al cognome
     def crea_box_ricerca_cliente(self):
         box = QGroupBox()
         box.setTitle("Selezione cliente")
@@ -57,6 +58,8 @@ class VistaRilasciaTessera(QWidget):
         box.setLayout(box_layout)
         return box
 
+    # Metodo che crea e restituisce un box contenente la QLineEdit per l'inserimento del
+    # codice della tessera
     def crea_box_codice(self):
         box = QGroupBox()
         box.setTitle("Codice Tessera")
@@ -72,6 +75,8 @@ class VistaRilasciaTessera(QWidget):
         box.setLayout(box_layout)
         return box
 
+    # Metodo che crea e restituisce un box con la descrizione del funzionamento
+    # della tessera
     def crea_box_descrizione(self):
         box = QGroupBox()
         box.setTitle("Descrizione funzionamento del servizio ")
@@ -91,6 +96,8 @@ class VistaRilasciaTessera(QWidget):
         box.setLayout(box_layout)
         return box
 
+    # Metodo che aggiorna la list_view con la lista dei clienti
+    # quando si preme il pulsante per la ricerca
     def update_listview(self):
         self.lista_clienti_filtrata = self.controller.get_cliente_by_nome(self.nome_ricerca.text(), self.cognome_ricerca.text())
         self.listview_model = QStandardItemModel(self.list_view)
@@ -101,6 +108,9 @@ class VistaRilasciaTessera(QWidget):
             self.listview_model.appendRow(item)
         self.list_view.setModel(self.listview_model)
 
+    # Metodo che controlla che il codice inserito sia valido e che il cliente selezionato
+    # abbia almeno 14 anni. In tal caso assegna la tessera al cliente,
+    # altrimenti fa comparire una QMessageBox con la descrizione dell'errore
     def rilascia_tessera(self):
         if (len(self.list_view.selectedIndexes()) > 0):
             index = self.list_view.selectedIndexes()[0].row()

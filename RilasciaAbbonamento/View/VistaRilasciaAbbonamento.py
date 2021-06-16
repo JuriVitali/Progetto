@@ -13,7 +13,7 @@ class VistaRilasciaAbbonamento(QWidget):
         self.controller = ControlloreListaClienti()
 
         self.callback = callback
-        self.callback()
+        self.callback()             # fa sparire la finestra precedente
 
         # settaggio delle impostazioni generali della finestra
         self.setWindowTitle("Rilascio Abbonamento")
@@ -21,6 +21,7 @@ class VistaRilasciaAbbonamento(QWidget):
         self.setGeometry(0, 0, 1200, 650)
         User_int_utility.sposta_al_centro(self)           #sposta la finestra al centro dello schermo
 
+        #creazione del layout della finestra e aggiunta dei widget
         ext_layout = QGridLayout()
         ext_layout.setContentsMargins(0, 0, 0, 0)
         ext_layout.addLayout(User_int_utility.crea_banda_superiore("Ab"), 0, 0, 1, 2)
@@ -29,9 +30,11 @@ class VistaRilasciaAbbonamento(QWidget):
         ext_layout.addWidget(User_int_utility.crea_green_or_red_push_button("Conferma", self.rilascia_abbonamento,
                                                                             QSizePolicy.Minimum, QSizePolicy.Expanding, "G"), 2, 1, 2, 1)
         ext_layout.addWidget(self.crea_box_descrizione(), 1, 1)
+
         self.setLayout(ext_layout)
 
-    # metodo che crea il box contenente i widget per la ricerca di un cliente in base al nome e al cognome
+    # metodo che crea e restituisce un box contenente i widget per la ricerca
+    # di un cliente in base al nome e al cognome
     def crea_box_ricerca_cliente(self):
         box = QGroupBox()
         box.setTitle("Selezione cliente")
@@ -43,6 +46,7 @@ class VistaRilasciaAbbonamento(QWidget):
         self.cognome_ricerca = User_int_utility.crea_casella_testo("Inserire il cognome del cliente")
         self.list_view = User_int_utility.crea_list_view()
 
+        #aggiunta dei widget al box
         box_layout.addWidget(User_int_utility.crea_label("Nome: "), 0, 0)
         box_layout.addWidget(User_int_utility.crea_label("Cognome: "), 1, 0)
         box_layout.addWidget(self.nome_ricerca, 0, 1)
@@ -57,6 +61,8 @@ class VistaRilasciaAbbonamento(QWidget):
         box.setLayout(box_layout)
         return box
 
+    # Metodo che crea e restituisce un box contenente la QLineEdit per l'inserimento del
+    # codice dell'abbonamento
     def crea_box_codice(self):
         box = QGroupBox()
         box.setTitle("Codice abbonamento")
@@ -72,6 +78,8 @@ class VistaRilasciaAbbonamento(QWidget):
         box.setLayout(box_layout)
         return box
 
+    # Metodo che crea e restituisce un box con la descrizione del funzionamento
+    # dell'abbonamento
     def crea_box_descrizione(self):
         box = QGroupBox()
         box.setTitle("Descrizione funzionamento del servizio ")
@@ -91,6 +99,8 @@ class VistaRilasciaAbbonamento(QWidget):
         box.setLayout(box_layout)
         return box
 
+    # Metodo che aggiorna la list_view con la lista dei
+    # clienti quando si preme il pulsante per la ricerca
     def update_listview(self):
         self.lista_clienti_filtrata = self.controller.get_cliente_by_nome(self.nome_ricerca.text(), self.cognome_ricerca.text())
         self.listview_model = QStandardItemModel(self.list_view)
@@ -101,6 +111,9 @@ class VistaRilasciaAbbonamento(QWidget):
             self.listview_model.appendRow(item)
         self.list_view.setModel(self.listview_model)
 
+    # Metodo che controlla che il codice inserito sia valido e che il cliente selezionato
+    # abbia almeno 14 anni. In tal caso assegna l'abbonamento al cliente,
+    # altrimenti fa comparire una QMessageBox con la descrizione dell'errore
     def rilascia_abbonamento(self):
         if (len(self.list_view.selectedIndexes()) > 0):
             index = self.list_view.selectedIndexes()[0].row()

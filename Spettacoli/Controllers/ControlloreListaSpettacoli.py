@@ -1,7 +1,7 @@
 from Spettacoli.Model.ListaSpettacoli import ListaSpettacoli
 from Utilità.Controlli import Controlli
 from Utilità.Parametri import Parametri
-from Film.Controllers.ControlloreListaFilm import ControlloreListaFilm
+
 
 
 class ControlloreListaSpettacoli():

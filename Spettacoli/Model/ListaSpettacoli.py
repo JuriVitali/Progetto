@@ -21,6 +21,7 @@ class ListaSpettacoli():
             with open('Spettacoli/Salvataggio_lista_sale.pickle', 'rb') as h:
                 lista_sale = pickle.load(h)
 
+        #ricostruzione delle sale degli spettacoli
         i = 0
         for spettacolo in self.lista_spettacoli:
           spettacolo.ricostruisci_sala(lista_sale[i])
@@ -31,19 +32,19 @@ class ListaSpettacoli():
             if spettacolo.data < (QDate.currentDate().addDays(-14)):
                 self.lista_spettacoli.remove(spettacolo)
 
-    # aggiunge uno spettacolo alla lista degli spettacoli registrati a sistema
+    # Metodo che aggiunge uno spettacolo alla lista degli spettacoli registrati a sistema
     def aggiungi_spettacolo(self, spettacolo):
         self.lista_spettacoli.append(spettacolo)
 
-    # elimina lo spettacolo nella lista che ha id uguale a quello passato come paramentro
+    # Metodo che elimina lo spettacolo nella lista che ha id uguale a quello passato come paramentro
     def rimuovi_spettacolo_by_id(self, id):
         for i in range(0, len(self.lista_spettacoli)):
             if self.lista_spettacoli[i].id == id:
                 self.lista_spettacoli.remove(self.lista_spettacoli[i])
                 break
 
-    # ritorna una lista contenente gli spettacoli registrati a sistema che sono programmati per la
-    #data passata come parametro
+    # Metodo che ritorna una lista contenente gli spettacoli registrati a sistema che sono programmati per la
+    # data passata come parametro
     def get_spettacolo_by_date(self, data):
         lista_spett_filtrata = []
         for i in range(0, len(self.lista_spettacoli)):
@@ -51,7 +52,7 @@ class ListaSpettacoli():
                 lista_spett_filtrata.append(self.lista_spettacoli[i])
         return lista_spett_filtrata
 
-    #Ritorna una lista contenente i film presenti nel sistema con il titolo selezionato
+    # Metodo che ritorna una lista contenente i film presenti nel sistema con il titolo selezionato
     def ricerca_film(self, titolo):
         lista_film_filtrata = []
         for i in range(0, len(self.lista_film)):
@@ -61,6 +62,9 @@ class ListaSpettacoli():
 
     #Salva su file i dati relativi agli spettacoli registrati a sistema
     def save_data(self):
+
+        # Non è possibile salvare oggetti di tipo sala, perciò per ogni sala viene salvato un dizionario
+        # con le sue informazioni essenziali
         lista_sale = []
         for spettacolo in self.lista_spettacoli:
             lista_sale.append({"Sala" : spettacolo.sala.nome, "Prenotazioni" : spettacolo.sala.get_posti_occupati()})

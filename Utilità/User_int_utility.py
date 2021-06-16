@@ -1,13 +1,15 @@
 from PyQt5.QtCore import QSize
 from PyQt5.QtGui import QPixmap, QFont, QStandardItemModel, QStandardItem
 from PyQt5.QtWidgets import QSizePolicy, QLabel, QHBoxLayout, QPushButton, QLineEdit, QDesktopWidget, QComboBox, \
-    QSpinBox, QListView, QGroupBox, QMessageBox, QDoubleSpinBox, QDateEdit
+    QSpinBox, QListView, QDoubleSpinBox, QDateEdit
 
 
 class User_int_utility():
-    primary_color = "#333"     #codici dei principali colori dell'interfaccia
-    secondary_color = "#ADAA01"
-    tertiary_color = "#B50202"
+
+    # codici dei principali colori dell'interfaccia
+    primary_color = "#333"              #grigio
+    secondary_color = "#ADAA01"         #oro
+    tertiary_color = "#B50202"          #rosso
 
     #metodo che crea la parte superiore dell'interfaccia in cui è presente il logo a cui,
     #in base al parametro passato, affianca un sottotitolo
@@ -92,7 +94,9 @@ class User_int_utility():
         button.setToolTipDuration(2200)
         return button
 
-    #Metodo statico che ritorna una label con titolo e dimensione del font passati come parametri e stile predefinito
+    #Metodo statico che ritorna una label con titolo e dimensione del font passati come parametri e  stile del programma
+    # Se il parametro colore è "c" viene creata una label leggeremente più chiara, altrimenti
+    # ne viene creata una di un grigio più scuro
     @staticmethod
     def crea_label(titolo, fontsize=15, colore = "c"):
         label = QLabel(titolo)
@@ -105,7 +109,8 @@ class User_int_utility():
         label.setFont(QFont("Segoe UI Semibold", fontsize))
         return label
 
-    #metodo statico che ritorna una QlineEdit con uno stile predefinito
+    # metodo statico che ritorna una QlineEdit con stile del programma
+    # e con il placeholder passatogli
     @staticmethod
     def crea_casella_testo(placeholder=None, oSizePolicy=QSizePolicy.Expanding):
         line = QLineEdit()
@@ -117,7 +122,8 @@ class User_int_utility():
                            "color: #DDD")
         return line
 
-    #sposta il widget che gli viene passato al centro dello schermo, qualunque sia la dimensione di quest'ultimo
+    # Metodo statico che sposta il widget che gli viene passato al centro dello schermo,
+    # qualunque sia la dimensione di quest'ultimo
     @staticmethod
     def sposta_al_centro(widget):
         qtRectangle = widget.frameGeometry()
@@ -171,8 +177,9 @@ class User_int_utility():
                                 "color: #DDD")
         return combo_box
 
-    #metodo che crea una spin box. I suoi valori minimo, massimo e iniziale sono
-    #quelli passati come parametri
+    #metodo statico che crea una spin box. I suoi valori minimo, massimo e iniziale sono
+    #quelli passati come parametri. Lo step di default è 1 ma può essere modificato
+    # passando quello desiderato come quarto parametro
     @staticmethod
     def crea_spin_box(min, max, initial_value, step=1):
         spin_box = QSpinBox()
@@ -186,6 +193,10 @@ class User_int_utility():
                                "color: #DDD")
         return spin_box
 
+    # metodo statico che crea una doublespinbox il cui valore ha 2 cifre decimali.
+    # I suoi valori minimo, massimo e iniziale sono
+    # quelli passati come parametri. Lo step di default è 0.10 ma può essere modificato
+    # passando quello desiderato come quarto parametro
     @staticmethod
     def crea_double_spin_box(min, max, initial_value, step=0.10):
         double_spin_box = QDoubleSpinBox()
@@ -199,6 +210,9 @@ class User_int_utility():
                                "color: #DDD")
         return double_spin_box
 
+    # Crea una QDateEdit (casella di testo per l'inserimento di una data) con stile del programma.
+    # Il primo parametro è la data "minima" consentita mentre il secondo è
+    # quella massima
     @staticmethod
     def crea_date_edit(min, max):
         date_edit = QDateEdit()
@@ -253,7 +267,7 @@ class User_int_utility():
                                  )
         return button
 
-    #metodo statico che crea una listview con stile predefinito
+    #metodo statico che crea una listview con stile del programma
     @staticmethod
     def crea_list_view():
         list_view = QListView()
@@ -273,7 +287,8 @@ class User_int_utility():
         else:
             widget.show()
 
-    #metodo statico che setta lo stile della finestra e dei suoi messagebox
+    #metodo statico che setta lo stile della finestra passatagli, dei suoi messagebox e dei
+    # suoi QGroupBox
     @staticmethod
     def set_window_style(widget):
         widget.setStyleSheet("QWidget {"
@@ -302,6 +317,7 @@ class User_int_utility():
                              "}"
                              )
 
+    # Metodo che applica lo stile del programma con sfondo più scuro al QGroupBox passatogli
     @staticmethod
     def box_scuro(box):
         box.setStyleSheet("QGroupBox"

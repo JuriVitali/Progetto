@@ -52,9 +52,9 @@ class Controlli():
             return True
         return False
 
-    # ritorna True se il codice per l'abbonamento è valido , cioè se la sua lunghezza è 8,
-    # contiene solo caratteri alfanumerici di cui il primo è 'A' e nessun altro cliente ne possiede uno con
-    # lo stesso codice
+    # ritorna True se il codice per l'abbonamento è valido (cioè se la sua lunghezza è 8 e
+    # contiene solo cifre ad eccezione del primo carattere che deve essere 'A')
+    # e nessun altro cliente ne possiede uno con lo stesso codice
     @staticmethod
     def controlla_codice_abb(cod_abbon, lista_clienti):
         c = str(cod_abbon)

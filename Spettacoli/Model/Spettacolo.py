@@ -16,12 +16,18 @@ class Spettacolo():
         self.ora_fine = QTime(ora_inizio).addSecs((20 * 60) + (int(self.film.durata) * 60) + (5 * 60))
         self.sala = sala
 
+        #Creazione di una lista che conterrà oggetti Cliente corrispondenti alle persone presenti allo spettacolo
         self.lista_presenze = []
 
+    # Metodo che aggiunge tutti gli oggetti di tipo Cliente passatigli in una lista (lista_spettatori) alla
+    # lista delle presenze
     def aggiungi_spettatori(self, lista_spettatori):
         for spettatore in lista_spettatori:
             self.lista_presenze.append(spettatore)
 
+    # Metodo che costruisce un oggetto di tipo sala a partire dal suo nome e dai posti occupati.
+    # Viene utilizzato quando si deve caricare la lista degli spettacoli dal file perchè non
+    # è possibile salvare oggetti di tipo Sala
     def ricostruisci_sala(self, sala):
         if sala["Sala"] == Parametri.sale[0]:
             self.sala = Sala(Parametri.sale[0], Parametri.file_sala_1, Parametri.lunghezza_file_sala_1,
@@ -37,6 +43,8 @@ class Spettacolo():
                         Parametri.file_vip_sala_4)
         self.sala.prenota_posti(sala["Prenotazioni"])
 
+    # Metodo che ritorna l'oggetto Posto corrispondente alla fila (primo parametro) e alla
+    # posizione (secondo parametro) passategli
     def get_posto(self, nome_fila, posizione):
         for fila in self.sala.posti:
             for posto in fila:

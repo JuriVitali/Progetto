@@ -1,6 +1,3 @@
-
-from PyQt5.QtWidgets import QGridLayout
-
 from Spettacoli.Model.Posto import Posto
 
 class Sala():
@@ -8,7 +5,11 @@ class Sala():
     def __init__(self, nome, file, lunghezza_file, file_premium):
         super(Sala, self).__init__()
         self.nome = nome
+
+        #Creazione di una matrice (lista di liste) di oggetti Posto
         self.posti = [[Posto(i, j + 1, False) for j in range(0, lunghezza_file)] for i in file]   # crea una matrice di posti
+
+        #Viene settato a True l'attributo premium dei posti che corrispondono a poltrone premium
         contatore_file = 0
         for i in file:
             premium = False
@@ -33,6 +34,7 @@ class Sala():
                         self.posti[i][j].prenota()
                     break
 
+    # Metodo che restituisce una lista di oggetti Posto che corrispondono ai posti occupati
     def get_posti_occupati(self):
         lista_posti_occupati = []
         contatore_file = 0
