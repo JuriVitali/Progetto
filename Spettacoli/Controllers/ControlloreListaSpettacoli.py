@@ -2,8 +2,6 @@ from Spettacoli.Model.ListaSpettacoli import ListaSpettacoli
 from Utilità.Controlli import Controlli
 from Utilità.Parametri import Parametri
 
-
-
 class ControlloreListaSpettacoli():
     def __init__(self):
         super(ControlloreListaSpettacoli, self).__init__()

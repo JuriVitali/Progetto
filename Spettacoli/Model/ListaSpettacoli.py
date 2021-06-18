@@ -8,6 +8,7 @@ class ListaSpettacoli():
         super(ListaSpettacoli, self).__init__()
         self.lista_spettacoli = []
         self.lista_film = []
+        lista_sale = []
 
         if os.path.isfile('Film/Salvataggio_lista_film.pickle'):           #caricamento dei dati
                 with open('Film/Salvataggio_lista_film.pickle', 'rb') as f:
@@ -21,16 +22,23 @@ class ListaSpettacoli():
             with open('Spettacoli/Salvataggio_lista_sale.pickle', 'rb') as h:
                 lista_sale = pickle.load(h)
 
-        #ricostruzione delle sale degli spettacoli
-        i = 0
-        for spettacolo in self.lista_spettacoli:
-          spettacolo.ricostruisci_sala(lista_sale[i])
-          i += 1
-
-        #rimuove gli spettacoli avvenuti più di 14 giorni fa
+        # rimuove gli spettacoli avvenuti più di 14 giorni fa
         for spettacolo in self.lista_spettacoli:
             if spettacolo.data < (QDate.currentDate().addDays(-14)):
                 self.lista_spettacoli.remove(spettacolo)
+
+        for sala in lista_sale:
+            if sala["Data spett"] < QDate.currentDate():
+                lista_sale.remove(sala)
+
+        print("1")
+        #ricostruzione delle sale degli spettacoli
+        i = 0
+        for spettacolo in self.lista_spettacoli:
+            print("2")
+            if spettacolo.data >= QDate.currentDate():
+                spettacolo.ricostruisci_sala(lista_sale[i])
+                i += 1
 
     # Metodo che aggiunge uno spettacolo alla lista degli spettacoli registrati a sistema
     def aggiungi_spettacolo(self, spettacolo):
@@ -67,7 +75,7 @@ class ListaSpettacoli():
         # con le sue informazioni essenziali
         lista_sale = []
         for spettacolo in self.lista_spettacoli:
-            lista_sale.append({"Sala" : spettacolo.sala.nome, "Prenotazioni" : spettacolo.sala.get_posti_occupati()})
+            lista_sale.append({"Sala" : spettacolo.sala.nome, "Prenotazioni" : spettacolo.sala.get_posti_occupati(), "Data spett" : spettacolo.data})
 
         with open("Spettacoli/Salvataggio_lista_sale.pickle", "wb") as handle:
             pickle.dump(lista_sale, handle, pickle.HIGHEST_PROTOCOL)

@@ -10,6 +10,11 @@ class ListaClienti():
             with open('GestioneClienti/Salvataggio_lista_clienti.pickle', 'rb') as f:
                 self.lista_clienti = pickle.load(f)
 
+        #Controllo della validità di ogni abbonamento
+        for cliente in self.lista_clienti:
+            if cliente.abbonamento is not None and not cliente.abbonamento.verifica_validita():
+                cliente.abbonamento = None
+
     # metodo che aggiunge il cliente che gli viene passato alla lista dei clienti
     # registrata a sistema
     def aggiungi_cliente(self, cliente):

@@ -90,12 +90,5 @@ class Controlli():
                     return False
         return True
 
-    #metodo che restituisce True se il cliente ha 14 anni o più.
-    #In caso contrario restituisce False
-    @staticmethod
-    def controlla_eta_cliente(cliente):
-        if cliente.data_nascita.addYears(14) <= QDate.currentDate():
-            return True
-        return False
 
 

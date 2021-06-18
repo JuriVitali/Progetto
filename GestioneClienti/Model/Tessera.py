@@ -8,14 +8,19 @@ class Tessera():
 
     # Metodo che aggiunge punti alla tessera pari a 10 volte l'importo in euro (parametro)
     def aggiungi_punti(self, importo):
-        self.punti += int(importo * 10)
+        p = ParametriServizi()
+        self.punti += int(importo * p.punti_per_euro)
 
     # Metodo che controlla se è disponibile uno sconto per il possessore della tessera
-    # e in caso afferemativo sottrae i punti necessari e restituisce True.
+    # e in caso afferemativo restituisce True.
     # In caso negativo restituisce False
-    def applica_sconto(self):
+    def controlla_disp_sconto(self):
         p = ParametriServizi()
         if self.punti >= p.soglia_punti_sconto_tessera:
-            self.punti -= p.soglia_punti_sconto_tessera
             return True
         return False
+
+    #Metodo che sottrae dalla tessera i punti necessari per avere lo sconto
+    def applica_sconto(self):
+        p = ParametriServizi()
+        self.punti -= p.soglia_punti_sconto_tessera

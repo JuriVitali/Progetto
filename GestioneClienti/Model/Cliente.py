@@ -1,3 +1,5 @@
+from PyQt5.QtCore import QDate
+
 from GestioneClienti.Model.Abbonamento import Abbonamento
 from GestioneClienti.Model.Tessera import Tessera
 
@@ -23,3 +25,17 @@ class Cliente():
     # al cliente
     def assegna_tessera(self, codice_tess):
         self.tessera = Tessera(codice_tess)
+
+    # metodo che restituisce l'età del cliente
+    def get_eta(self):
+        data_corrente = QDate.currentDate()
+        anni_diff = data_corrente.year() - self.data_nascita.year()
+
+        if data_corrente.month() < self.data_nascita.month():
+            return anni_diff - 1
+        if data_corrente.month() > self.data_nascita.month():
+            return anni_diff
+
+        if data_corrente.day() < self.data_nascita.day():
+            return anni_diff - 1
+        return anni_diff

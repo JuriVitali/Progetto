@@ -1,3 +1,4 @@
+
 from PyQt5.QtCore import QDate
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
 from PyQt5.QtWidgets import QWidget, QGridLayout, QGroupBox, QVBoxLayout, QSizePolicy
@@ -13,6 +14,8 @@ class VistaSceltaSpettacolo(QWidget):
         super(VistaSceltaSpettacolo, self).__init__()
 
         self.controller = ControlloreListaSpettacoli()
+
+        self.ritorna_home = [self.close]
 
         self.callback = callback
         self.callback()
@@ -82,31 +85,32 @@ class VistaSceltaSpettacolo(QWidget):
     def seleziona_spettacolo_sala_1(self):
         if (len(self.lista_list_view[0].selectedIndexes()) > 0):
             index = self.lista_list_view[0].selectedIndexes()[0].row()
-            self.vista_mappa_posti = VistaMappaPosti(self.lista_spettacoli_oggi[0][index], self.modifica_visibilita)
+            self.vista_mappa_posti = VistaMappaPosti(self.lista_spettacoli_oggi[0][index], self.modifica_visibilita, self.ritorna_home)
             self.vista_mappa_posti.show()
 
     def seleziona_spettacolo_sala_2(self):
         if (len(self.lista_list_view[1].selectedIndexes()) > 0):
             index = self.lista_list_view[1].selectedIndexes()[0].row()
-            self.vista_mappa_posti = VistaMappaPosti(self.lista_spettacoli_oggi[1][index], self.modifica_visibilita)
+            self.vista_mappa_posti = VistaMappaPosti(self.lista_spettacoli_oggi[1][index], self.modifica_visibilita, self.ritorna_home)
             self.vista_mappa_posti.show()
 
     def seleziona_spettacolo_sala_3(self):
         if (len(self.lista_list_view[2].selectedIndexes()) > 0):
             index = self.lista_list_view[2].selectedIndexes()[0].row()
-            self.vista_mappa_posti = VistaMappaPosti(self.lista_spettacoli_oggi[2][index], self.modifica_visibilita)
+            self.vista_mappa_posti = VistaMappaPosti(self.lista_spettacoli_oggi[2][index], self.modifica_visibilita, self.ritorna_home)
             self.vista_mappa_posti.show()
 
     def seleziona_spettacolo_sala_4(self):
         if (len(self.lista_list_view[3].selectedIndexes()) > 0):
             index = self.lista_list_view[3].selectedIndexes()[0].row()
-            self.vista_mappa_posti = VistaMappaPosti(self.lista_spettacoli_oggi[3][index], self.modifica_visibilita)
+            self.vista_mappa_posti = VistaMappaPosti(self.lista_spettacoli_oggi[3][index], self.modifica_visibilita, self.ritorna_home)
             self.vista_mappa_posti.show()
 
     def modifica_visibilita(self):
         User_int_utility.modifica_visibilita_finestra(self)
 
     def closeEvent(self, event):
+        self.controller.save_data()
         self.callback()                 #fa riapparire la finestra precedente
 
 

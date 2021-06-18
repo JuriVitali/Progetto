@@ -1,7 +1,7 @@
 from PyQt5.QtCore import QSize
 from PyQt5.QtGui import QPixmap, QFont, QStandardItemModel, QStandardItem
 from PyQt5.QtWidgets import QSizePolicy, QLabel, QHBoxLayout, QPushButton, QLineEdit, QDesktopWidget, QComboBox, \
-    QSpinBox, QListView, QDoubleSpinBox, QDateEdit
+    QSpinBox, QListView, QDoubleSpinBox, QDateEdit, QCheckBox
 
 
 class User_int_utility():
@@ -331,6 +331,45 @@ class User_int_utility():
                           "}"
                           )
 
+    @staticmethod
+    def applica_stile_tabella(tabella):
+        tabella.setStyleSheet("""
+                                                QTableWidget {
+                                                background-color: #222; 
+                                                border-radius: 5px;
+                                                }
+
+                                                QTableWidget::item {                    
+                                                background-color: #222;
+                                                color: #DDD;
+                                                margin-top: 5px; 
+                                                margin-left: 2px;
+                                                margin-right: 2px;       
+                                                border-radius: 6px;
+                                                padding-left: 1px;
+                                                }
+
+                                                QTableWidget::indicator {
+                                                background-color: """ + User_int_utility.tertiary_color + """;
+                                                border: 1px solid #222;
+                                                border-radius: 3px;
+                                                width: 30px;
+                                                height: 30px;
+                                                }
+
+                                                QTableWidget::indicator::checked {
+                                                background-color: #22C808;
+                                                }
+
+                                                QTableWidget::item:selected {
+                                                background-color: #222;
+                                                }
+
+                                                QHeaderView::section {
+                                                Background-color: """ + User_int_utility.tertiary_color + """;
+                                                color: #DDD;
+                                                }
+                                                """)
 
 
 

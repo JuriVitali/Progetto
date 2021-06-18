@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QWidget, QGridLayout, QTableWidget, QPushButton, QSizePolicy, QHeaderView, \
-    QGroupBox, QFormLayout, QMessageBox, QLineEdit
+    QGroupBox, QFormLayout, QMessageBox
 
 from Utilità.User_int_utility import User_int_utility
 from functools import partial
@@ -10,10 +10,13 @@ from Vendita_Biglietti.Views.VistaInserimentoDatiBiglietti import VistaInserimen
 
 
 class VistaMappaPosti(QWidget):
-    def __init__(self, spettacolo, callback):
+    def __init__(self, spettacolo, callback, ritorna_home):
         super(VistaMappaPosti, self).__init__()
 
         self.controller = ControlloreListaBiglietti()
+
+        self.ritorna_home = ritorna_home
+        self.ritorna_home.append(self.close)
 
         self.callback = callback
         self.callback()
@@ -91,28 +94,46 @@ class VistaMappaPosti(QWidget):
     # metodo che applica al push button del posto uno stile che varia a seconda
     # se un posto è standard o premium
     def applica_stile_posto(self, posto, button, selezionato=False):
-        if not selezionato:
-            if posto.premium == True:
-                button.setStyleSheet("QPushButton {"
-                                       "border: 2px" + User_int_utility.tertiary_color + ";"
-                                       "background-color : " + User_int_utility.tertiary_color + ";"
-                                       "border-radius: 8px;"
-                                       "}"
-                                       "QPushButton::pressed"
-                                       "{"
-                                       "border-width: 4px;"
-                                       "border-style: flat;"
-                                       "border-color: #222;"
-                                       "}"
-                                       "QPushButton::hover"
-                                       "{"
-                                       "background-color : #850000 ;"
-                                       "}"
-                                       )
+        if posto.disponibile:
+            if not selezionato:
+                if posto.premium == True:
+                    button.setStyleSheet("QPushButton {"
+                                           "border: 2px" + User_int_utility.tertiary_color + ";"
+                                           "background-color : " + User_int_utility.tertiary_color + ";"
+                                           "border-radius: 8px;"
+                                           "}"
+                                           "QPushButton::pressed"
+                                           "{"
+                                           "border-width: 4px;"
+                                           "border-style: flat;"
+                                           "border-color: #222;"
+                                           "}"
+                                           "QPushButton::hover"
+                                           "{"
+                                           "background-color : #850000 ;"
+                                           "}"
+                                           )
+                else:
+                    button.setStyleSheet("QPushButton {"
+                                           "border: 2px" + User_int_utility.secondary_color + ";"
+                                           "background-color : " + User_int_utility.secondary_color + ";"
+                                           "border-radius: 8px;"
+                                           "}"
+                                           "QPushButton::pressed"
+                                           "{"
+                                           "border-width: 4px;"
+                                           "border-style: flat;"
+                                           "border-color: #222;"
+                                           "}"
+                                           "QPushButton::hover"
+                                           "{"
+                                           "background-color : #979401 ;"
+                                           "}"
+                                           )
             else:
                 button.setStyleSheet("QPushButton {"
-                                       "border: 2px" + User_int_utility.secondary_color + ";"
-                                       "background-color : " + User_int_utility.secondary_color + ";"
+                                       "border: 2px;"
+                                       "background-color : #00C882;"
                                        "border-radius: 8px;"
                                        "}"
                                        "QPushButton::pressed"
@@ -123,26 +144,12 @@ class VistaMappaPosti(QWidget):
                                        "}"
                                        "QPushButton::hover"
                                        "{"
-                                       "background-color : #979401 ;"
+                                       "background-color : #009B65 ;"
                                        "}"
                                        )
+
         else:
-            button.setStyleSheet("QPushButton {"
-                                   "border: 2px;"
-                                   "background-color : #00C882;"
-                                   "border-radius: 8px;"
-                                   "}"
-                                   "QPushButton::pressed"
-                                   "{"
-                                   "border-width: 4px;"
-                                   "border-style: flat;"
-                                   "border-color: #222;"
-                                   "}"
-                                   "QPushButton::hover"
-                                   "{"
-                                   "background-color : #009B65 ;"
-                                   "}"
-                                   )
+            button.setDisabled(True)
 
     def crea_box_posti_selezionati(self):
         box = QGroupBox()
@@ -166,14 +173,14 @@ class VistaMappaPosti(QWidget):
                 posto_selezionato_precedentemente = True
                 break
 
-        if (not posto_selezionato_precedentemente) and len(self.lista_posti_selezionati) < 10:
+        if (not posto_selezionato_precedentemente) and len(self.lista_posti_selezionati) < 7:
             self.lista_posti_selezionati.append({"Posto": posto_scelto, "Cod_fisc": User_int_utility.crea_casella_testo("Codice fiscale",
                                                                                                                         QSizePolicy.Minimum)})
             self.applica_stile_posto(self.spettacolo.get_posto(fila, posizione),
                                      self.mappa_posti.cellWidget(numero_fila, posizione-1),
                                      True)
-        elif len(self.lista_posti_selezionati) >= 10:
-            QMessageBox.critical(self, 'Errore', "Si possono seleionare un massimo di 10 posti alla volta", QMessageBox.Ok, QMessageBox.Ok)
+        elif len(self.lista_posti_selezionati) >= 7:
+            QMessageBox.critical(self, 'Errore', "Si possono seleionare un massimo di 7 posti alla volta", QMessageBox.Ok, QMessageBox.Ok)
 
         self.update_ui()
 
@@ -191,28 +198,34 @@ class VistaMappaPosti(QWidget):
                                    posto["Cod_fisc"])
 
     def conferma(self):
+        self.controller.svuota_lista_biglietti()
+
         for posto in self.lista_posti_selezionati:
+            if posto["Cod_fisc"].text() == "":
+                QMessageBox.critical(self, 'Errore', "Inserire tutti i codici fiscali",
+                                     QMessageBox.Ok, QMessageBox.Ok)
+                break
+
             cliente = self.controller.get_cliente(posto["Cod_fisc"].text())
 
             if cliente is not None:
                 self.controller.add_biglietto(Biglietto(
-                    self.spettacolo.film.titolo,
-                    self.spettacolo.data,
-                    self.spettacolo.ora_inizio,
-                    self.spettacolo.sala.nome,
-                    posto["Posto"].fila,
-                    posto["Posto"].posizione,
-                    cliente))
+                                            self.spettacolo.film.titolo,
+                                            self.spettacolo.data,
+                                            self.spettacolo.ora_inizio,
+                                            self.spettacolo.sala.nome,
+                                            posto["Posto"].fila,
+                                            posto["Posto"].posizione,
+                                            cliente))
             else:
                 QMessageBox.critical(self, 'Errore', "Nessun cliente a sistema ha come codice fiscale " + posto["Cod_fisc"].text(),
                                      QMessageBox.Ok, QMessageBox.Ok)
 
         lista_biglietti = self.controller.get_lista_biglietti()
-        if len(self.lista_posti_selezionati) == len(lista_biglietti):
-            for biglietto in lista_biglietti:
-                self.spettacolo.lista_presenze.append(biglietto.cliente)
 
-            self.vista_inserimento_dati = VistaInserimentoDatiBiglietti(self.spettacolo, self.controller, self.modifica_visibilita)
+        #Verifica se tutti i codici fiscali inseriti sono validi: in tali caso si procede
+        if len(self.lista_posti_selezionati) == len(lista_biglietti) and len(lista_biglietti) > 0:
+            self.vista_inserimento_dati = VistaInserimentoDatiBiglietti(self.spettacolo, self.controller, self.modifica_visibilita, self.ritorna_home)
             self.vista_inserimento_dati.show()
 
 

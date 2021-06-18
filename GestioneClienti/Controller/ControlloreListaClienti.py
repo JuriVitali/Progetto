@@ -80,7 +80,7 @@ class ControlloreListaClienti():
             return "Il codice dell'abbonamento inserito non è valido"
         if cliente_selezionato.abbonamento is not None:
             return "Il cliente è già in possesso di un abbonamento"
-        if not Controlli.controlla_eta_cliente(cliente_selezionato):
+        if cliente_selezionato.get_eta() < 14:
             return "Il cliente non può possedere un abbonamento perchè ha meno di 14 anni"
 
         return None
@@ -93,7 +93,7 @@ class ControlloreListaClienti():
             return "Il codice della tessera inserito non è valido"
         if cliente_selezionato.tessera is not None:
             return "Il cliente è già in possesso di una tessera"
-        if not Controlli.controlla_eta_cliente(cliente_selezionato):
+        if cliente_selezionato.get_eta() < 14:
             return "Il cliente non può possedere una tessera perchè ha meno di 14 anni"
 
         return None

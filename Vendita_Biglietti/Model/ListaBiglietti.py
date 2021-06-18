@@ -17,6 +17,11 @@ class ListaBiglietti():
             with open('Spettacoli/Salvataggio_lista_report.pickle', 'rb') as h:
                 self.lista_report = pickle.load(h)
 
+        # Controllo della validità di ogni abbonamento
+        for cliente in self.lista_clienti:
+            if cliente.abbonamento is not None and not cliente.abbonamento.verifica_validita():
+                cliente.abbonamento = None
+
     def add_biglietto(self, biglietto):
         self.lista_biglietti.append(biglietto)
 
@@ -25,5 +30,35 @@ class ListaBiglietti():
             if cliente.cod_fisc == cod_fisc:
                 return cliente
         return None
+
+    def controlla_disp_sconto_tessera(self, biglietto):
+        return biglietto.controlla_disp_sconto_tess()
+
+    def get_parametri_biglietti(self):
+        lista_param_biglietti = []
+        for biglietto in self.lista_biglietti:
+            lista_param_biglietti.append(biglietto.parametri)
+
+        return lista_param_biglietti
+
+    def get_prezzi(self):
+        lista_prezzi = []
+        for biglietto in self.lista_biglietti:
+            lista_prezzi.append(biglietto.calcola_prezzo())
+
+        return lista_prezzi
+
+    def aggiorna_servizi_utilizzati(self):
+        for biglietto in self.lista_biglietti:
+            biglietto.aggiorna_servizi_utilizzati()
+
+    def prenota_posti(self, spettacolo):
+        for biglietto in self.lista_biglietti:
+            spettacolo.prenota_posto(biglietto.fila_posto, biglietto.colonna_posto)
+
+    def save_date(self):
+        with open('GestioneClienti/Salvataggio_lista_clienti.pickle', 'wb') as handle:
+            pickle.dump(self.lista_clienti, handle, pickle.HIGHEST_PROTOCOL)
+
 
 

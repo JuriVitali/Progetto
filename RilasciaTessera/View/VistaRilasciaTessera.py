@@ -119,6 +119,9 @@ class VistaRilasciaTessera(QWidget):
             avviso = self.controller.controlla_tessera(self.codice_tess.text(), cliente_selezionato)
             if avviso is None:
                 self.controller.rilascia_tessera(self.codice_tess.text(), cliente_selezionato)
+
+                # Report
+
                 self.close()
             else:
                 QMessageBox.critical(self, 'Errore', avviso, QMessageBox.Ok, QMessageBox.Ok)

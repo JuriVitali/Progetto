@@ -192,6 +192,9 @@ class VistaVisualizzaClienti(QWidget):
         avviso = self.controller.controlla_abbonamento(self.codice_abb.text(), self.cliente_selezionato)
         if avviso is None:
             self.controller.rilascia_abbonamento(self.codice_abb.text(), self.cliente_selezionato)
+
+            # Report
+
             self.crea_box_info_cliente(self.cliente_selezionato)
             self.ext_layout.addWidget(User_int_utility.crea_label(""), 1, 1)
         else:
@@ -218,6 +221,9 @@ class VistaVisualizzaClienti(QWidget):
         avviso = self.controller.controlla_tessera(self.codice_tess.text(), self.cliente_selezionato)
         if avviso is None:
             self.controller.rilascia_tessera(self.codice_tess.text(), self.cliente_selezionato)
+
+            #Report
+
             self.crea_box_info_cliente(self.cliente_selezionato)
             self.ext_layout.addWidget(User_int_utility.crea_label(""), 1, 1)
         else:
