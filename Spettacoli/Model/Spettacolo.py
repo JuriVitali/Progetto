@@ -41,7 +41,7 @@ class Spettacolo():
         else:
             self.sala = Sala(Parametri.sale[3], Parametri.file_sala_4, Parametri.lunghezza_file_sala_4,
                         Parametri.file_vip_sala_4)
-        print("3")
+
         self.sala.prenota_posti(sala["Prenotazioni"])
 
     # Metodo che ritorna l'oggetto Posto corrispondente alla fila (primo parametro) e alla

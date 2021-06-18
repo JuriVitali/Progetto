@@ -26,18 +26,15 @@ class Sala():
     # Metodo che consente la prenotazione di uno o più posti che devono essere passati
     # come parametro all'interno di una lista
     def prenota_posti(self, posti_da_prenotare):
-        test = 0
-
         for p in posti_da_prenotare:
-            for i in range(len(self.posti)):
-                for j in range(len(self.posti[i])):
+            prenotato = False
+            for i in range(0, len(self.file)):
+                for j in range(0, self.lunghezza_file):
                     if p.fila == self.posti[i][j].fila and p.posizione == self.posti[i][j].posizione:
                         self.posti[i][j].prenota()
-                        test += 1
-                    break
-                break
-
-        print(str(test) + " numero posti occupati")
+                        prenotato = True
+                        break
+                if prenotato: break
 
     # Metodo che restituisce una lista di oggetti Posto che corrispondono ai posti occupati
     def get_posti_occupati(self):

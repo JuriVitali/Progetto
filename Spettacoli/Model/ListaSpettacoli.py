@@ -31,11 +31,9 @@ class ListaSpettacoli():
             if sala["Data spett"] < QDate.currentDate():
                 lista_sale.remove(sala)
 
-        print("1")
         #ricostruzione delle sale degli spettacoli
         i = 0
         for spettacolo in self.lista_spettacoli:
-            print("2")
             if spettacolo.data >= QDate.currentDate():
                 spettacolo.ricostruisci_sala(lista_sale[i])
                 i += 1
