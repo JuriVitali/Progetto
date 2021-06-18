@@ -12,6 +12,8 @@ class VistaInserimentoDatiBiglietti(QWidget):
 
         self.controller = controller
 
+        # lista di funzioni che una volta giunti alla fine della vendita consentirà
+        # di tornare alla home
         self.ritorna_home = ritorna_home
         self.ritorna_home.append(self.close)
 
@@ -20,6 +22,7 @@ class VistaInserimentoDatiBiglietti(QWidget):
 
         self.spettacolo = spettacolo
 
+        # settaggio dei parametri generali della finestra
         self.setWindowTitle("Visualizzazione dati biglietti")
         self.setGeometry(0, 0, 1200, 650)
         User_int_utility.sposta_al_centro(self)
@@ -27,6 +30,7 @@ class VistaInserimentoDatiBiglietti(QWidget):
         ext_layout.setContentsMargins(0, 0, 0, 0)
         User_int_utility.set_window_style(self)
 
+        # aggiunta dei widget al layout esterno
         ext_layout.addLayout(User_int_utility.crea_banda_superiore("Bi"), 0, 0)
         ext_layout.addWidget(self.crea_box(), 1, 0)
 
@@ -41,13 +45,12 @@ class VistaInserimentoDatiBiglietti(QWidget):
         box.setLayout(box_layout)
         box_layout.setContentsMargins(15, 20, 15, 15)
 
-
         box_layout.addWidget(self.crea_tabella())
         box_layout.addWidget(User_int_utility.crea_green_or_red_push_button("Avanti", self.conferma, QSizePolicy.Expanding,
                                                                             QSizePolicy.Minimum, "G"))
-
         return box
 
+    # metodo che crea la tabella con i dati di tessere e abbonamenti
     def crea_tabella(self):
         lista_biglietti = self.controller.get_lista_biglietti()
         self.lista_check_box = []
@@ -99,6 +102,8 @@ class VistaInserimentoDatiBiglietti(QWidget):
 
         return tabella
 
+    # metodo che aggiorna i parametri dei biglietti in base ai clienti
+    # che hanno intenzione di utilizzare il loro abbonamento e crea la finestra di riepilogo
     def conferma(self):
         for elem in self.lista_check_box:
             if elem["box"].checkState() == Qt.Checked:
@@ -107,6 +112,7 @@ class VistaInserimentoDatiBiglietti(QWidget):
         self.riepilogo = VistaRiepilogoBiglietti(self.controller, self.spettacolo, self.modifica_visibilita, self.ritorna_home)
         self.riepilogo.show()
 
+    # metodo che modifica la visibiità della finestra
     def modifica_visibilita(self):
         User_int_utility.modifica_visibilita_finestra(self)
 

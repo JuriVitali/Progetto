@@ -10,10 +10,12 @@ class ListaSpettacoli():
         self.lista_film = []
         lista_sale = []
 
-        if os.path.isfile('Film/Salvataggio_lista_film.pickle'):           #caricamento dei dati
+        # caricamento dei film
+        if os.path.isfile('Film/Salvataggio_lista_film.pickle'):
                 with open('Film/Salvataggio_lista_film.pickle', 'rb') as f:
                         self.lista_film = pickle.load(f)
 
+        # caricamento degli spettacoli
         if os.path.isfile('Spettacoli/Salvataggio_lista_spettacoli.pickle'):
             with open('Spettacoli/Salvataggio_lista_spettacoli.pickle', 'rb') as g:
                 self.lista_spettacoli = pickle.load(g)
@@ -27,16 +29,17 @@ class ListaSpettacoli():
             if spettacolo.data < (QDate.currentDate().addDays(-14)):
                 self.lista_spettacoli.remove(spettacolo)
 
-        for sala in lista_sale:
-            if sala["Data spett"] < QDate.currentDate():
-                lista_sale.remove(sala)
-
-        #ricostruzione delle sale degli spettacoli
-        i = 0
+        # ricostruzione delle sale degli spettacoli in programma per il giorno corrente o
+        # per i giorni successivi
         for spettacolo in self.lista_spettacoli:
             if spettacolo.data >= QDate.currentDate():
-                spettacolo.ricostruisci_sala(lista_sale[i])
-                i += 1
+                for sala in lista_sale:
+                    if spettacolo.id == sala["Id"]:
+                        spettacolo.ricostruisci_sala(sala)
+                        lista_sale.remove(sala)
+                        break
+
+
 
     # Metodo che aggiunge uno spettacolo alla lista degli spettacoli registrati a sistema
     def aggiungi_spettacolo(self, spettacolo):
@@ -73,7 +76,7 @@ class ListaSpettacoli():
         # con le sue informazioni essenziali
         lista_sale = []
         for spettacolo in self.lista_spettacoli:
-            lista_sale.append({"Sala" : spettacolo.sala.nome, "Prenotazioni" : spettacolo.sala.get_posti_occupati(), "Data spett" : spettacolo.data})
+            lista_sale.append({"Sala" : spettacolo.sala.nome, "Prenotazioni" : spettacolo.sala.get_posti_occupati(), "Id" : spettacolo.id})
 
         with open("Spettacoli/Salvataggio_lista_sale.pickle", "wb") as handle:
             pickle.dump(lista_sale, handle, pickle.HIGHEST_PROTOCOL)

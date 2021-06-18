@@ -52,7 +52,20 @@ class Spettacolo():
                 if posto.fila == nome_fila and posto.posizione == posizione:
                     return posto
 
+    # metodo che dati fila(primo parametro) e colonna (secondo parametro) di un posto per lo
+    # spettacolo da prenotare, prenota il posto
     def prenota_posto(self, nome_fila, posizione):
         posto_da_prenotare = self.get_posto(nome_fila, posizione)
         posto_da_prenotare.prenota()
+
+    # Aggiorna la lista dei clienti che hanno prenotato un posto per lo spettacolo
+    def aggiorna_lista_presenze(self, lista_nuovi_spettatori):
+        for spettatore in lista_nuovi_spettatori:
+            duplicato = False
+            for presenza in self.lista_presenze:
+                if spettatore.cod_fisc == presenza.cod_fisc:
+                    duplicato = True
+
+            if not duplicato:
+                self.lista_presenze.append(spettatore)
 

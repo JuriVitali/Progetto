@@ -1,4 +1,5 @@
-from PyQt5.QtWidgets import QWidget, QGridLayout, QGroupBox, QSizePolicy, QVBoxLayout, QHeaderView, QTableWidget
+from PyQt5.QtWidgets import QWidget, QGridLayout, QGroupBox, QSizePolicy, QVBoxLayout, QHeaderView, QTableWidget, \
+    QMessageBox
 
 from GestioneServizi.Model.ParametriServizi import ParametriServizi
 from Utilità.User_int_utility import User_int_utility
@@ -10,17 +11,20 @@ class VistaRiepilogoBiglietti(QWidget):
 
         self.controller = controller
 
+        # lista di funzioni consente di tornare alla home
         self.ritorna_home = ritorna_home
         self.callback = callback
         self.callback()  # Fa scomparire la finestra precedente
 
         self.spettacolo = spettacolo
 
+        # Diventa True solo quando la vendita è confermata
         self.finito = False
 
         self.lista_prezzi = self.controller.get_prezzi()
         self.lista_parametri_biglietti = self.controller.get_parametri_biglietti()
 
+        # settaggio dei parametri generali della finestra
         self.setWindowTitle("Riepilogo biglietti e prezzi")
         self.setGeometry(0, 0, 1300, 650)
         User_int_utility.sposta_al_centro(self)
@@ -28,11 +32,14 @@ class VistaRiepilogoBiglietti(QWidget):
         ext_layout.setContentsMargins(0, 0, 0, 0)
         User_int_utility.set_window_style(self)
 
+        # aggiunta dei widget al layout esterno
         ext_layout.addLayout(User_int_utility.crea_banda_superiore("Bi"), 0, 0)
         ext_layout.addWidget(self.crea_box_esterno(), 1, 0)
 
         self.setLayout(ext_layout)
 
+    # Metodo che crea e restituisce un box contente la tabella, il pulsante per la
+    # conferma e un box interno con il prezzo totale dei biglietti
     def crea_box_esterno(self):
         box = QGroupBox()
         box.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Expanding)
@@ -46,6 +53,7 @@ class VistaRiepilogoBiglietti(QWidget):
         box_layout.addWidget(self.crea_box_totale(), 1, 1)
         return box
 
+    # Metodo che restituisce un box contenente il prezzo totale dei biglietti
     def crea_box_totale(self):
         box = QGroupBox()
         User_int_utility.box_scuro(box)
@@ -60,6 +68,8 @@ class VistaRiepilogoBiglietti(QWidget):
 
         return box
 
+    # Metodo che resituisce una tabella con il riepilogo dei dati di ogni
+    # biglietto
     def crea_tabella(self):
         lista_biglietti = self.controller.get_lista_biglietti()
 
@@ -83,6 +93,7 @@ class VistaRiepilogoBiglietti(QWidget):
             v_header.setSectionResizeMode(i, QHeaderView.Stretch)
         v_header.hide()
 
+        # aggiunta dei widget alla tabella
         p = ParametriServizi()
         i = 0
         for biglietto in lista_biglietti:
@@ -123,23 +134,29 @@ class VistaRiepilogoBiglietti(QWidget):
 
         return tabella
 
+    #Metodo che conferma la vendita dei biglietti
     def conferma(self):
+
+        # Aggiorna la lista delle presenze
+        lista_nuovi_spettatori = []
+        for biglietto in self.controller.get_lista_biglietti():
+            lista_nuovi_spettatori.append(biglietto.cliente)
+        self.spettacolo.aggiorna_lista_presenze(lista_nuovi_spettatori)
+
 
         # Aggiorna i dati di tessere e abbonamenti, se sono stati utilizzati
         self.controller.aggiorna_servizi_utilizzati()
 
-        # Aggiorna la lista delle presenze
-        for biglietto in self.controller.get_lista_biglietti():
-            self.spettacolo.lista_presenze.append(biglietto.cliente)
-
         # Report
 
+        # prenota i posti per lo spettacolo
         self.controller.prenota_posti(self.spettacolo)
 
         self.controller.save_date()
 
         self.finito = True
         self.close()
+
 
     def closeEvent(self, event):
         if self.finito:

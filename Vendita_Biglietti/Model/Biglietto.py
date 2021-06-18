@@ -28,7 +28,8 @@ class Biglietto():
         self.controlla_eta()
         self.controlla_giorno_settimanale()
 
-
+    # Metodo che controlla se la poltrona associata al biglietto è premium e aggiorna di conseguenza
+    # il dizionario contenente i parametri per determinare il prezzo del biglietto
     def controlla_poltrona(self):
         p = Parametri()
         if self.sala == p.sale[0] and self.fila_posto in p.file_vip_sala_1:
@@ -40,18 +41,26 @@ class Biglietto():
         elif self.sala == p.sale[3] and self.fila_posto in p.file_vip_sala_4:
             self.parametri["premium"] = True
 
+    # Metodo che determina l'età del cliente che ha acquistato il biglietto e aggiorna di conseguenza
+    # il dizionario contenente i parametri per determinare il prezzo del biglietto
     def controlla_eta(self):
         if self.cliente.get_eta() < 14:
             self.parametri["under 14"] = True
 
+    # Metodo che determina il giorno della settimana e aggiorna di conseguenza
+    # il dizionario contenente i parametri per determinare il prezzo del biglietto
     def controlla_giorno_settimanale(self):
         giorno_settimana = QDate.currentDate().dayOfWeek()
         if giorno_settimana == 6 or giorno_settimana == 7:
             self.parametri["weekend"] = True
 
+    # Metodo che ritorna True se il cliente che ha acquistato il biglietto possiede una tessera e ha
+    # punti sufficienti per l'ottenimento dello socnto. Altrimenti ritorna False.
     def controlla_disp_sconto_tess(self):
         return self.cliente.tessera.controlla_disp_sconto()
 
+    # Metodo che ritorna il prezzo del biglietto dopo averlo calcolato tenendo in considerazione
+    # i parametri del biglietto e le corrispondenti tariffe
     def calcola_prezzo(self):
         if not self.parametri["utilizza abb"]:
             p = ParametriServizi()
@@ -74,6 +83,7 @@ class Biglietto():
 
         return self.prezzo
 
+    # Metodo che aggiorna la tessera o l'abbonamento (se utilizzati) del cliente che ha acquistato il biglietto
     def aggiorna_servizi_utilizzati(self):
         if self.parametri["utilizza abb"]:
             self.cliente.abbonamento.effetua_ingresso()
