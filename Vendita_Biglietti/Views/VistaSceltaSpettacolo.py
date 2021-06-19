@@ -1,8 +1,9 @@
 
 from PyQt5.QtCore import QDate
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
-from PyQt5.QtWidgets import QWidget, QGridLayout, QGroupBox, QVBoxLayout, QSizePolicy
+from PyQt5.QtWidgets import QWidget, QGridLayout, QGroupBox, QVBoxLayout, QSizePolicy, QFormLayout
 
+from GestioneServizi.Model.ParametriServizi import ParametriServizi
 from Spettacoli.Controllers.ControlloreListaSpettacoli import ControlloreListaSpettacoli
 from Utilità.Parametri import Parametri
 from Utilità.User_int_utility import User_int_utility
@@ -33,9 +34,28 @@ class VistaSceltaSpettacolo(QWidget):
 
         # aggiunta dei widget al layout esterno
         ext_layout.addLayout(User_int_utility.crea_banda_superiore("Bi"), 0, 0)
-        ext_layout.addLayout(self.crea_group_boxes(), 1, 0)
+        ext_layout.addWidget(self.crea_box_tariffe_biglietti(), 1, 0)
+        ext_layout.addLayout(self.crea_group_boxes(), 2, 0)
 
         self.setLayout(ext_layout)
+
+    # Metodo che crea un box in cui vengono riepilogate le tariffe dei biglietti
+    def crea_box_tariffe_biglietti(self):
+        box = QGroupBox()
+        box.setTitle("Tariffe biglietti")
+        box.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
+        box_layout = QGridLayout()
+        box.setLayout(box_layout)
+        box_layout.setContentsMargins(8, 30, 8, 8)
+
+        p = ParametriServizi()
+
+        box_layout.addWidget(User_int_utility.crea_label("Tariffa base:\t\t " + "{:.2f}".format(p.tariffa_base_biglietto) + " €"), 0, 0)
+        box_layout.addWidget(User_int_utility.crea_label("Maggiorazione poltrona premium:  " + "{:.2f}".format(p.magg_premium_biglietto) + " €"), 0, 1)
+        box_layout.addWidget(User_int_utility.crea_label("Maggiorazione weekend:\t " + "{:.2f}".format(p.magg_weekend_biglietto) + " €"), 1, 0)
+        box_layout.addWidget(User_int_utility.crea_label("Sconto under 14: \t\t " + "{:.2f}".format(p.sconto_under_14_biglietto) + " €"), 1, 1)
+
+        return box
 
     # Metodo che crea, popola con gli spettacoli e restituisce una group box per ogni sala
     # all'interno di un layout a griglia
