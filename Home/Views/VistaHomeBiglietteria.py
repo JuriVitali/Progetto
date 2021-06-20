@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import QWidget, QHBoxLayout, QSizePolicy, QVBoxLayout, QSpacerItem
 from PyQt5.QtGui import QPixmap, QIcon
 
+from Lista_presenze.View.VistaVisualizzaPresenze import VistaVisualizzaPresenze
 from RilasciaAbbonamento.View.VistaRilasciaAbbonamento import VistaRilasciaAbbonamento
 from RilasciaTessera.View.VistaRilasciaTessera import VistaRilasciaTessera
 from Spettacoli.Views.VistaVisProgrammazioneSpettacoli import VistaVisProgrammazioneSpettacoli
@@ -89,7 +90,8 @@ class VistaHomeBiglietteria(QWidget):
 
     # metodo che fa apparire la finestra per la consultazione del manuale
     def go_to_lista_presenze(self):
-        pass
+        self.vista_lista_presenze = VistaVisualizzaPresenze(self.modifica_visibilita)
+        self.vista_lista_presenze.show()
 
     # metodo che fa tornare alla schermata di login
     def logout(self):
