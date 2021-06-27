@@ -49,7 +49,7 @@ class ControlloreListaSpettacoli():
         if titolo != "":
             for spettacolo in lista_spett_data:
                 if titolo in spettacolo.film.titolo:
-                    lista_spett_data.append(spettacolo)
+                    lista_spett_filtrata.append(spettacolo)
         else:
             return lista_spett_data
 

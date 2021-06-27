@@ -1,35 +1,23 @@
 from PyQt5.QtCore import QDate
 from PyQt5.QtGui import QPixmap, QStandardItemModel, QStandardItem
 from PyQt5.QtWidgets import QWidget, QGridLayout, QSizePolicy, QHBoxLayout, QSpacerItem, QGroupBox, \
-    QVBoxLayout, QMessageBox
+    QVBoxLayout
 
-from GestioneClienti.Controller.ControlloreListaClienti import ControlloreListaClienti
 from Utilità.User_int_utility import User_int_utility
 
-class VistaVisualizzaPresenzeFilm(QWidget):
-    def __init__(self, controller, callback, nome=None, cognome=None, parent=None):
-        super(VistaVisualizzaPresenzeFilm, self).__init__()
+class VistaVisualizzaPresenzeSpettacolo(QWidget):
+    def __init__(self, controller, spettacolo, callback, parent=None):
+        super(VistaVisualizzaPresenzeSpettacolo, self).__init__()
 
-        print("0")
-
-        self.controller = ControlloreListaClienti()
+        self.controller = controller
 
         self.callback = callback
         self.callback()       #fa scomparire la finestra precedente
 
-        print("1")
-
-        self.nome_cercato = nome
-        self.cognome_cercato = cognome
-
-        print("2")
-
-        self.lista_filtrata = self.controller.get_lista_completa()
-
-        print("3")
+        self.spettacolo = spettacolo
 
         # settaggio delle impostazioni generali della finestra
-        self.setWindowTitle("Visualizzazione presenze del film")
+        self.setWindowTitle("Visualizzazione presenze dello spettacolo")
         User_int_utility.set_window_style(self)
         self.setGeometry(0, 0, 1200, 650)
         User_int_utility.sposta_al_centro(self)                 #sposta al centro la finestra
@@ -38,7 +26,7 @@ class VistaVisualizzaPresenzeFilm(QWidget):
 
         # aggiunta di tutti i widget e i layout al layout esterno
         self.ext_layout.addLayout(User_int_utility.crea_banda_superiore(""), 0, 0, 1, 3)
-        self.ext_layout.addWidget(self.crea_box_lista_clienti(), 1, 0)
+        self.ext_layout.addWidget(self.crea_box_presenze(), 1, 0)
         self.ext_layout.addItem(QSpacerItem(10, 10, QSizePolicy.Expanding, QSizePolicy.Expanding), 1, 1)
         self.ext_layout.addWidget(User_int_utility.crea_label_con_imm(QPixmap("Immagini/Sfondi/cliente_back.png"), QSizePolicy.Minimum,
                                                 QSizePolicy.Expanding), 1, 2)
@@ -46,18 +34,16 @@ class VistaVisualizzaPresenzeFilm(QWidget):
 
     # Metodo che crea e restituisce un box contenente una list_view, dove compare la
     # lista dei clienti che soddisfano i requisiti immessi nella ricerca, e due pulsanti
-    def crea_box_lista_clienti(self):
+    def crea_box_presenze(self):
         box = QGroupBox()
         box.setTitle("Lista delle presenze")
         box.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Expanding)
-
         box_layout = QVBoxLayout()
         box_layout.setContentsMargins(8, 40, 8, 8)
 
         self.list_view = User_int_utility.crea_list_view()
         box_layout.addWidget(self.list_view)
         self.update_listview()
-
         box_layout.addWidget(User_int_utility.crea_push_button("Visualizza info", self.show_info_cliente,
                                                                "Visualizza le informazioni della persona selezionata",
                                                                QSizePolicy.Minimum, QSizePolicy.Minimum))
@@ -77,10 +63,9 @@ class VistaVisualizzaPresenzeFilm(QWidget):
 
         # creazione del primo box con le info del cliente
         box_anagrafica = QGroupBox()
-        box_anagrafica.setTitle("Anagrafica")
         User_int_utility.box_scuro(box_anagrafica)
         layout_anagrafica = QHBoxLayout()
-        layout_anagrafica.setContentsMargins(8, 40, 8, 8)
+        layout_anagrafica.setContentsMargins(8, 15, 8, 15)
         box_anagrafica.setLayout(layout_anagrafica)
 
         layout_anagrafica.addWidget(User_int_utility.crea_label("Nome: \nCognome: \nData di nascita: \nCodice fiscale: \nTelefono: \nEmail: ",
@@ -91,26 +76,24 @@ class VistaVisualizzaPresenzeFilm(QWidget):
                                                       + cliente_selezionato.cod_fisc + "\n"
                                                       + cliente_selezionato.telefono + "\n"
                                                       + cliente_selezionato.email, 15, "s"))
+
         ext_box_layout.addWidget(box_anagrafica)
+        ext_box_layout.addItem(QSpacerItem(20, 250, QSizePolicy.Minimum, QSizePolicy.Minimum))
 
         return ext_box
-
-    # metodo che ritorna la lista dei clienti presenti a sistema filtrata in base al nome e al cognome cercati
-    def get_cliente_by_nome(self):
-        return self.controller.get_cliente_by_nome(self.nome_cercato, self.cognome_cercato)
 
     # metodo che fa apparire una groupbox con le informazioni del cliente selezionato
     def show_info_cliente(self):
         if (len(self.list_view.selectedIndexes()) > 0):
             index = self.list_view.selectedIndexes()[0].row()
-            self.cliente_selezionato = self.lista_filtrata[index]
+            self.cliente_selezionato = self.spettacolo.lista_presenze[index]
             self.ext_layout.addWidget(self.crea_box_info_cliente(self.cliente_selezionato), 1, 1)
 
 
     # metodo che aggiorna gli elementi nella listview
     def update_listview(self):
         self.listview_model = QStandardItemModel(self.list_view)
-        for cliente in self.lista_filtrata:
+        for cliente in self.spettacolo.lista_presenze:
             item = QStandardItem()
             item.setText(cliente.nome + " " + cliente.cognome)
             item.setEditable(False)

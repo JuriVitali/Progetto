@@ -2,7 +2,7 @@ from PyQt5.QtCore import QDate, QTime
 from PyQt5.QtGui import QPixmap, QStandardItem, QStandardItemModel
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QGridLayout, QSizePolicy, QGroupBox, QSpacerItem, QMessageBox
 
-from Lista_presenze.View.VistaVisualizzaPresenzeFilm import VistaVisualizzaPresenzeFilm
+from Lista_presenze.View.VistaVisualizzaPresenzeSpettacolo import VistaVisualizzaPresenzeSpettacolo
 from Spettacoli.Controllers.ControlloreListaSpettacoli import ControlloreListaSpettacoli
 from Utilità.User_int_utility import User_int_utility
 
@@ -25,7 +25,7 @@ class VistaVisualizzaPresenze(QWidget):
 
         # Creazione di un layout a griglia interno contenente i vari widget e l'immagine
         grid_layout = QGridLayout()
-        grid_layout.addWidget(User_int_utility.crea_push_button("Visualizza Presenze", self.show_lista_clienti_completa,
+        grid_layout.addWidget(User_int_utility.crea_push_button("Visualizza Presenze", self.visualizza_presenze,
                                               "Cliccare per visualizzare le presenze per il film selezionato",
                                               QSizePolicy.Minimum, QSizePolicy.Expanding), 2, 0)
         grid_layout.addItem(QSpacerItem(20, 200, QSizePolicy.Minimum, QSizePolicy.Minimum), 1, 0)
@@ -95,15 +95,16 @@ class VistaVisualizzaPresenze(QWidget):
         box.setLayout(box_layout)
         return box
 
-    # Metodo che, dopo aver verificato i campi inseriti, aggiorna la list view con la lista degli spettacoli
     def show_lista_spettacoli_filtrata(self):
-            self.lista_spettacoli = self.controller.get_spettacoli_titolo_data(self.titolo_ricerca.text(), self.data_ricerca.date())
-            self.update_listview()
+        self.lista_spettacoli = self.controller.get_spettacoli_titolo_data(self.titolo_ricerca.text(), self.data_ricerca.date())
+        self.update_listview()
 
     # metodo che fa apparire una finestra in cui vengono visualizzati tutti i clienti presenti a sistema
-    def show_lista_clienti_completa(self):
-            self.vista_lista_clienti = VistaVisualizzaPresenzeFilm(self.controller, self.modifica_visibilita, None, None)
-            self.vista_lista_clienti.show()
+    def visualizza_presenze(self):
+        if (len(self.list_view.selectedIndexes()) > 0):
+            index = self.list_view.selectedIndexes()[0].row()
+            self.vista_lista_presenze = VistaVisualizzaPresenzeSpettacolo(self.controller, self.lista_spettacoli[index], self.modifica_visibilita)
+            self.vista_lista_presenze.show()
 
    # metodo che aggiorna gli elementi nella listview
     def update_listview(self):
@@ -122,5 +123,4 @@ class VistaVisualizzaPresenze(QWidget):
             User_int_utility.modifica_visibilita_finestra(self)
 
     def closeEvent(self, event):
-            #self.controller.save_data()              #salvataggio dei dati
             self.callback()                          #fa riapparire la finestra precedente
