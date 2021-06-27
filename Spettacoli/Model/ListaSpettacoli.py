@@ -76,16 +76,15 @@ class ListaSpettacoli():
         # con le sue informazioni essenziali
         lista_sale = []
 
-        print("0")
         for spettacolo in self.lista_spettacoli:
             if spettacolo.data >= QDate.currentDate():
-                lista_sale.append({"Sala" : spettacolo.sala.nome, "Prenotazioni" : spettacolo.sala.get_posti_occupati(), "Id" : spettacolo.id})
-        print("1")
+                lista_sale.append({"Sala": spettacolo.sala.nome, "Prenotazioni": spettacolo.sala.get_posti_occupati(), "Id" : spettacolo.id})
+
         with open("Spettacoli/Salvataggio_lista_sale.pickle", "wb") as handle:
             pickle.dump(lista_sale, handle, pickle.HIGHEST_PROTOCOL)
-        print("2")
+
         for spettacolo in self.lista_spettacoli:
             spettacolo.sala = None
-        print("3")
+
         with open("Spettacoli/Salvataggio_lista_spettacoli.pickle", "wb") as handle:
             pickle.dump(self.lista_spettacoli, handle, pickle.HIGHEST_PROTOCOL)

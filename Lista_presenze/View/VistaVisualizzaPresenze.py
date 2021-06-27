@@ -29,12 +29,12 @@ class VistaVisualizzaPresenze(QWidget):
         grid_layout = QGridLayout()
         grid_layout.addWidget(User_int_utility.crea_push_button("Visualizza Presenze", self.show_lista_clienti_completa,
                                               "Cliccare per visualizzare le presenze per il film selezionato",
-                                              QSizePolicy.Expanding, QSizePolicy.Expanding), 2, 0, 1, 1)
-        grid_layout.addItem(QSpacerItem(20, 95, QSizePolicy.Expanding, QSizePolicy.Minimum), 1, 0, 1, 1)
-        grid_layout.addWidget(self.crea_box_ricerca(), 0, 0, 1, 1)
-        grid_layout.addWidget(self.crea_box_lista_clienti(), 0, 1, 3, 2)
-        #grid_layout.addWidget(User_int_utility.crea_label_con_imm(QPixmap("Immagini/Sfondi/cliente_back.png"),
-                                                                  #QSizePolicy.Minimum, QSizePolicy.Minimum), 0, 2, 3, 1)    #immagine
+                                              QSizePolicy.Minimum, QSizePolicy.Expanding), 2, 0)
+        grid_layout.addItem(QSpacerItem(20, 200, QSizePolicy.Minimum, QSizePolicy.Minimum), 1, 0)
+        grid_layout.addWidget(self.crea_box_ricerca(), 0, 0)
+        grid_layout.addWidget(self.crea_box_lista_spettacoli(), 0, 1, 3, 1)
+        grid_layout.addWidget(User_int_utility.crea_label_con_imm(QPixmap("Immagini/Sfondi/cliente_back.png"),
+                                                                  QSizePolicy.Minimum, QSizePolicy.Minimum), 0, 2, 3, 1)    #immagine
         grid_layout.setContentsMargins(20, 0, 0, 0)
 
         # aggiunta dei due layout al layout esterno
@@ -47,8 +47,8 @@ class VistaVisualizzaPresenze(QWidget):
     # metodo che crea il box contenente i widget per la ricerca di un cliente in base al nome e al cognome
     def crea_box_ricerca(self):
         box = QGroupBox()
-        box.setTitle("Cerca un film")
-        box.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        box.setTitle("Cerca uno spettacolo")
+        box.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Expanding)
         box.setStyleSheet("QGroupBox"
                           "{"
                           "background-color: #222;"
@@ -61,6 +61,7 @@ class VistaVisualizzaPresenze(QWidget):
                           "}"
                           )
         layout = QGridLayout()
+        layout.setContentsMargins(8, 40, 8, 8)
 
         oggi = QDate.currentDate()
 
@@ -73,17 +74,17 @@ class VistaVisualizzaPresenze(QWidget):
         layout.addWidget(self.titolo_ricerca, 0, 1)
         layout.addWidget(self.data_ricerca, 1, 1)
         layout.addItem(QSpacerItem(20, 10, QSizePolicy.Minimum, QSizePolicy.Expanding), 0, 2, 2, 1)
-        layout.addWidget(User_int_utility.crea_push_button("Cerca film", self.update_listview,
+        layout.addWidget(User_int_utility.crea_push_button("Cerca spettacolo", self.update_listview,
                                                            "Cliccare per ricercare il film",
-                                                           QSizePolicy.Minimum, QSizePolicy.Expanding), 0, 3, 2, 1)
+                                                           QSizePolicy.Minimum, QSizePolicy.Minimum), 2, 0, 1, 2)
         box.setLayout(layout)
         return box
 
-        # Metodo che crea e restituisce un box contenente una list_view, dove compare la
-        # lista dei clienti che soddisfano i requisiti immessi nella ricerca, e due pulsanti
-    def crea_box_lista_clienti(self):
+    # Metodo che crea e restituisce un box contenente una list_view, dove compare la
+    # lista dei clienti che soddisfano i requisiti immessi nella ricerca, e due pulsanti
+    def crea_box_lista_spettacoli(self):
         box = QGroupBox()
-        box.setTitle("Lista dei film")
+        box.setTitle("Lista degli spettacoli")
         box.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 
         box_layout = QVBoxLayout()
