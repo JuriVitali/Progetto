@@ -14,7 +14,7 @@ class ControlloreListaSpettacoli():
     #ritorna una lista contenente contenente una lista per ogni sala;
     #all'interno di ognuna di queste liste ci sono gli spettacoli programmati per il giorno
     #passato come parametro nella sala corrispondente
-    def get_spettacoli_by_day(self, data):
+    def get_spettacoli_by_day_divisi(self, data):
 
         lista_spett_data = self.model.get_spettacolo_by_date(data)      #lista degli spettacoli programmati per il giorno scelto
 
@@ -42,6 +42,21 @@ class ControlloreListaSpettacoli():
 
         return lista_spett_finale
 
+    def get_spettacoli_titolo_data(self, titolo, data):
+        lista_spett_data = self.model.get_spettacolo_by_date(data)      #lista degli spettacoli programmati per il giorno scelto
+        lista_spett_filtrata = []
+
+        if titolo != "":
+            for spettacolo in lista_spett_data:
+                if titolo in spettacolo.film.titolo:
+                    lista_spett_data.append(spettacolo)
+        else:
+            return lista_spett_data
+
+        return lista_spett_filtrata
+
+    def get_spettacoli_passati(self):
+        return self.model.get_lista_spettacoli_passati()
 
     #elimina dalla lista dei film registrati a sistema il film che si trova nella posizione passata
     #come parametro della lista passata come parametro

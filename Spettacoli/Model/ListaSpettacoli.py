@@ -32,12 +32,11 @@ class ListaSpettacoli():
         # ricostruzione delle sale degli spettacoli in programma per il giorno corrente o
         # per i giorni successivi
         for spettacolo in self.lista_spettacoli:
-            if spettacolo.data >= QDate.currentDate():
-                for sala in lista_sale:
-                    if spettacolo.id == sala["Id"]:
-                        spettacolo.ricostruisci_sala(sala)
-                        lista_sale.remove(sala)
-                        break
+            for sala in lista_sale:
+                if spettacolo.id == sala["Id"]:
+                    spettacolo.ricostruisci_sala(sala)
+                    lista_sale.remove(sala)
+                    break
 
 
 
@@ -69,6 +68,14 @@ class ListaSpettacoli():
                 lista_film_filtrata.append(self.lista_film[i])
         return lista_film_filtrata
 
+    def get_lista_spettacoli_passati(self):
+        lista_spettacoli_passati = []
+        for spettacolo in self.lista_spettacoli:
+            if spettacolo.data < QDate.currentDate():
+                lista_spettacoli_passati.append(spettacolo)
+
+        return lista_spettacoli_passati
+
     #Salva su file i dati relativi agli spettacoli registrati a sistema
     def save_data(self):
 
@@ -77,7 +84,6 @@ class ListaSpettacoli():
         lista_sale = []
 
         for spettacolo in self.lista_spettacoli:
-            if spettacolo.data >= QDate.currentDate():
                 lista_sale.append({"Sala": spettacolo.sala.nome, "Prenotazioni": spettacolo.sala.get_posti_occupati(), "Id" : spettacolo.id})
 
         with open("Spettacoli/Salvataggio_lista_sale.pickle", "wb") as handle:

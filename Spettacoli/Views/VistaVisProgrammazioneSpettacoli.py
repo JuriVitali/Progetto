@@ -114,7 +114,7 @@ class VistaVisProgrammazioneSpettacoli(QWidget):
         self.label_giorno.setText("Spettacoli in programma per il giorno " + str(self.data.day()) + "-" + str(self.data.month()) + ""
                                   "-" + str(self.data.year()))
 
-        self.lista_spettacoli_giornaliera = self.controller.get_spettacoli_by_day(self.data)
+        self.lista_spettacoli_giornaliera = self.controller.get_spettacoli_by_day_divisi(self.data)
 
         self.listviews_models = []
         for i in range(len(self.lista_list_view)):

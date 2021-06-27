@@ -66,7 +66,7 @@ class VistaSceltaSpettacolo(QWidget):
         self.listviews_models = []
 
         #lista degli spettacoli in programma oggi
-        self.lista_spettacoli_oggi = self.controller.get_spettacoli_by_day(QDate.currentDate())
+        self.lista_spettacoli_oggi = self.controller.get_spettacoli_by_day_divisi(QDate.currentDate())
 
         lista_funzioni_selezione = [self.seleziona_spettacolo_sala_1, self.seleziona_spettacolo_sala_2,
                                     self.seleziona_spettacolo_sala_3, self.seleziona_spettacolo_sala_4]

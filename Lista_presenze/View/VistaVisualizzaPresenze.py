@@ -1,11 +1,7 @@
-from PyQt5.QtCore import QDate
+from PyQt5.QtCore import QDate, QTime
 from PyQt5.QtGui import QPixmap, QStandardItem, QStandardItemModel
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QGridLayout, QSizePolicy, QGroupBox, QSpacerItem, QMessageBox
 
-from GestioneClienti.Controller.ControlloreListaClienti import ControlloreListaClienti
-
-from GestioneClienti.Views.VistaRegistraCliente import VistaRegistraCliente
-from GestioneClienti.Views.VistaVisualizzaClienti import VistaVisualizzaClienti
 from Lista_presenze.View.VistaVisualizzaPresenzeFilm import VistaVisualizzaPresenzeFilm
 from Spettacoli.Controllers.ControlloreListaSpettacoli import ControlloreListaSpettacoli
 from Utilità.User_int_utility import User_int_utility
@@ -18,6 +14,8 @@ class VistaVisualizzaPresenze(QWidget):
 
         self.callback = callback
         self.callback()
+
+        self.lista_spettacoli = self.controller.get_spettacoli_passati()
 
         # settaggio delle impostazioni generali della finestra
         self.setWindowTitle("Lista Presenze")
@@ -63,10 +61,10 @@ class VistaVisualizzaPresenze(QWidget):
         layout = QGridLayout()
         layout.setContentsMargins(8, 40, 8, 8)
 
-        oggi = QDate.currentDate()
+        ieri = QDate.currentDate().addDays(-1)
 
         self.titolo_ricerca = User_int_utility.crea_casella_testo("Inserire il film")
-        self.data_ricerca = User_int_utility.crea_date_edit(oggi.addDays(-14), oggi)
+        self.data_ricerca = User_int_utility.crea_date_edit(ieri.addDays(-13), ieri)
         self.list_view = User_int_utility.crea_list_view()
 
         layout.addWidget(User_int_utility.crea_label("Titolo film"), 0, 0)
@@ -74,7 +72,7 @@ class VistaVisualizzaPresenze(QWidget):
         layout.addWidget(self.titolo_ricerca, 0, 1)
         layout.addWidget(self.data_ricerca, 1, 1)
         layout.addItem(QSpacerItem(20, 10, QSizePolicy.Minimum, QSizePolicy.Expanding), 0, 2, 2, 1)
-        layout.addWidget(User_int_utility.crea_push_button("Cerca spettacolo", self.update_listview,
+        layout.addWidget(User_int_utility.crea_push_button("Cerca spettacolo", self.show_lista_spettacoli_filtrata,
                                                            "Cliccare per ricercare il film",
                                                            QSizePolicy.Minimum, QSizePolicy.Minimum), 2, 0, 1, 2)
         box.setLayout(layout)
@@ -97,15 +95,10 @@ class VistaVisualizzaPresenze(QWidget):
         box.setLayout(box_layout)
         return box
 
-    # Metodo che, dopo aver verificato i campi inseriti, apre la vista per la visualizzazione dei clienti se essi sono corretti,
-    # altrimenti genera un avviso
-    def show_lista_clienti_filtrata(self):
-            #avviso = self.controller.controlla_campi_ricerca(self.titolo_ricerca.text())
-            if avviso == None:
-                self.vista_lista_clienti = VistaVisualizzaPresenzeFilm(self.controller, self.modifica_visibilita,)
-                self.vista_lista_clienti.show()
-            else:
-                QMessageBox.critical(self, 'Errore', avviso, QMessageBox.Ok, QMessageBox.Ok)
+    # Metodo che, dopo aver verificato i campi inseriti, aggiorna la list view con la lista degli spettacoli
+    def show_lista_spettacoli_filtrata(self):
+            self.lista_spettacoli = self.controller.get_spettacoli_titolo_data(self.titolo_ricerca.text(), self.data_ricerca.date())
+            self.update_listview()
 
     # metodo che fa apparire una finestra in cui vengono visualizzati tutti i clienti presenti a sistema
     def show_lista_clienti_completa(self):
@@ -114,13 +107,11 @@ class VistaVisualizzaPresenze(QWidget):
 
    # metodo che aggiorna gli elementi nella listview
     def update_listview(self):
-        self.lista_film_filtrata_titolo = self.controller.ricerca_film(self.titolo_ricerca.text())
-        #self.lista_film_filtrata_data = self.lista_film_filt(self.lista_film_filtrata)
         self.listview_model = QStandardItemModel(self.list_view)
-        #for data in self.lista_film_filtrata_titolo:
-        for film in self.lista_film_filtrata_titolo:
+        for spettacolo in self.lista_spettacoli:
                 item = QStandardItem()
-                item.setText(film.titolo + "")
+                item.setText(spettacolo.data.toString("yyyy.MM.dd") + " " + spettacolo.ora_inizio.toString("HH:mm") + " " +
+                             str(spettacolo.sala.nome) + " " + str(spettacolo.film.titolo))
                 item.setEditable(False)
                 self.listview_model.appendRow(item)
         self.list_view.setModel(self.listview_model)
