@@ -3,6 +3,7 @@ from PyQt5 import QtCore
 from PyQt5.QtGui import QPixmap, QFont, QIcon
 
 from GestioneServizi.Views.VistaGestisciServizi import VistaGestisciServizi
+from Lista_presenze.View.VistaVisualizzaPresenze import VistaVisualizzaPresenze
 from Utilità.User_int_utility import User_int_utility
 from GestioneDipendenti.Views.VistaGestisciDipendente import VistaGestisciDipendente
 from Film.Views.VistaGestisciFilm import VistaGestisciFilm
@@ -86,9 +87,10 @@ class VistaHomeAmministratore(QWidget):
         self.vista_servizi = VistaGestisciServizi(self.modifica_visibilita)
         self.vista_servizi.show()
 
-    # metodo che fa apparire la finestra per la consultazione del manuale
+    # metodo che fa apparire la finestra per la consultazione della lista delle presenze
     def go_to_lista_presenze(self):
-        pass
+        self.vista_lista_presenze = VistaVisualizzaPresenze(self.modifica_visibilita)
+        self.vista_lista_presenze.show()
 
     # metodo che fa tornare alla schermata del login
     def logout(self):
