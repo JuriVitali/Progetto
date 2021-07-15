@@ -68,6 +68,7 @@ class ListaSpettacoli():
                 lista_film_filtrata.append(self.lista_film[i])
         return lista_film_filtrata
 
+    #metodo che ritorna una lista di spettacoli passati, cioè antecedenti alla data attuale
     def get_lista_spettacoli_passati(self):
         lista_spettacoli_passati = []
         for spettacolo in self.lista_spettacoli:

@@ -11,7 +11,7 @@ class ControlloreListaSpettacoli():
     def aggiungi_spettacolo(self, spettacolo):
         self.model.aggiungi_spettacolo(spettacolo)
 
-    #ritorna una lista contenente contenente una lista per ogni sala;
+    #ritorna una lista  contenente una lista per ogni sala;
     #all'interno di ognuna di queste liste ci sono gli spettacoli programmati per il giorno
     #passato come parametro nella sala corrispondente
     def get_spettacoli_by_day_divisi(self, data):
@@ -42,6 +42,7 @@ class ControlloreListaSpettacoli():
 
         return lista_spett_finale
 
+    #metodo che restituisce una lista di spettacoli filtrati in base a titolo e data
     def get_spettacoli_titolo_data(self, titolo, data):
         lista_spett_data = self.model.get_spettacolo_by_date(data)      #lista degli spettacoli programmati per il giorno scelto
         lista_spett_filtrata = []
@@ -55,6 +56,7 @@ class ControlloreListaSpettacoli():
 
         return lista_spett_filtrata
 
+    #metodo che ritorna una lista di spettacoli antecedenti al giorno corrente
     def get_spettacoli_passati(self):
         return self.model.get_lista_spettacoli_passati()
 

@@ -33,7 +33,7 @@ class VistaVisualizzaPresenzeSpettacolo(QWidget):
         self.setLayout(self.ext_layout)
 
     # Metodo che crea e restituisce un box contenente una list_view, dove compare la
-    # lista dei clienti che soddisfano i requisiti immessi nella ricerca, e due pulsanti
+    # lista dei clienti che soddisfano i requisiti immessi nella ricerca, e un pulsante
     def crea_box_presenze(self):
         box = QGroupBox()
         box.setTitle("Lista delle presenze")
@@ -51,8 +51,7 @@ class VistaVisualizzaPresenzeSpettacolo(QWidget):
         box.setLayout(box_layout)
         return box
 
-    # Metodo che crea e restituisce un box contenente i dati del cliente e, se li possiede,
-    # i dati della tessera e dell'abbonamento
+    # Metodo che crea e restituisce un box contenente i dati del cliente
     def crea_box_info_cliente(self, cliente_selezionato):
         ext_box = QGroupBox()                       # Il box conterrà a sua volta tre box interni
         ext_box.setTitle("Info di " + cliente_selezionato.nome + " " + cliente_selezionato.cognome)

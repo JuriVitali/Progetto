@@ -42,7 +42,7 @@ class VistaVisualizzaPresenze(QWidget):
         v_layout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(v_layout)
 
-    # metodo che crea il box contenente i widget per la ricerca di un cliente in base al nome e al cognome
+    # metodo che crea il box contenente i widget per la ricerca di un spettacolo in base a titolo e data
     def crea_box_ricerca(self):
         box = QGroupBox()
         box.setTitle("Cerca uno spettacolo")
@@ -79,7 +79,7 @@ class VistaVisualizzaPresenze(QWidget):
         return box
 
     # Metodo che crea e restituisce un box contenente una list_view, dove compare la
-    # lista dei clienti che soddisfano i requisiti immessi nella ricerca, e due pulsanti
+    # lista degli spettacoli che soddisfano i requisiti immessi nella ricerca
     def crea_box_lista_spettacoli(self):
         box = QGroupBox()
         box.setTitle("Lista degli spettacoli")
@@ -95,11 +95,12 @@ class VistaVisualizzaPresenze(QWidget):
         box.setLayout(box_layout)
         return box
 
+    #Metodo che filtra la lista degli spettacoli in base a titolo e data
     def show_lista_spettacoli_filtrata(self):
         self.lista_spettacoli = self.controller.get_spettacoli_titolo_data(self.titolo_ricerca.text(), self.data_ricerca.date())
         self.update_listview()
 
-    # metodo che fa apparire una finestra in cui vengono visualizzati tutti i clienti presenti a sistema
+    # metodo che fa apparire una finestra in cui vengono visualizzati tutti i clienti presenti ad uno spettacolo selezionato
     def visualizza_presenze(self):
         if (len(self.list_view.selectedIndexes()) > 0):
             index = self.list_view.selectedIndexes()[0].row()
