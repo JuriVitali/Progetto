@@ -14,6 +14,14 @@ class ListaDipendenti():
     def aggiungi_dipendente(self, dipendente):
         self.lista_dipendenti.append(dipendente)
 
+    # ritorna una lista contenente i codici di accesso dei dipendenti
+    def get_codici_acc(self):
+        lista_codici = []
+        for dipendente in self.lista_dipendenti:
+            if dipendente.area_comp == "Biglietteria":
+                lista_codici.append(dipendente.codice_autent)
+        return lista_codici
+
     # elimina il dipendente nella lista che ha codice fiscale uguale a quello passato come paramentro
     def rimuovi_dipendente_by_cf(self, cod_fisc):
         for i in range(0, len(self.lista_dipendenti)):

@@ -89,7 +89,7 @@ class VistaRilasciaTessera(QWidget):
                       "consente di accumulare " + str(p.punti_per_euro) + " punti per \n"\
                       "ogni euro speso per l'acqusto di biglietti.\n" \
                       "Al raggiungimento di " + str(p.soglia_punti_sconto_tessera) + " punti si\n" \
-                      "ottiene uno sconto di " + "{:.2f}".format(p.soglia_punti_sconto_tessera) + " sul\n" \
+                      "ottiene uno sconto di " + "{:.2f}".format(p.sconto_tessera) + " sul\n" \
                       "successivo biglietto acquistato."
 
         box_layout.addWidget(User_int_utility.crea_label(descrizione))

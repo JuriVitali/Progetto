@@ -7,14 +7,18 @@ from Utilità.User_int_utility import User_int_utility
 from GestioneDipendenti.Views.VistaGestisciDipendente import VistaGestisciDipendente
 from Film.Views.VistaGestisciFilm import VistaGestisciFilm
 from Spettacoli.Views.VistaVisProgrammazioneSpettacoli import VistaVisProgrammazioneSpettacoli
+from Lista_presenze.View.VistaVisualizzaPresenze import VistaVisualizzaPresenze
 
 class VistaHomeAmministratore(QWidget):
 
-    def __init__(self, callback, parent=None):
+    def __init__(self, controller_dipendenti, callback, parent=None):
         super(VistaHomeAmministratore, self).__init__(parent)
 
         self.callback = callback
         self.callback()                             #fa scomparire la vista del login
+
+        # Controller che verrà passato alla view  VistaGestisciDipendente
+        self.controller_dipendenti = controller_dipendenti
 
         #settaggio delle impostazioni generali della finestra
         self.setWindowTitle("Home Amministratore")                      #titolo
@@ -50,8 +54,6 @@ class VistaHomeAmministratore(QWidget):
                                                    'Lista dei film'))
         menu_pulsanti.addWidget(User_int_utility.crea_home_push_button(self.go_to_spettacoli, QIcon('Immagini/Icone/spettacoli_icon.jpg'),
                                                    'Programmazione degli spettacoli'))
-        menu_pulsanti.addWidget(User_int_utility.crea_home_push_button(self.go_to_report, QIcon('Immagini/Icone/report_icon.png'),
-                                                   'Visualizzazione dei report'))
         menu_pulsanti.addWidget(User_int_utility.crea_home_push_button(self.go_to_servizi, QIcon('Immagini/Icone/servizi_icon.ico'),
                                                    'Gestione dei servizi'))
         menu_pulsanti.addWidget(User_int_utility.crea_home_push_button(self.go_to_lista_presenze, QIcon('Immagini/Icone/lista_presenza_icon.png'),
@@ -62,13 +64,9 @@ class VistaHomeAmministratore(QWidget):
         menu_pulsanti.setContentsMargins(4, 0, 4, 0)
         return menu_pulsanti
 
-    #metodo che fa apparire la finestra per la visualizzazione dei report
-    def go_to_report(self):
-        pass
-
     # metodo che fa apparire la finestra per la gestione dei dipendenti
     def go_to_dipendenti(self):
-        self.vista_gestione_dipendenti = VistaGestisciDipendente(self.modifica_visibilita)
+        self.vista_gestione_dipendenti = VistaGestisciDipendente(self.controller_dipendenti, self.modifica_visibilita)
         self.vista_gestione_dipendenti.show()
 
     # metodo che fa apparire la finestra per la gestione dei film
@@ -88,7 +86,8 @@ class VistaHomeAmministratore(QWidget):
 
     # metodo che fa apparire la finestra per la consultazione del manuale
     def go_to_lista_presenze(self):
-        pass
+        self.vista_lista_presenze = VistaVisualizzaPresenze(self.modifica_visibilita)
+        self.vista_lista_presenze.show()
 
     # metodo che fa tornare alla schermata del login
     def logout(self):

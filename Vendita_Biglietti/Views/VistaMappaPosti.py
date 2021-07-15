@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QWidget, QGridLayout, QTableWidget, QPushButton, QSizePolicy, QHeaderView, \
-    QGroupBox, QFormLayout, QMessageBox
+    QGroupBox, QFormLayout, QMessageBox, QVBoxLayout
 
 from Utilità.User_int_utility import User_int_utility
 from functools import partial
@@ -29,7 +29,7 @@ class VistaMappaPosti(QWidget):
         self.setWindowTitle("Prenotazione posti")
         self.setGeometry(0, 0, 1300, 650)
         User_int_utility.sposta_al_centro(self)
-        ext_layout = QGridLayout()
+        ext_layout = QVBoxLayout()
         ext_layout.setContentsMargins(0, 0, 0, 0)
         User_int_utility.set_window_style(self)
 
@@ -38,13 +38,53 @@ class VistaMappaPosti(QWidget):
 
         self.lista_posti_selezionati = []
 
-        # aggiunta dei widget al layout esterno
-        ext_layout.addLayout(User_int_utility.crea_banda_superiore("Bi"), 0, 0, 1, 2)
-        ext_layout.addWidget(self.mappa_posti, 1, 0, 2, 1)
-        ext_layout.addWidget(self.crea_box_posti_selezionati(), 1, 1)
-        ext_layout.addWidget(User_int_utility.crea_green_or_red_push_button("Avanti", self.conferma, QSizePolicy.Minimum,QSizePolicy.Minimum,"G"),
-                             2, 1)
+        grid_layout = QGridLayout()
+
+        # aggiunta degli elementi al layout inteno a griglia
+        grid_layout.addWidget(self.crea_box_eta_minima(), 0, 0)
+        grid_layout.addWidget(self.crea_box_avviso(), 0, 1, 2, 1 )
+        grid_layout.addWidget(self.mappa_posti, 1, 0, 3, 1)
+        grid_layout.addWidget(self.crea_box_posti_selezionati(), 2, 1)
+        grid_layout.addWidget(User_int_utility.crea_green_or_red_push_button("Avanti", self.conferma, QSizePolicy.Minimum,QSizePolicy.Minimum,"G"),
+                             3, 1)
+        grid_layout.setContentsMargins(8, 8, 8, 8)
+
+        #Aggiunta degli elementi al layout esterno
+        ext_layout.addLayout(User_int_utility.crea_banda_superiore("Bi"))
+        ext_layout.addLayout(grid_layout)
         self.setLayout(ext_layout)
+
+    # metodo che crea un box in cui viene indicata l'età minima per la visione del film che
+    # verrà proiettato durante lo spettacolo selezionato
+    def crea_box_eta_minima(self):
+        box = QGroupBox()
+        box.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
+        box.setTitle("Età minima")
+        self.box_layout = QVBoxLayout()
+        box.setLayout(self.box_layout)
+        self.box_layout.setContentsMargins(8, 40, 8, 8)
+
+        self.box_layout.addWidget(User_int_utility.crea_label("Il film selezionato è " + self.spettacolo.film.eta_minima + "."))
+
+        return box
+
+    def crea_box_avviso(self):
+        box = QGroupBox()
+        box.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
+        box.setTitle("Normativa anti-Covid-19")
+        self.box_layout = QVBoxLayout()
+        box.setLayout(self.box_layout)
+        self.box_layout.setContentsMargins(8, 40, 8, 8)
+
+        self.box_layout.addWidget(User_int_utility.crea_label("Si ricorda che, secondo le ultime "
+                                                          "disposizioni volte a prevenire la \n"
+                                                          "diffusione dell'epidemia da Covid-19, "
+                                                          "ci deve essere almeno un posto\n"
+                                                          "di distanza tra spettatori appartenenti "
+                                                          "a gruppi familiari differenti."))
+
+        return box
+
 
     # Metodo che crea la grafica della mappa dei posti associata allo spettacolo selezionato
     def crea_mappa_posti(self):

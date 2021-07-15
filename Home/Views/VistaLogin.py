@@ -1,14 +1,19 @@
 from PyQt5.QtCore import QSize
 from PyQt5.QtGui import QPalette, QImage, QBrush, QIcon
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QGroupBox, QSizePolicy, QGridLayout, QPushButton
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QGroupBox, QSizePolicy, QGridLayout, QPushButton, QMessageBox
+
+from GestioneDipendenti.Controllers.ControlloreListaDipendenti import ControlloreListaDipendenti
 from Utilità.User_int_utility import User_int_utility
 from Home.Views.VistaHomeAmministratore import VistaHomeAmministratore
 from Home.Views.VistaHomeBiglietteria import VistaHomeBiglietteria
+from Utilità.Parametri import Parametri
 
 class VistaLogin(QWidget):
 
     def __init__(self, parent=None):
         super(VistaLogin, self).__init__()
+
+        self.controller = ControlloreListaDipendenti()
 
         #settaggio delle impostazioni generali della finestra
         self.setWindowTitle("Login")
@@ -69,12 +74,16 @@ class VistaLogin(QWidget):
     # far apparire la schermata della home per il personale della biglietteria
     # far apparire un messaggio di errore
     def accedi(self):
-        if self.casella_codice.text() == "A":
-            self.home_amm = VistaHomeAmministratore(self.modifica_visibilita)
+        p = Parametri()
+        if self.casella_codice.text() == p.codice_amministratore:
+            self.home_amm = VistaHomeAmministratore(self.controller, self.modifica_visibilita)
             self.home_amm.show()
-        if self.casella_codice.text() == "D":
+        elif self.casella_codice.text() in self.controller.get_codici_acc():
             self.home_big = VistaHomeBiglietteria(self.modifica_visibilita)
             self.home_big.show()
+        else:
+            QMessageBox.critical(self, 'Codice non valido', "Il codice inserito non corrisponde ad "
+                                                            "alcun utente.", QMessageBox.Ok, QMessageBox.Ok)
         self.casella_codice.setText("")
 
     #metodo che modifica la visibilità della finestra

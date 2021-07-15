@@ -11,6 +11,10 @@ class ControlloreListaDipendenti():
     def get_lista_completa(self):
         return self.model.lista_dipendenti
 
+    #ritorna una lista contenente i codici di accesso dei dipendenti
+    def get_codici_acc(self):
+        return self.model.get_codici_acc()
+
     # aggiunge un dipendente alla lista dei dipendenti registrati a sistema
     def aggiungi_dipendente(self, dipendente):
         self.model.aggiungi_dipendente(dipendente)
