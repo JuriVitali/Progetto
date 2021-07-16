@@ -64,7 +64,18 @@ class VistaMappaPosti(QWidget):
         box.setLayout(self.box_layout)
         self.box_layout.setContentsMargins(8, 40, 8, 8)
 
-        self.box_layout.addWidget(User_int_utility.crea_label("Il film selezionato è " + self.spettacolo.film.eta_minima + "."))
+        if self.spettacolo.film.eta_minima == "T":
+            self.box_layout.addWidget(User_int_utility.crea_label("Il film selezionato è adatto a tutte le età."))
+        elif self.spettacolo.film.eta_minima == "VM6":
+            self.box_layout.addWidget(User_int_utility.crea_label("Il film selezionato è sconsigliato ai minori di 6 anni."))
+        elif self.spettacolo.film.eta_minima == "VM14":
+            self.box_layout.addWidget(User_int_utility.crea_label("Il film selezionato è vietato ai minori di 14 anni. \n"
+                                                                  "Spettatori che hanno compiuto i 12 anni sono ammessi \n"
+                                                                  "alla proiezione se accompagnati da un genitore o da un tutore."))
+        else:
+            self.box_layout.addWidget(User_int_utility.crea_label("Il film selezionato è vietato ai minori di 18 anni. \n"
+                                                                  "Spettatori che hanno compiuto i 16 anni sono ammessi \n"
+                                                                  "alla proiezione se accompagnati da un genitore o da un tutore."))
 
         return box
 
@@ -76,7 +87,7 @@ class VistaMappaPosti(QWidget):
         box.setLayout(self.box_layout)
         self.box_layout.setContentsMargins(8, 40, 8, 8)
 
-        self.box_layout.addWidget(User_int_utility.crea_label("Si ricorda che, secondo le ultime "
+        self.box_layout.addWidget(User_int_utility.crea_label("Si ricorda che, in base alle ultime "
                                                           "disposizioni volte a prevenire la \n"
                                                           "diffusione dell'epidemia da Covid-19, "
                                                           "ci deve essere almeno un posto\n"

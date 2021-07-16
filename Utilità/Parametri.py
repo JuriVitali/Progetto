@@ -3,8 +3,7 @@ from PyQt5.QtCore import QTime
 
 class Parametri():
     # lista dei vincoli sull'età per la visione di un film
-    eta_minima = ["adatto a tutti", "sconsigliato ai minori di 6 anni", "vietato ai minori di 14 anni",
-                  "vietato ai minori di 18 anni"]
+    eta_minima = ["T", "VM6", "VM14","VM18"]
 
     # lista delle aree di competenza del personale
     aree_di_competenza = ["Biglietteria", "Bar", "Pulizie"]

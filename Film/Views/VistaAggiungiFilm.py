@@ -48,7 +48,8 @@ class VistaAggiungiFilm(QWidget):
         self.casa_prod = User_int_utility.crea_casella_testo("Inserire la casa di produzione")
         self.durata = User_int_utility.crea_spin_box(1, 500, 90)
         self.genere = User_int_utility.crea_casella_testo("Inserire il genere")
-        self.eta_minima = User_int_utility.crea_combo_box(Parametri.eta_minima)
+        self.eta_minima = User_int_utility.crea_combo_box(["Adatto a tutti", "Sconsigliato ai minori di 6 anni",
+                                                           "Vietato ai minori di 14 anni", "Vietato ai minori di 18 anni"])
 
         #aggiunta dei widget al layout
         form.addRow(User_int_utility.crea_label("Titolo"), self.titolo)
