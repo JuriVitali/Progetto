@@ -123,8 +123,6 @@ class VistaRilasciaAbbonamento(QWidget):
             if avviso is None:
                 self.controller.rilascia_abbonamento(self.codice_abb.text(), cliente_selezionato)
 
-                #Report
-
                 self.close()
             else:
                 QMessageBox.critical(self, 'Errore', avviso, QMessageBox.Ok, QMessageBox.Ok)

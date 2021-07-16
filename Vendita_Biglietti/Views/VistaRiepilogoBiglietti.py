@@ -143,11 +143,8 @@ class VistaRiepilogoBiglietti(QWidget):
             lista_nuovi_spettatori.append(biglietto.cliente)
         self.spettacolo.aggiorna_lista_presenze(lista_nuovi_spettatori)
 
-
         # Aggiorna i dati di tessere e abbonamenti, se sono stati utilizzati
         self.controller.aggiorna_servizi_utilizzati()
-
-        # Report
 
         # prenota i posti per lo spettacolo
         self.controller.prenota_posti(self.spettacolo)

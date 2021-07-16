@@ -7,17 +7,11 @@ class ListaBiglietti():
         super(ListaBiglietti, self).__init__()
         self.lista_biglietti = []
         self.lista_clienti = []
-        self.lista_report = []
 
         # Caricamento lista dei clienti
         if os.path.isfile('GestioneClienti/Salvataggio_lista_clienti.pickle'):
             with open('GestioneClienti/Salvataggio_lista_clienti.pickle', 'rb') as f:
                 self.lista_clienti = pickle.load(f)
-
-        # Caricamento lista dei report
-        if os.path.isfile('Report/Salvataggio_lista_report.pickle'):
-            with open('Report/Salvataggio_lista_report.pickle', 'rb') as h:
-                self.lista_report = pickle.load(h)
 
         # Controllo della validità di ogni abbonamento
         for cliente in self.lista_clienti:
@@ -76,7 +70,4 @@ class ListaBiglietti():
     def save_date(self):
         with open('GestioneClienti/Salvataggio_lista_clienti.pickle', 'wb') as handle:
             pickle.dump(self.lista_clienti, handle, pickle.HIGHEST_PROTOCOL)
-
-        with open('Report/Salvataggio_lista_report.pickle', 'wb') as handle:
-            pickle.dump(self.lista_report, handle, pickle.HIGHEST_PROTOCOL)
 
