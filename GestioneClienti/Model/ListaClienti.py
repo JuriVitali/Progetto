@@ -1,5 +1,6 @@
 import os
 import pickle
+from GestioneClienti.Model.Cliente import Cliente
 
 class ListaClienti():
     def __init__(self):
@@ -17,8 +18,22 @@ class ListaClienti():
 
     # metodo che aggiunge il cliente che gli viene passato alla lista dei clienti
     # registrata a sistema
-    def aggiungi_cliente(self, cliente):
+    def aggiungi_cliente(self, cliente, cod_abb, cod_tess):
+        if cod_abb != "":
+            self.rilascia_abbonamento(cod_abb, cliente)
+        if cod_tess != "":
+            self.rilascia_tessera(cod_tess, cliente)
         self.lista_clienti.append(cliente)
+
+    # Metodo che assegna un nuovo abbonamento che ha come codice cod_abb (primo parametro)
+    # ad un cliente (secondo parametro)
+    def rilascia_abbonamento(self, cod_abb, cliente):
+        cliente.assegna_abbonamento(cod_abb)
+
+    # Metodo che assegna una nuova tessera che ha come codice cod_tess (primo parametro)
+    # ad un cliente (secondo parametro)
+    def rilascia_tessera(self, cod_tess, cliente):
+        cliente.assegna_tessera(cod_tess)
 
     # metodo che elimina dal sistema il cliente che ha come codice fiscale cod_fisc (primo parametro)
     def rimuovi_cliente_by_cf(self, cod_fisc):

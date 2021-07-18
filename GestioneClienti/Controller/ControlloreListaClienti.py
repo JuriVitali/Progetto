@@ -12,8 +12,8 @@ class ControlloreListaClienti():
 
     #metodo che aggiunge il cliente che gli viene passato alla lista dei clienti
     #registrata a sistema
-    def aggiungi_cliente(self, cliente):
-        self.model.aggiungi_cliente(cliente)
+    def aggiungi_cliente(self, cliente, cod_abb, cod_tess):
+        self.model.aggiungi_cliente(cliente, cod_abb, cod_tess)
 
     #metodo che restituisce una lista di clienti che il cui nome e cognome contengono
     #rispettivamente le due stringhe passate come parametri
@@ -76,7 +76,7 @@ class ControlloreListaClienti():
     # non sia già stato assegnato ad un altro cliente e che il cliente al quale si vuole assegnare
     # l'abbonamento (secondo parametro) abbia almeno 14 anni
     def controlla_abbonamento(self, codice_abb, cliente_selezionato):
-        if not Controlli.controlla_codice_abb(codice_abb, self.get_lista_completa()) :
+        if not Controlli.controlla_codice_abb(codice_abb, self.get_lista_completa()):
             return "Il codice dell'abbonamento inserito non è valido"
         if cliente_selezionato.abbonamento is not None:
             return "Il cliente è già in possesso di un abbonamento"
@@ -101,12 +101,12 @@ class ControlloreListaClienti():
     # Metodo che assegna un nuovo abbonamento che ha come codice cod_abb (primo parametro)
     # ad un cliente (secondo parametro)
     def rilascia_abbonamento(self, cod_abb, cliente):
-        cliente.assegna_abbonamento = cod_abb
+        self.model.rilascia_abbonamento(cod_abb, cliente)
 
     # Metodo che assegna una nuova tessera che ha come codice cod_tess (primo parametro)
     # ad un cliente (secondo parametro)
     def rilascia_tessera(self, cod_tess, cliente):
-        cliente.assegna_tessera = cod_tess
+        self.model.rilascia_tessera(cod_tess, cliente)
 
     # Metodo che salva la lista dei clienti registrata a sistema
     def save_data(self):

@@ -101,7 +101,7 @@ class VistaRegistraCliente(QWidget):
 
         avviso = self.controller.controlla_campi_cliente(cliente, self.cod_abb.text(), self.cod_tess.text())
         if avviso == None:
-            self.controller.aggiungi_cliente(cliente)
+            self.controller.aggiungi_cliente(cliente, self.cod_abb.text(), self.cod_tess.text())
             self.close()
         else:
             QMessageBox.critical(self, 'Errore', avviso, QMessageBox.Ok, QMessageBox.Ok)

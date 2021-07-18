@@ -3,7 +3,6 @@ from PyQt5.QtCore import QDate
 from GestioneClienti.Model.Abbonamento import Abbonamento
 from GestioneClienti.Model.Tessera import Tessera
 
-
 class Cliente():
     def __init__(self, nome, cognome, data_nascita, cod_fisc, telefono, email):
         super(Cliente, self).__init__()
