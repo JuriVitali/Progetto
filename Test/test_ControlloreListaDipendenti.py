@@ -255,7 +255,22 @@ class TestControlloreListaDipendenti(TestCase):
         self.assertEqual(self.lista_dipendenti.controlla_campi_ricerca("Giorgia Maria Vittoria Laura Chiara Luisa", "Rossi"), "Il nome inserito non è valido")
         self.assertEqual(self.lista_dipendenti.controlla_campi_ricerca("Fabiola", "Giorgia Maria Vittoria Laura Chiara Luisa"), "Il cognome inserito non è valido")
 
+    def test_ricerca_dipendente(self):
+        self.lista_dipendenti = ControlloreListaDipendenti()
+        self.ri1 = self.lista_dipendenti.get_dipendente_by_nome("Carlo", "Rossi")
+        self.ri2 = self.lista_dipendenti.get_dipendente_by_nome("", "")
+        self.assertIsNotNone(self.ri1)
+        self.assertIsNotNone(self.ri2)
 
+    def test_elimina_dipendente_by_cod_fisc(self):
+        self.lista_dipendenti = ListaDipendenti()
+        self.dipendente = Dipendente(nome="Mario", cognome="Rossi", data_nascita="1979.04.06",
+                                     cod_fisc="ABCDEFGH12345678", telefono="3214346521", email="test@email.com",
+                                     area_comp="Biglietteria", codice_autent="AFD56F5V")
+        self.lista_dipendenti.aggiungi_dipendente(self.dipendente)
+        self.assertIsNotNone(self.dipendente)
+        self.lista_dipendenti.rimuovi_dipendente_by_cf("ABCDEFGH12345678")
+        self.assertEqual(self.dipendenti_in_lista(self.dipendente), False)
 
     def dipendenti_in_lista(self, dipendente):
         self.lista_dipendenti = ControlloreListaDipendenti()
