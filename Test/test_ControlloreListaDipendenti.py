@@ -3,25 +3,39 @@ from unittest import TestCase
 from GestioneDipendenti.Models.Dipendente import Dipendente
 from GestioneDipendenti.Controllers.ControlloreListaDipendenti import ControlloreListaDipendenti
 from GestioneDipendenti.Models.ListaDipendenti import ListaDipendenti
+from GestioneDipendenti.Views.VistaRegistraDipendente import VistaRegistraDipendente
 from Utilità.Controlli import Controlli
 
 
 class TestControlloreListaDipendenti(TestCase):
 
     def test_aggiungi_dipendente(self):
-        self.fail()
+        self.lista_dipendenti = ControlloreListaDipendenti()
+        self.dipendente = Dipendente(nome="Mario", cognome="Rossi", data_nascita="1979.04.06",
+                                     cod_fisc="ABCDEFGH12345678", telefono="3214346521", email="test@email.com",
+                                     area_comp="Biglietteria", codice_autent="AFD56F5V")
+        self.dipendente2 = Dipendente(nome="Kevin", cognome="Rossi", data_nascita="1979.04.06",
+                                     cod_fisc="ABCDEFGH12345678", telefono="3214346521", email="test@email.com",
+                                     area_comp="Biglietteria", codice_autent="AFD56F5V")
+        #self.lista_dipendenti.aggiungi_dipendente(self.dipendente)
+        #self.model.aggiungi_dipendente(self.dipendente)
+        self.lista_dipendenti.aggiungi_dipendente(self.dipendente)
+        self.lista_dipendenti.aggiungi_dipendente(self.dipendente2)
+        self.lista_dipendenti.controlla_campi_dipendente(self.dipendente)
+        self.lista_dipendenti.controlla_campi_dipendente(self.dipendente2)
+        self.assertEqual(self.dipendenti_in_lista(self.dipendente2), True)
+
 
     # test che controlla che i campi del dipendente inserito siano validi. Test eseguito con dipendente valido
     def test_controlla_campi_dipendente(self):
         self.controlli = Controlli()
-        self.lista_dipendenti = ListaDipendenti()
-        self.model = ControlloreListaDipendenti()
+        self.lista_dipendenti = ControlloreListaDipendenti()
         self.dipendente = Dipendente(nome="Mario", cognome="Rossi", data_nascita="1979.04.06",
                                      cod_fisc="ABCDEFGH12345678", telefono="3214346521", email="test@email.com",
                                      area_comp="Biglietteria", codice_autent="FREA245W")
-        self.assertEqual(self.model.controlla_campi_dipendente(self.dipendente), None)
-        self.assertEqual(self.controlli.controlla_codice_autenticazione(self.dipendente.codice_autent, self.model.get_lista_completa()), True, )
-        self.assertEqual(self.controlli.controlla_cod_fisc(self.dipendente.cod_fisc, self.model.get_lista_completa()), True)
+        self.assertEqual(self.lista_dipendenti.controlla_campi_dipendente(self.dipendente), None)
+        self.assertEqual(self.controlli.controlla_codice_autenticazione(self.dipendente.codice_autent, self.lista_dipendenti.get_lista_completa()), True)
+        self.assertEqual(self.controlli.controlla_cod_fisc(self.dipendente.cod_fisc, self.lista_dipendenti.get_lista_completa()), True)
         self.assertEqual(self.controlli.controlla_telefono(self.dipendente.telefono), True)
         self.assertEqual(self.controlli.controlla_stringa_stampabile(self.dipendente.email), True)
 
@@ -70,7 +84,7 @@ class TestControlloreListaDipendenti(TestCase):
         self.assertEqual(self.risp51, False)
         self.assertEqual(self.risp70, False)
 
-    # test che controlla che l'inserimento di un numero di telefono compreso tra 2 e 13 esclusi sia valido. Ritorna True seil numero è valido, altrimenti ritorna False
+    # test che controlla che l'inserimento di un numero di telefono compreso tra 2 e 13 esclusi sia valido. Ritorna True se il numero è valido, altrimenti ritorna False
     def test_controlla_telefono(self):
         self.controlli = Controlli()
         self.tel3 = "123"
@@ -176,6 +190,80 @@ class TestControlloreListaDipendenti(TestCase):
         self.assertEqual(self.risp8, True, "Dovrebbe essere non valido")
         self.assertEqual(self.risp9, False, "Dovrebbe essere non valido")
         self.assertEqual(self.risp15, False, "Dovrebbe essere non valido")
+
+    # test che controlla che venga generato il giusto errore se il nome inserito non è valido
+    def test_risposta_errore_nome(self):
+        self.lista_dipendenti = ControlloreListaDipendenti()
+        self.dipendente = Dipendente(nome="uSW5icTupr49uFK3S6nT9ajrundqrHPxDdZW", cognome="Rossi", data_nascita="1979.04.06",
+                                     cod_fisc="ABCDEFGH12345678", telefono="3214346521", email="test@email.com",
+                                     area_comp="Biglietteria", codice_autent="AFD56F5V")
+        self.assertEqual(self.lista_dipendenti.controlla_campi_dipendente(self.dipendente), "Il nome inserito non è valido")
+
+    # test che controlla che venga generato il giusto errore se il cognome inserito non è valido
+    def test_risposta_errore_cognome(self):
+        self.lista_dipendenti = ControlloreListaDipendenti()
+        self.dipendente = Dipendente(nome="Mario", cognome="", data_nascita="1979.04.06",
+                                     cod_fisc="ABCDEFGH12345678", telefono="3214346521", email="test@email.com",
+                                     area_comp="Biglietteria", codice_autent="AFD56F5V")
+        self.assertEqual(self.lista_dipendenti.controlla_campi_dipendente(self.dipendente), "Il cognome inserito non è valido")
+
+    # test che controlla che venga generato il giusto errore se il codice fiscale inserito non è valido
+    def test_risposta_errore_cod_fisc(self):
+        self.lista_dipendenti = ControlloreListaDipendenti()
+        self.dipendente = Dipendente(nome="Mario", cognome="Rossi", data_nascita="1979.04.06",
+                                     cod_fisc="ABCDFGH12345678", telefono="3214346521", email="test@email.com",
+                                     area_comp="Biglietteria", codice_autent="AFD56F5V")
+        self.assertEqual(self.lista_dipendenti.controlla_campi_dipendente(self.dipendente), "Il codice fiscale inserito non è valido")
+
+    # test che controlla che venga generato il giusto errore se il telefono inserito non è valido
+    def test_risposta_errore_telefono(self):
+        self.lista_dipendenti = ControlloreListaDipendenti()
+        self.dipendente = Dipendente(nome="Mario", cognome="Rossi", data_nascita="1979.04.06",
+                                     cod_fisc="ABCDEFGH12345678", telefono="23422342424241357943", email="test@email.com",
+                                     area_comp="Biglietteria", codice_autent="AFD56F5V")
+        self.assertEqual(self.lista_dipendenti.controlla_campi_dipendente(self.dipendente), "Il numero di telefono inserito non è valido")
+
+    # test che controlla che venga generato il giusto errore se l'email inserito non è valido
+    def test_risposta_errore_email(self):
+        self.lista_dipendenti = ControlloreListaDipendenti()
+        self.dipendente = Dipendente(nome="Mario", cognome="Rossi", data_nascita="1979.04.06",
+                                     cod_fisc="ABCDEFGH12345678", telefono="3214346521", email="",
+                                     area_comp="Biglietteria", codice_autent="AFD56F5V")
+        self.assertEqual(self.lista_dipendenti.controlla_campi_dipendente(self.dipendente), "L'indirizzo email inserito non è valido")
+
+    # test che controlla che venga generato il giusto errore se il codice d'accesso inserito non è valido
+    def test_risposta_errore_cod_accesso(self):
+        self.lista_dipendenti = ControlloreListaDipendenti()
+        self.dipendente = Dipendente(nome="Mario", cognome="Rossi", data_nascita="1979.04.06",
+                                     cod_fisc="ABCDEFGH12345678", telefono="3214346521", email="mario.rossi@gmail.com",
+                                     area_comp="Biglietteria", codice_autent="AFD56")
+        self.assertEqual(self.lista_dipendenti.controlla_campi_dipendente(self.dipendente), "Il codice per la futura autenticazione inserito non è valido")
+
+    # test che controlla l'inserimento di nome e cognome del dipendente per la ricerca sia valido.
+    def test_controlla_campi_ricerca_dipendente(self):
+        self.lista_dipendenti = ControlloreListaDipendenti()
+        self.r1 = self.lista_dipendenti.controlla_campi_ricerca("", "")
+        self.r2 = self.lista_dipendenti.controlla_campi_ricerca("Mario", "Rossi")
+        self.r3 = self.lista_dipendenti.controlla_campi_ricerca("Mariantonietta", "Spadoni")
+        self.r4 = self.lista_dipendenti.controlla_campi_ricerca("Giorgia Maria Vittoria Laura Chiara Luisa", "Giorgia Maria Vittoria Laura Chiara Luisa")
+        self.assertEqual(self.r1, None)
+        self.assertEqual(self.r2, None)
+        self.assertEqual(self.r3, None)
+        self.assertNotEqual(self.r4, None)
+
+        # test sui messaggi di errore
+        self.assertEqual(self.lista_dipendenti.controlla_campi_ricerca("Giorgia Maria Vittoria Laura Chiara Luisa", "Rossi"), "Il nome inserito non è valido")
+        self.assertEqual(self.lista_dipendenti.controlla_campi_ricerca("Fabiola", "Giorgia Maria Vittoria Laura Chiara Luisa"), "Il cognome inserito non è valido")
+
+
+
+    def dipendenti_in_lista(self, dipendente):
+        self.lista_dipendenti = ControlloreListaDipendenti()
+        if dipendente in self.lista_dipendenti.get_lista_completa(): return True
+        return False
+
+
+
 
 
 
