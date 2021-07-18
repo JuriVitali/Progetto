@@ -95,7 +95,7 @@ class VistaRegistraDipendente(QWidget):
                 self.email.text(),
                 area_competenza)
         avviso = self.controller.controlla_campi_dipendente(dipendente)
-        if  avviso == None:
+        if avviso == None:
             self.controller.aggiungi_dipendente(dipendente)
             self.close()
         else:
