@@ -2,14 +2,12 @@ from unittest import TestCase
 
 from GestioneDipendenti.Models.Dipendente import Dipendente
 from GestioneDipendenti.Controllers.ControlloreListaDipendenti import ControlloreListaDipendenti
-from GestioneDipendenti.Models.ListaDipendenti import ListaDipendenti
-from GestioneDipendenti.Views.VistaRegistraDipendente import VistaRegistraDipendente
 from Utilità.Controlli import Controlli
 
 
 class TestControlloreListaDipendenti(TestCase):
 
-    # aggiustare
+    # test che controlla l'aggiunta di alcuni dipendenti alla lista dei dipendenti registrati a sistema
     def test_aggiungi_dipendente(self):
         controllore_lista_dipendenti = ControlloreListaDipendenti()
         controllore_lista_dipendenti.model.lista_dipendenti = []
@@ -31,7 +29,7 @@ class TestControlloreListaDipendenti(TestCase):
         controllore_lista_dipendenti.aggiungi_dipendente(dipendente3)
         controllore_lista_dipendenti.aggiungi_dipendente(dipendente4)
 
-        #controllo che i dipenendenti sono stati inseriti nella lista
+        #controllo che i dipendenti siano stati inseriti nella lista
         self.assertEqual(dipendente in controllore_lista_dipendenti.get_lista_completa(), True)
         self.assertEqual(dipendente2 in controllore_lista_dipendenti.get_lista_completa(), True)
         self.assertEqual(dipendente3 in controllore_lista_dipendenti.get_lista_completa(), True)
@@ -50,7 +48,8 @@ class TestControlloreListaDipendenti(TestCase):
         self.assertEqual(controlli.controlla_telefono(dipendente.telefono), True)
         self.assertEqual(controlli.controlla_stringa_stampabile(dipendente.email), True)
 
-    # test che controlla che i campi del dipendente inserito siano validi. Test eseguito con dipendente non valido
+    # test che controlla che i campi del dipendente inserito siano validi.
+    # Test eseguito con dipendente non valido
     def test_controlla_campi_dipendente2(self):
         controlli = Controlli()
         lista_dipendenti = ControlloreListaDipendenti()
@@ -64,7 +63,7 @@ class TestControlloreListaDipendenti(TestCase):
         self.assertEqual(controlli.controlla_stringa_stampabile(dipendente.email), False)
 
 
-    # test che controlla che l'inserimento di una stringa compresa tra 1 e 50 caratteri ritorni True
+    # test che controlla che l'inserimento di una stringa compresa tra 1 e 49 (inclusi) caratteri ritorni True
     def test_controlla_stringa_stampabile1(self):
         controlli = Controlli()
         stringa = "email@test.com"
@@ -94,7 +93,8 @@ class TestControlloreListaDipendenti(TestCase):
         self.assertEqual(risp51, False)
         self.assertEqual(risp70, False)
 
-    # test che controlla che l'inserimento di un numero di telefono compreso tra 2 e 13 esclusi sia valido. Ritorna True se il numero è valido, altrimenti ritorna False
+    # test che controlla che l'inserimento di un numero di telefono compreso tra 2 e 13 (esclusi) sia valido.
+    # Ritorna True se il numero è valido, altrimenti ritorna False
     def test_controlla_telefono(self):
         controlli = Controlli()
         tel3 = "123"
@@ -130,7 +130,8 @@ class TestControlloreListaDipendenti(TestCase):
         self.assertEqual(risp13, False)
         self.assertEqual(risp20, False)
 
-    # test che controlla che l'inserimento di una stringa alfanumerico compreso tra 1 e 35 sia valido. Ritorna True se la stringa è valida, altrimenti ritorna False
+    # test che controlla che l'inserimento di una stringa alfanumerico compreso tra 1 e 35 (inclusi) sia valido.
+    # Ritorna True se la stringa è valida, altrimenti ritorna False
     def test_controlla_stringa_lettere(self):
         controlli = Controlli()
         stringa = ""
@@ -152,7 +153,8 @@ class TestControlloreListaDipendenti(TestCase):
         self.assertEqual(risp36, False, "Dovrebbe essere non valido")
         self.assertEqual(risp50, False, "Dovrebbe essere non valido")
 
-    # test che controlla che l'inserimento di un codice fiscale sia valido. Ritorna True se il codice fiscale ha 16 caratteri, altrimenti ritorna False
+    # test che controlla che l'inserimento di un codice fiscale sia valido.
+    # Ritorna True se il codice fiscale ha 16 caratteri, altrimenti ritorna False
     def test_controlla_cod_fisc(self):
         controlli =Controlli()
         lista_dipendenti = ControlloreListaDipendenti()
@@ -178,7 +180,8 @@ class TestControlloreListaDipendenti(TestCase):
         self.assertEqual(risp17, False, "Dovrebbe essere non valido")
         self.assertEqual(risp30, False, "Dovrebbe essere non valido")
 
-    # test che controlla che l'inserimento del codice autentificazione sia valido. Ritorna True se il codice è di 8 caratteri alfanumerici, altrimenti ritorna False
+    # test che controlla che l'inserimento del codice autentificazione sia valido.
+    # Ritorna True se il codice è di 8 caratteri alfanumerici, altrimenti ritorna False
     def test_controlla_codice_autenticazione(self):
         controlli = Controlli()
         lista_dipendenti = ControlloreListaDipendenti()
@@ -256,16 +259,18 @@ class TestControlloreListaDipendenti(TestCase):
         r2 = lista_dipendenti.controlla_campi_ricerca("Mario", "Rossi")
         r3 = lista_dipendenti.controlla_campi_ricerca("Mariantonietta", "Spadoni")
         r4 = lista_dipendenti.controlla_campi_ricerca("Giorgia Maria Vittoria Laura Chiara Luisa", "Giorgia Maria Vittoria Laura Chiara Luisa")
+
+        #test su inserimenti validi (ritorna None)
         self.assertEqual(r1, None)
         self.assertEqual(r2, None)
         self.assertEqual(r3, None)
         self.assertNotEqual(r4, None)
 
-        # test sui messaggi di errore
+        # test sui messaggi di errore (ritorna il messaggio d'errore)
         self.assertEqual(lista_dipendenti.controlla_campi_ricerca("Giorgia Maria Vittoria Laura Chiara Luisa", "Rossi"), "Il nome inserito non è valido")
         self.assertEqual(lista_dipendenti.controlla_campi_ricerca("Fabiola", "Giorgia Maria Vittoria Laura Chiara Luisa"), "Il cognome inserito non è valido")
 
-    # aggiustare
+    # test che controlla la ricerca di un dipendente
     def test_ricerca_dipendente(self):
         lista_dipendenti = ControlloreListaDipendenti()
         ri1 = lista_dipendenti.get_dipendente_by_nome("Carlo", "Rossi")
@@ -274,7 +279,7 @@ class TestControlloreListaDipendenti(TestCase):
         self.assertIsNotNone(ri2)  # Inserimento vuoto ritorna la lista completa dei dipendenti
 
     # test sull'eliminazione di un dipendente dal sistema
-    def test_elimina_dipendente_by_cod_fisc(self):
+    def test_elimina_dipendente(self):
         controllore_lista_dipendenti = ControlloreListaDipendenti()
         controllore_lista_dipendenti.model.lista_dipendenti = []
         dipendente = Dipendente(nome="Mario", cognome="Rossi", data_nascita="1979.04.06",
