@@ -9,22 +9,34 @@ from Utilità.Controlli import Controlli
 
 class TestControlloreListaDipendenti(TestCase):
 
+    # aggiustare
     def test_aggiungi_dipendente(self):
         self.lista_dipendenti = ControlloreListaDipendenti()
         self.dipendente = Dipendente(nome="Mario", cognome="Rossi", data_nascita="1979.04.06",
                                      cod_fisc="ABCDEFGH12345678", telefono="3214346521", email="test@email.com",
                                      area_comp="Biglietteria", codice_autent="AFD56F5V")
-        self.dipendente2 = Dipendente(nome="Kevin", cognome="Rossi", data_nascita="1979.04.06",
-                                     cod_fisc="ABCDEFGH12345678", telefono="3214346521", email="test@email.com",
-                                     area_comp="Biglietteria", codice_autent="AFD56F5V")
+        self.dipendente2 = Dipendente(nome="Kevin", cognome="Rossi", data_nascita="2000.11.06",
+                                     cod_fisc="ABC123DEF456GH78", telefono="324543664565", email="test@email.com",
+                                     area_comp="Biglietteria", codice_autent="RED5654V")
+        self.dipendente3 = Dipendente(nome="Maria", cognome="Marrone", data_nascita="1999.05.06",
+                                      cod_fisc="B5N3B2JJ5I7JDH37", telefono="3345477785", email="test@email.com",
+                                      area_comp="Biglietteria", codice_autent="KV8VHJSD")
+        self.dipendente4 = Dipendente(nome="Giulia", cognome="Rossi", data_nascita="1984.10.03",
+                                      cod_fisc="WFD467VFD123GH78", telefono="3657535375", email="test@email.com",
+                                      area_comp="Biglietteria", codice_autent="BFD5H6N6")
         #self.lista_dipendenti.aggiungi_dipendente(self.dipendente)
         #self.model.aggiungi_dipendente(self.dipendente)
         self.lista_dipendenti.aggiungi_dipendente(self.dipendente)
         self.lista_dipendenti.aggiungi_dipendente(self.dipendente2)
+        self.lista_dipendenti.aggiungi_dipendente(self.dipendente3)
+        self.lista_dipendenti.aggiungi_dipendente(self.dipendente4)
         self.lista_dipendenti.controlla_campi_dipendente(self.dipendente)
         self.lista_dipendenti.controlla_campi_dipendente(self.dipendente2)
+        self.lista_dipendenti.controlla_campi_dipendente(self.dipendente3)
+        self.lista_dipendenti.controlla_campi_dipendente(self.dipendente4)
         self.assertEqual(self.dipendenti_in_lista(self.dipendente2), True)
-
+        self.assertEqual(self.dipendenti_in_lista(self.dipendente3), True)
+        self.assertEqual(self.dipendenti_in_lista(self.dipendente4), True)
 
     # test che controlla che i campi del dipendente inserito siano validi. Test eseguito con dipendente valido
     def test_controlla_campi_dipendente(self):
@@ -63,7 +75,7 @@ class TestControlloreListaDipendenti(TestCase):
         self.risp = self.controlli.controlla_stringa_stampabile(self.stringa)
         self.risp49 = self.controlli.controlla_stringa_stampabile(self.str49)
         self.risp1 = self.controlli.controlla_stringa_stampabile(self.str1)
-        self.assertEqual(self.risp , True , "Non valido")
+        self.assertEqual(self.risp, True, "Non valido")
         self.assertEqual(self.risp49, True, "Non valido")
         self.assertEqual(self.risp1, True, "Non valido")
 
@@ -255,6 +267,7 @@ class TestControlloreListaDipendenti(TestCase):
         self.assertEqual(self.lista_dipendenti.controlla_campi_ricerca("Giorgia Maria Vittoria Laura Chiara Luisa", "Rossi"), "Il nome inserito non è valido")
         self.assertEqual(self.lista_dipendenti.controlla_campi_ricerca("Fabiola", "Giorgia Maria Vittoria Laura Chiara Luisa"), "Il cognome inserito non è valido")
 
+    # aggiustare
     def test_ricerca_dipendente(self):
         self.lista_dipendenti = ControlloreListaDipendenti()
         self.ri1 = self.lista_dipendenti.get_dipendente_by_nome("Carlo", "Rossi")
@@ -262,6 +275,7 @@ class TestControlloreListaDipendenti(TestCase):
         self.assertIsNotNone(self.ri1)
         self.assertIsNotNone(self.ri2)
 
+    # aggiustare
     def test_elimina_dipendente_by_cod_fisc(self):
         self.lista_dipendenti = ListaDipendenti()
         self.dipendente = Dipendente(nome="Mario", cognome="Rossi", data_nascita="1979.04.06",
