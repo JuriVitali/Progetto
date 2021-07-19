@@ -11,32 +11,30 @@ class TestControlloreListaDipendenti(TestCase):
 
     # aggiustare
     def test_aggiungi_dipendente(self):
-        self.lista_dipendenti = ControlloreListaDipendenti()
-        self.dipendente = Dipendente(nome="Mario", cognome="Rossi", data_nascita="1979.04.06",
+        controllore_lista_dipendenti = ControlloreListaDipendenti()
+        controllore_lista_dipendenti.model.lista_dipendenti = []
+        dipendente = Dipendente(nome="Mario", cognome="Rossi", data_nascita="1979.04.06",
                                      cod_fisc="ABCDEFGH12345678", telefono="3214346521", email="test@email.com",
                                      area_comp="Biglietteria", codice_autent="AFD56F5V")
-        self.dipendente2 = Dipendente(nome="Kevin", cognome="Rossi", data_nascita="2000.11.06",
+        dipendente2 = Dipendente(nome="Kevin", cognome="Rossi", data_nascita="2000.11.06",
                                      cod_fisc="ABC123DEF456GH78", telefono="324543664565", email="test@email.com",
                                      area_comp="Biglietteria", codice_autent="RED5654V")
-        self.dipendente3 = Dipendente(nome="Maria", cognome="Marrone", data_nascita="1999.05.06",
+        dipendente3 = Dipendente(nome="Maria", cognome="Marrone", data_nascita="1999.05.06",
                                       cod_fisc="B5N3B2JJ5I7JDH37", telefono="3345477785", email="test@email.com",
                                       area_comp="Biglietteria", codice_autent="KV8VHJSD")
-        self.dipendente4 = Dipendente(nome="Giulia", cognome="Rossi", data_nascita="1984.10.03",
-                                      cod_fisc="WFD467VFD123GH78", telefono="3657535375", email="test@email.com",
-                                      area_comp="Biglietteria", codice_autent="BFD5H6N6")
+        dipendente4 = Dipendente(nome="Giulia", cognome="Rossi", data_nascita="1984.10.03",
+                                      cod_fisc="PALDJRN785214WAZ", telefono="3657535375", email="test@email.com",
+                                      area_comp="Biglietteria", codice_autent="785W6F5V")
         #self.lista_dipendenti.aggiungi_dipendente(self.dipendente)
         #self.model.aggiungi_dipendente(self.dipendente)
-        self.lista_dipendenti.aggiungi_dipendente(self.dipendente)
-        self.lista_dipendenti.aggiungi_dipendente(self.dipendente2)
-        self.lista_dipendenti.aggiungi_dipendente(self.dipendente3)
-        self.lista_dipendenti.aggiungi_dipendente(self.dipendente4)
-        self.lista_dipendenti.controlla_campi_dipendente(self.dipendente)
-        self.lista_dipendenti.controlla_campi_dipendente(self.dipendente2)
-        self.lista_dipendenti.controlla_campi_dipendente(self.dipendente3)
-        self.lista_dipendenti.controlla_campi_dipendente(self.dipendente4)
-        self.assertEqual(self.dipendenti_in_lista(self.dipendente2), True)
-        self.assertEqual(self.dipendenti_in_lista(self.dipendente3), True)
-        self.assertEqual(self.dipendenti_in_lista(self.dipendente4), True)
+        controllore_lista_dipendenti.aggiungi_dipendente(dipendente)
+        controllore_lista_dipendenti.aggiungi_dipendente(dipendente2)
+        controllore_lista_dipendenti.aggiungi_dipendente(dipendente3)
+        controllore_lista_dipendenti.aggiungi_dipendente(dipendente4)
+        self.assertEqual(dipendente in controllore_lista_dipendenti.get_lista_completa(), True)
+        self.assertEqual(dipendente2 in controllore_lista_dipendenti.get_lista_completa(), True)
+        self.assertEqual(dipendente3 in controllore_lista_dipendenti.get_lista_completa(), True)
+        self.assertEqual(dipendente4 in controllore_lista_dipendenti.get_lista_completa(), True)
 
     # test che controlla che i campi del dipendente inserito siano validi. Test eseguito con dipendente valido
     def test_controlla_campi_dipendente(self):
@@ -51,11 +49,10 @@ class TestControlloreListaDipendenti(TestCase):
         self.assertEqual(self.controlli.controlla_telefono(self.dipendente.telefono), True)
         self.assertEqual(self.controlli.controlla_stringa_stampabile(self.dipendente.email), True)
 
-    # test che controlla che i campi del dipendente inserito siano validi. Test eseguito con dipendente valido
+    # test che controlla che i campi del dipendente inserito siano validi. Test eseguito con dipendente non valido
     def test_controlla_campi_dipendente2(self):
         self.controlli = Controlli()
-        self.lista_dipendenti = ListaDipendenti()
-        self.model = ControlloreListaDipendenti()
+
         self.dipendente = Dipendente(nome="Giorgio", cognome="Mancini", data_nascita="1994.07.09",
                                      cod_fisc="ABCDEFGH1345678", telefono="", email="",
                                      area_comp="Biglietteria", codice_autent="FR45W")
@@ -269,27 +266,24 @@ class TestControlloreListaDipendenti(TestCase):
 
     # aggiustare
     def test_ricerca_dipendente(self):
-        self.lista_dipendenti = ControlloreListaDipendenti()
-        self.ri1 = self.lista_dipendenti.get_dipendente_by_nome("Carlo", "Rossi")
-        self.ri2 = self.lista_dipendenti.get_dipendente_by_nome("", "")
+        lista_dipendenti = ControlloreListaDipendenti()
+        self.ri1 = lista_dipendenti.get_dipendente_by_nome("Carlo", "Rossi")
+        self.ri2 = lista_dipendenti.get_dipendente_by_nome("", "")
         self.assertIsNotNone(self.ri1)
         self.assertIsNotNone(self.ri2)
 
     # aggiustare
     def test_elimina_dipendente_by_cod_fisc(self):
-        self.lista_dipendenti = ListaDipendenti()
+        lista_dipendenti = ListaDipendenti()
         self.dipendente = Dipendente(nome="Mario", cognome="Rossi", data_nascita="1979.04.06",
                                      cod_fisc="ABCDEFGH12345678", telefono="3214346521", email="test@email.com",
                                      area_comp="Biglietteria", codice_autent="AFD56F5V")
-        self.lista_dipendenti.aggiungi_dipendente(self.dipendente)
+        lista_dipendenti.aggiungi_dipendente(self.dipendente)
         self.assertIsNotNone(self.dipendente)
-        self.lista_dipendenti.rimuovi_dipendente_by_cf("ABCDEFGH12345678")
+        lista_dipendenti.rimuovi_dipendente_by_cf("ABCDEFGH12345678")
         self.assertEqual(self.dipendenti_in_lista(self.dipendente), False)
 
-    def dipendenti_in_lista(self, dipendente):
-        self.lista_dipendenti = ControlloreListaDipendenti()
-        if dipendente in self.lista_dipendenti.get_lista_completa(): return True
-        return False
+
 
 
 
