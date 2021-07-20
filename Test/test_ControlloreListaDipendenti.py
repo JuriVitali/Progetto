@@ -286,7 +286,7 @@ class TestControlloreListaDipendenti(TestCase):
                                      cod_fisc="ABCDEFGH12345678", telefono="3214346521", email="test@email.com",
                                      area_comp="Biglietteria", codice_autent="AFD56F5V")
         self.assertEqual(dipendente in controllore_lista_dipendenti.get_lista_completa(), False)      # controllo che il dipendente non sia già nella lista
-        controllore_lista_dipendenti.aggiungi_dipendente(dipendente)           # aggiungo il dipendente alla lista
+        controllore_lista_dipendenti.aggiungi_dipendente(dipendente)             # aggiungo il dipendente alla lista
         self.assertEqual(dipendente in controllore_lista_dipendenti.get_lista_completa(), True)       # controllo che il dipendente sia presente nella lista
         controllore_lista_dipendenti.elimina_dipendente_by_index(0,controllore_lista_dipendenti.get_lista_completa())       # elimino il dipendente dalla lista
         self.assertEqual(dipendente in controllore_lista_dipendenti.get_lista_completa(), False)      # controllo che il dipendente sia è stato eliminato dalla lista
