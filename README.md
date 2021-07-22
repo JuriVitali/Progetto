@@ -1,8 +1,6 @@
 # Software per la gestione del cinema "Ciak e... azione"
 
-### Software utilizzato: 
-### PyCharm
+### Software utilizzato: PyCharm
 
-### Librerie utilizzate: 
-### Pyqt5
+### Librerie utilizzate: Pyqt5
 
